@@ -2,21 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>blazor on Nintens&#39;s Blogs </title>
-    <link>http://blog.nintens.com/categories/blazor/</link>
+    <link>http://www.nintens.com/categories/blazor/</link>
     <description>Recent content in blazor on Nintens&#39;s Blogs </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sat, 19 Mar 2022 11:25:05 -0400</lastBuildDate><atom:link href="http://blog.nintens.com/categories/blazor/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 29 Mar 2022 11:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/categories/blazor/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>使用Blazor Server构建企业级应用(一) -- 概述</title>
-      <link>http://blog.nintens.com/posts/blazorserver1/</link>
-      <pubDate>Sat, 19 Mar 2022 11:25:05 -0400</pubDate>
+      <title>使用Blazor Server构建企业级应用(一) -- 基础架构</title>
+      <link>http://www.nintens.com/posts/blazorserver1/</link>
+      <pubDate>Tue, 29 Mar 2022 11:25:05 -0400</pubDate>
       
-      <guid>http://blog.nintens.com/posts/blazorserver1/</guid>
-      <description>本文系列文章主要记述构建基于表单的简易Low-Code平台过程中的技术选型和实现的相关技术点。 整体架构采用Blazor Server, MudBlazor等技术实现。平台运行在CentOs 7服务器，基于Docker-Compose运行。 使用AzureDevops进行代码管理和发布。
-本系列文章分别描述以下技术点
- Blazor Server项目创建 EntityFrameWork以及MySql集成 Docker-Compose制作和发布以及单机调试 客户端机密信息存储机制 Docker自动化构建 Linux平台生产机器发布 Asp.net Identity身份验证集成 Asp.net Identity画面定制化开发 DDD基础框架 自动化测试 基于Cookie和Token的身份验证 Blazor Server集成 WebAPI服务 使用MudBlazor 日志记录机制和日志查看功能 Blazor Server的异步处理 Blazor的多语言处理 Blazor的业务数据的时区处理  </description>
+      <guid>http://www.nintens.com/posts/blazorserver1/</guid>
+      <description>使用Blazor Server构建企业级应用(一) Blazor Server 6.0 + Modal + Repository + Service + EnitityFrameWork Core + MySql + Data Protection
+本文地址：http://www.nintens.com/posts/blazorserver1/
+作者邮箱：liuguanglong@yahoo.com
+欢迎转载，请在明显位置给出出处及链接
+本文是nintens架构系列文章的第一篇，包含以下内容
+ 创建Blazor Server 6.0工程 创建基于Enitity Framework6.0 访问mysql数据库的 Repository项目 完成Repository项目的功能测试 创建Service项目 完成Service项目的功能测试 完成Blazor Server的服务注入 完成配置信息的客户端数据保护  一 创建Blazor Server工程   使用Vs2020创建BlazorServer类型项目
+选择Blazor Server应用
+设置Project信息
+  .net框架选择
+选择 .Net 6.0
+  选择不支持身份验证。 我们稍后再加入Asp.NET Core Identity身份验证功能。 选择不启动Docker相关功能。 我们后期加入对Docker的支持。
+成功创建的项目
+  项目就创建好后，打开launchSetting.json文件可以修改Debug时的参数配置。 对于Self Host，默认端口是5007. 对于IIS Host模式端口使用2551. 可以按照个人需要进行修改。</description>
     </item>
     
   </channel>

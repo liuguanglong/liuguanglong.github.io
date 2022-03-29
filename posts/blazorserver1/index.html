@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head>
-<title>使用Blazor Server构建企业级应用(一) -- 概述</title>
+<title>使用Blazor Server构建企业级应用(一) -- 基础架构</title>
 
 
 
@@ -34,11 +34,11 @@
 
 
 
-<link rel="stylesheet" href="http://blog.nintens.com/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+<link rel="stylesheet" href="http://www.nintens.com/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
 
 
 
-<link rel="stylesheet" href="http://blog.nintens.com/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css" integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media="screen">
+<link rel="stylesheet" href="http://www.nintens.com/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css" integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media="screen">
 
 
 <script src="/vendor/js/loadCSS.js"></script>
@@ -89,7 +89,7 @@
 <body>
     	<div id="app"><div id="sideContainer" class="side-container">
     
-    <a class="a-block nav-head false" href="http://blog.nintens.com/">
+    <a class="a-block nav-head false" href="http://www.nintens.com/">
     
         <div class="nav-title">
             Nintens&#39;s Blogs 
@@ -170,6 +170,229 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
     <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
 
 
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e4%b8%80" onclick="onNavClick(`#使用blazor-server构建企业级应用一-nav`)" id="使用blazor-server构建企业级应用一-nav">
+									使用Blazor Server构建企业级应用(一)
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80-%e5%88%9b%e5%bb%bablazor-server%e5%b7%a5%e7%a8%8b" onclick="onNavClick(`#一-创建blazor-server工程-nav`)" id="一-创建blazor-server工程-nav">
+									一 创建Blazor Server工程
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c-%e5%88%9b%e5%bb%bamodal%e9%a1%b9%e7%9b%ae%e4%bf%9d%e5%ad%98%e4%b8%9a%e5%8a%a1%e5%ae%9e%e4%bd%93%e7%b1%bb" onclick="onNavClick(`#二-创建modal项目保存业务实体类-nav`)" id="二-创建modal项目保存业务实体类-nav">
+									二 创建Modal项目保存业务实体类
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89-%e5%88%9b%e5%bb%barepository%e9%a1%b9%e7%9b%ae%e5%ae%9e%e7%8e%b0%e8%ae%bf%e9%97%aemysql%e6%95%b0%e6%8d%ae%e5%ba%93" onclick="onNavClick(`#三-创建repository项目实现访问mysql数据库-nav`)" id="三-创建repository项目实现访问mysql数据库-nav">
+									三 创建Repository项目实现访问mysql数据库
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%9b%9b-%e5%88%9b%e5%bb%barepository%e9%a1%b9%e7%9b%ae%e7%9a%84%e6%b5%8b%e8%af%95%e9%a1%b9%e7%9b%ae" onclick="onNavClick(`#四-创建repository项目的测试项目-nav`)" id="四-创建repository项目的测试项目-nav">
+									四 创建Repository项目的测试项目
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%9b%9b-%e5%88%9b%e5%bb%baservice%e9%a1%b9%e7%9b%ae" onclick="onNavClick(`#四-创建service项目-nav`)" id="四-创建service项目-nav">
+									四 创建Service项目
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%94-%e5%88%9b%e5%bb%baservice%e9%a1%b9%e7%9b%ae%e7%9a%84%e6%b5%8b%e8%af%95%e9%a1%b9%e7%9b%ae" onclick="onNavClick(`#五-创建service项目的测试项目-nav`)" id="五-创建service项目的测试项目-nav">
+									五 创建Service项目的测试项目
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%85%ad-%e9%85%8d%e7%bd%aeapp%e5%ba%94%e7%94%a8%e6%b3%a8%e5%85%a5service%e7%b1%bb" onclick="onNavClick(`#六-配置app应用注入service类-nav`)" id="六-配置app应用注入service类-nav">
+									六 配置App应用，注入Service类
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%83-%e9%85%8d%e7%bd%ae%e5%ae%a2%e6%88%b7%e7%ab%af%e6%9c%ba%e5%af%86%e4%bf%a1%e6%81%af%e4%bf%9d%e5%ad%98%e9%85%8d%e7%bd%aemysql%e8%bf%9e%e6%8e%a5%e4%bf%a1%e6%81%af" onclick="onNavClick(`#七-配置客户端机密信息保存配置mysql连接信息-nav`)" id="七-配置客户端机密信息保存配置mysql连接信息-nav">
+									七 配置客户端机密信息保存,配置mysql连接信息
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%85%ab-%e4%bf%ae%e6%94%b9fetchdata%e7%94%bb%e9%9d%a2%e6%94%b9%e4%b8%ba%e9%80%9a%e8%bf%87service%e6%9c%8d%e5%8a%a1%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e8%8e%b7%e5%8f%96%e6%95%b0%e6%8d%ae" onclick="onNavClick(`#八-修改fetchdata画面改为通过service服务从数据库获取数据-nav`)" id="八-修改fetchdata画面改为通过service服务从数据库获取数据-nav">
+									八 修改FetchData画面，改为通过Service服务从数据库获取数据
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
 </div>
     
     <div class="pagination">
@@ -241,6 +464,229 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
             <div class="toc">
 
 
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e4%b8%80" onclick="onNavClick(`#使用blazor-server构建企业级应用一-nav`)" id="使用blazor-server构建企业级应用一-nav">
+									使用Blazor Server构建企业级应用(一)
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80-%e5%88%9b%e5%bb%bablazor-server%e5%b7%a5%e7%a8%8b" onclick="onNavClick(`#一-创建blazor-server工程-nav`)" id="一-创建blazor-server工程-nav">
+									一 创建Blazor Server工程
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c-%e5%88%9b%e5%bb%bamodal%e9%a1%b9%e7%9b%ae%e4%bf%9d%e5%ad%98%e4%b8%9a%e5%8a%a1%e5%ae%9e%e4%bd%93%e7%b1%bb" onclick="onNavClick(`#二-创建modal项目保存业务实体类-nav`)" id="二-创建modal项目保存业务实体类-nav">
+									二 创建Modal项目保存业务实体类
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89-%e5%88%9b%e5%bb%barepository%e9%a1%b9%e7%9b%ae%e5%ae%9e%e7%8e%b0%e8%ae%bf%e9%97%aemysql%e6%95%b0%e6%8d%ae%e5%ba%93" onclick="onNavClick(`#三-创建repository项目实现访问mysql数据库-nav`)" id="三-创建repository项目实现访问mysql数据库-nav">
+									三 创建Repository项目实现访问mysql数据库
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%9b%9b-%e5%88%9b%e5%bb%barepository%e9%a1%b9%e7%9b%ae%e7%9a%84%e6%b5%8b%e8%af%95%e9%a1%b9%e7%9b%ae" onclick="onNavClick(`#四-创建repository项目的测试项目-nav`)" id="四-创建repository项目的测试项目-nav">
+									四 创建Repository项目的测试项目
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%9b%9b-%e5%88%9b%e5%bb%baservice%e9%a1%b9%e7%9b%ae" onclick="onNavClick(`#四-创建service项目-nav`)" id="四-创建service项目-nav">
+									四 创建Service项目
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%94-%e5%88%9b%e5%bb%baservice%e9%a1%b9%e7%9b%ae%e7%9a%84%e6%b5%8b%e8%af%95%e9%a1%b9%e7%9b%ae" onclick="onNavClick(`#五-创建service项目的测试项目-nav`)" id="五-创建service项目的测试项目-nav">
+									五 创建Service项目的测试项目
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%85%ad-%e9%85%8d%e7%bd%aeapp%e5%ba%94%e7%94%a8%e6%b3%a8%e5%85%a5service%e7%b1%bb" onclick="onNavClick(`#六-配置app应用注入service类-nav`)" id="六-配置app应用注入service类-nav">
+									六 配置App应用，注入Service类
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%83-%e9%85%8d%e7%bd%ae%e5%ae%a2%e6%88%b7%e7%ab%af%e6%9c%ba%e5%af%86%e4%bf%a1%e6%81%af%e4%bf%9d%e5%ad%98%e9%85%8d%e7%bd%aemysql%e8%bf%9e%e6%8e%a5%e4%bf%a1%e6%81%af" onclick="onNavClick(`#七-配置客户端机密信息保存配置mysql连接信息-nav`)" id="七-配置客户端机密信息保存配置mysql连接信息-nav">
+									七 配置客户端机密信息保存,配置mysql连接信息
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%85%ab-%e4%bf%ae%e6%94%b9fetchdata%e7%94%bb%e9%9d%a2%e6%94%b9%e4%b8%ba%e9%80%9a%e8%bf%87service%e6%9c%8d%e5%8a%a1%e4%bb%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e8%8e%b7%e5%8f%96%e6%95%b0%e6%8d%ae" onclick="onNavClick(`#八-修改fetchdata画面改为通过service服务从数据库获取数据-nav`)" id="八-修改fetchdata画面改为通过service服务从数据库获取数据-nav">
+									八 修改FetchData画面，改为通过Service服务从数据库获取数据
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
 </div>
             
         </div>
@@ -257,7 +703,7 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
                 menu
             </i>
         </button>
-        <a id="navTitle" class="navbar-brand" href="http://blog.nintens.com/">
+        <a id="navTitle" class="navbar-brand" href="http://www.nintens.com/">
             Nintens&#39;s Blogs 
         </a>
         
@@ -271,7 +717,7 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 </nav>
 <div class="single-column-header-container" id="pageHead"
      v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="http://blog.nintens.com/">
+    <a href="http://www.nintens.com/">
         <div class="single-column-header-title">Nintens&#39;s Blogs </div>
         
         <div class="single-column-header-subtitle">应无所住而生其心</div>
@@ -295,17 +741,17 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
                 
                     
                     
-                    style="background-image: url('http://blog.nintens.com/images/chinese.jpg')"
+                    style="background-image: url('http://www.nintens.com/images/chinese.jpg')"
                     
                 
             >
                 <div class="post-title">
-                    使用Blazor Server构建企业级应用(一) -- 概述
+                    使用Blazor Server构建企业级应用(一) -- 基础架构
                     
                     <div class="post-meta">
                         
                         <time itemprop="datePublished">
-                            2022-03-19 11:25
+                            2022-03-29 11:25
                         </time>
                         
 
@@ -318,13 +764,22 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
                         
                             <i class="material-icons" style="">label</i>
                             
-                                <a href="/tags/blazor">blazor</a>
+                                <a href="/tags/blazor-server">blazor server</a>
                                 &nbsp;
                             
                                 <a href="/tags/asp.net-core">asp.net core</a>
                                 &nbsp;
                             
                                 <a href="/tags/.net-core">.net core</a>
+                                &nbsp;
+                            
+                                <a href="/tags/entity-framework">Entity FrameWork</a>
+                                &nbsp;
+                            
+                                <a href="/tags/mysql">MySql</a>
+                                &nbsp;
+                            
+                                <a href="/tags/data-protection">Data Protection</a>
                                 &nbsp;
                             
                         
@@ -337,33 +792,424 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
                 
                 <div class="post-body" v-pre>
                 
-                    <p>本文系列文章主要记述构建基于表单的简易Low-Code平台过程中的技术选型和实现的相关技术点。
-整体架构采用Blazor Server, MudBlazor等技术实现。平台运行在CentOs 7服务器，基于Docker-Compose运行。
-使用AzureDevops进行代码管理和发布。</p>
-<p>本系列文章分别描述以下技术点</p>
+                    <h2 id="使用blazor-server构建企业级应用一">使用Blazor Server构建企业级应用(一)</h2>
+<p>Blazor Server 6.0 + Modal + Repository + Service + EnitityFrameWork Core + MySql + Data Protection</p>
+<p>本文地址：<a href="http://www.nintens.com/posts/blazorserver1/">http://www.nintens.com/posts/blazorserver1/</a><br>
+作者邮箱：<a href="mailto:liuguanglong@yahoo.com">liuguanglong@yahoo.com</a><br>
+欢迎转载，请在明显位置给出出处及链接</p>
+<p>本文是nintens架构系列文章的第一篇，包含以下内容</p>
+<ul>
+<li>创建Blazor Server 6.0工程</li>
+<li>创建基于Enitity Framework6.0 访问mysql数据库的 Repository项目</li>
+<li>完成Repository项目的功能测试</li>
+<li>创建Service项目</li>
+<li>完成Service项目的功能测试</li>
+<li>完成Blazor Server的服务注入</li>
+<li>完成配置信息的客户端数据保护</li>
+</ul>
+<h3 id="一-创建blazor-server工程">一 创建Blazor Server工程</h3>
 <ol>
-<li>Blazor Server项目创建</li>
-<li>EntityFrameWork以及MySql集成</li>
-<li>Docker-Compose制作和发布以及单机调试</li>
-<li>客户端机密信息存储机制</li>
-<li>Docker自动化构建</li>
-<li>Linux平台生产机器发布</li>
-<li>Asp.net Identity身份验证集成</li>
-<li>Asp.net Identity画面定制化开发</li>
-<li>DDD基础框架</li>
-<li>自动化测试</li>
-<li>基于Cookie和Token的身份验证</li>
-<li>Blazor Server集成 WebAPI服务</li>
-<li>使用MudBlazor</li>
-<li>日志记录机制和日志查看功能</li>
-<li>Blazor Server的异步处理</li>
-<li>Blazor的多语言处理</li>
-<li>Blazor的业务数据的时区处理</li>
+<li>
+<p>使用Vs2020创建BlazorServer类型项目</p>
+<p>选择Blazor Server应用</p>
+<p><img src="/images/createProject.png" alt="Create Project"></p>
+<p>设置Project信息</p>
+<p><img src="/images/createProject1.png" alt="Create Project1"></p>
+</li>
+<li>
+<p>.net框架选择</p>
+<p>选择 .Net 6.0</p>
+<p><img src="/images/SelectDotNetVersion.png" alt="Select Version"></p>
+</li>
+<li>
+<p>选择不支持身份验证。 我们稍后再加入Asp.NET Core Identity身份验证功能。
+选择不启动Docker相关功能。 我们后期加入对Docker的支持。</p>
+<p>成功创建的项目</p>
+<p><img src="/images/projCreated.png" alt="Project Created"></p>
+</li>
+<li>
+<p>项目就创建好后，打开launchSetting.json文件可以修改Debug时的参数配置。
+对于Self Host，默认端口是5007. 对于IIS Host模式端口使用2551. 
+可以按照个人需要进行修改。</p>
+<p><img src="/images/PortInfo.png" alt="Port Info"></p>
+</li>
+<li>
+<p>Vs Studio中支持以下三种调试模式。</p>
+<ul>
+<li>Self Host</li>
+<li>IIS</li>
+<li>Docker</li>
+</ul>
+<p>建议单机测试联调时采用IIS模式，打包发布前采用Docker模式进行兼容性测试。
+在VS 2022中F5运行程序，启动Blazor自带的HelloWorld 应用。</p>
+<p><img src="/images/HelloWorld.png" alt="Hello World"></p>
+</li>
 </ol>
+<h3 id="二-创建modal项目保存业务实体类">二 创建Modal项目保存业务实体类</h3>
+<ol>
+<li>在modal项目下添加Domain类 WeatherForecast</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">namespace</span> <span style="color:#008b45;text-decoration:underline">Modal</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">WeatherForecast</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">int</span> Id { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> DateTime Date { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">int</span> TemperatureC { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">string?</span> Summary { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [NotMapped]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">int</span> TemperatureF =&gt; <span style="color:#b452cd">32</span> + (<span style="color:#00688b;font-weight:bold">int</span>)(TemperatureC / <span style="color:#b452cd">0.5556</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中TemperatureF字段不需要保存到数据库，所以使用NotMapped标识出来。</p>
+<h3 id="三-创建repository项目实现访问mysql数据库">三 创建Repository项目实现访问mysql数据库</h3>
+<ol>
+<li>打开Vs Studio 视图-&gt;其他窗口-&gt;程序包管理器控制台</li>
+<li>给blazor server添加Pomelo.EntityFrameworkCore.MySql引用。.NET 6.0下最新版本是6.0.1
+窗口中输入以下命令</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    Install-Package Pomelo.EntityFrameworkCore.MySql -Version <span style="color:#b452cd">6.0</span>.<span style="color:#b452cd">1</span>
+</span></span></code></pre></div><ol start="3">
+<li>添加repository项目和modal项目，项目类型为类库(library)</li>
+<li>给repository项目添加Pomelo.EntityFrameworkCore.MySql引用。
+在程序包管理器控制台中切换到 repository项目。 然后输入并运行下面命令</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    Install-Package Pomelo.EntityFrameworkCore.MySql -Version <span style="color:#b452cd">6.0</span>.<span style="color:#b452cd">1</span>
+</span></span></code></pre></div><ol start="5">
+<li>
+<p>采用Entity Framework的 Fluent Code模式。 不采用自动生成数据库的方式。
+这样数据库和代码都可以独立维护，更灵活。</p>
+</li>
+<li>
+<p>在repository项目中添加DBContext类 nintensdbcontext</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">namespace</span> <span style="color:#008b45;text-decoration:underline">repository</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">nintensdbcontext</span> : DbContext
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">void</span> OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> nintensdbcontext(DbContextOptions&lt;nintensdbcontext&gt; options) : <span style="color:#8b008b;font-weight:bold">base</span>(options)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="7">
+<li>在DBContext中使用Fluent Code编写业务类的Mapping处理。
+reposity项目的依赖项中添加modal项目引用. 依赖项右键-&gt;添加项目引用-&gt;勾选modal项目。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">nintensdbcontext</span> : DbContext
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> DbSet&lt;WeatherForecast&gt; WeatherForecastDataSet { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">void</span> OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> nintensdbcontext(DbContextOptions&lt;nintensdbcontext&gt; options) : <span style="color:#8b008b;font-weight:bold">base</span>(options)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">void</span> OnModelCreating(ModelBuilder modelBuilder)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#228b22">// Map entities to tables</span>
+</span></span><span style="display:flex;"><span>            modelBuilder.Entity&lt;WeatherForecast&gt;().ToTable(<span style="color:#cd5555">&#34;weatherforecast&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#228b22">// Configure Primary Keys  </span>
+</span></span><span style="display:flex;"><span>            modelBuilder.Entity&lt;WeatherForecast&gt;().HasKey(ug =&gt; ug.Id);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#228b22">// Configure columns  </span>
+</span></span><span style="display:flex;"><span>            modelBuilder.Entity&lt;WeatherForecast&gt;().Property(u =&gt; u.Id).HasColumnType(<span style="color:#cd5555">&#34;int&#34;</span>).ValueGeneratedOnAdd().IsRequired();
+</span></span><span style="display:flex;"><span>            modelBuilder.Entity&lt;WeatherForecast&gt;().Property(u =&gt; u.TemperatureC).HasColumnType(<span style="color:#cd5555">&#34;int&#34;</span>).IsRequired();
+</span></span><span style="display:flex;"><span>            modelBuilder.Entity&lt;WeatherForecast&gt;().Property(u =&gt; u.Date).HasColumnType(<span style="color:#cd5555">&#34;timestamp&#34;</span>).IsRequired();
+</span></span><span style="display:flex;"><span>            modelBuilder.Entity&lt;WeatherForecast&gt;().Property(u =&gt; u.Summary).HasColumnType(<span style="color:#cd5555">&#34;nvarchar(45)&#34;</span>).IsRequired(<span style="color:#8b008b;font-weight:bold">false</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>针对每一个需要映射的Domain类，添加一个DBSet属性。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> DbSet&lt;WeatherForecast&gt; WeatherForecastDataSet { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span></code></pre></div><p>针对一个Domain类，使用ToTable方法将类映射到数据库中的对应的表。 
+使用HasKey方法指定映射表的主键。
+使用Propety方法映射表的字段到Domain类的属性。</p>
+<h3 id="四-创建repository项目的测试项目">四 创建Repository项目的测试项目</h3>
+<ol>
+<li>添加repository项目的测试项目。 项目的类型为NUnit测试项目
+给reposirty.test项目添加repository和modal两个项目的引用。
+给reposity.test项目添加moq项目的引用</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    Install-Package Moq -Version <span style="color:#b452cd">4.17</span>.<span style="color:#b452cd">2</span>
+</span></span></code></pre></div><ol start="2">
+<li>mysql中创建weatherforecast表</li>
+</ol>
+<p>下面是创建数据库表使用的SQL文</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">TABLE</span><span style="color:#bbb"> </span>`nintens`.`weatherforecast`<span style="color:#bbb"> </span>(<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>`Id`<span style="color:#bbb"> </span><span style="color:#658b00">INT</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">NULL</span><span style="color:#bbb"> </span>AUTO_INCREMENT,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>`TemperatureC`<span style="color:#bbb"> </span><span style="color:#658b00">INT</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">NULL</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>`<span style="color:#658b00">Date</span>`<span style="color:#bbb"> </span>DATETIME<span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">NOT</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">NULL</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>`Summary`<span style="color:#bbb"> </span><span style="color:#658b00">VARCHAR</span>(<span style="color:#b452cd">45</span>)<span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">NULL</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#8b008b;font-weight:bold">PRIMARY</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">KEY</span><span style="color:#bbb"> </span>(`Id`),<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#8b008b;font-weight:bold">UNIQUE</span><span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">INDEX</span><span style="color:#bbb"> </span>`id_UNIQUE`<span style="color:#bbb"> </span>(`Id`<span style="color:#bbb"> </span><span style="color:#8b008b;font-weight:bold">ASC</span>)<span style="color:#bbb"> </span>VISIBLE);<span style="color:#bbb">
+</span></span></span></code></pre></div><ol start="3">
+<li>给resposiry.test中的测试类添加测试方法</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">namespace</span> <span style="color:#008b45;text-decoration:underline">repository.test</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">Tests</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        Mock&lt;IDbContextFactory&lt;nintensdbcontext&gt;&gt; factory;
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [SetUp]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> Setup()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            String connString = <span style="color:#cd5555">&#34;server=localhost;userid=xxxxx;pwd=xxxx;port=3306;database=nintens;Allow Zero Datetime=true;Convert Zero Datetime=True&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> optionsBuilder = <span style="color:#8b008b;font-weight:bold">new</span> DbContextOptionsBuilder&lt;nintensdbcontext&gt;();
+</span></span><span style="display:flex;"><span>            optionsBuilder.UseMySql(connString, ServerVersion.AutoDetect(connString));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            factory = <span style="color:#8b008b;font-weight:bold">new</span> Mock&lt;IDbContextFactory&lt;nintensdbcontext&gt;&gt;();
+</span></span><span style="display:flex;"><span>            factory.Setup(f =&gt; f.CreateDbContext())
+</span></span><span style="display:flex;"><span>                .Returns(<span style="color:#8b008b;font-weight:bold">new</span> nintensdbcontext(optionsBuilder.Options));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Test]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> Test1()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> dbcontext = factory.Object.CreateDbContext();
+</span></span><span style="display:flex;"><span>            WeatherForecast info = <span style="color:#8b008b;font-weight:bold">new</span> WeatherForecast();
+</span></span><span style="display:flex;"><span>            info.Date = DateTime.Now;
+</span></span><span style="display:flex;"><span>            info.Summary = <span style="color:#cd5555">&#34;Warm&#34;</span>;
+</span></span><span style="display:flex;"><span>            info.TemperatureC = <span style="color:#b452cd">5</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> ret = dbcontext.WeatherForecastDataSet.Add(info);
+</span></span><span style="display:flex;"><span>            dbcontext.SaveChanges();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> id = ret.Entity.Id;
+</span></span><span style="display:flex;"><span>            WeatherForecast info1 = dbcontext.WeatherForecastDataSet.Where(x =&gt; x.Id == id).FirstOrDefault();
+</span></span><span style="display:flex;"><span>            Assert.IsNotNull(info1);
+</span></span><span style="display:flex;"><span>            Assert.AreEqual(info1.Date, info.Date);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>执行测试代码后，数据库中查询发现数据被成功插入到数据库。</p>
+<p><img src="/images/TestRepository.png" alt="Test Repository"></p>
+<h3 id="四-创建service项目">四 创建Service项目</h3>
+<p>添加Service服务项目 service
+给service项目添加repository和modal两个项目的引用。
+在构造函数中注入IDbContextFactory对象，因为blazor Server中Service都是异步调用的。
+而DbContext不是线程安全的，所以需要注入DbContextFacory对象。
+在每个业务方法中创建DBContext对象，使用完毕后马上释放。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">namespace</span> <span style="color:#008b45;text-decoration:underline">service</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">WeatherForecastService</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> IDbContextFactory&lt;nintensdbcontext&gt; contextFactory;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> WeatherForecastService(IDbContextFactory&lt;nintensdbcontext&gt; contextFactory)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">this</span>.contextFactory = contextFactory;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#228b22">//get all weatherforecastinfo</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">async</span> Task&lt;IEnumerable&lt;WeatherForecast&gt;&gt; getWeatherForecasts()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">using</span> <span style="color:#008b45;text-decoration:underline">var</span> context = contextFactory.CreateDbContext();
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> listProcessUser = <span style="color:#8b008b;font-weight:bold">await</span> context.WeatherForecastDataSet.ToListAsync();
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> listProcessUser;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用using 创建DbContext实例，方法结束后DbContext对象自动被释放。</p>
+<h3 id="五-创建service项目的测试项目">五 创建Service项目的测试项目</h3>
+<p>添加server测试项目 service.test项目。 项目类型为nunit项目
+给service.test项目添加service项目的引用。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">namespace</span> <span style="color:#008b45;text-decoration:underline">service.test</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">TestWeatherForecastService</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        Mock&lt;IDbContextFactory&lt;nintensdbcontext&gt;&gt; factory;
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [SetUp]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> Setup()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            String connString = <span style="color:#cd5555">&#34;server=localhost; userid=xxxxx;pwd=xxxxxxx;port=3306;database=nintens;Allow Zero Datetime=true;Convert Zero Datetime=True&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> optionsBuilder = <span style="color:#8b008b;font-weight:bold">new</span> DbContextOptionsBuilder&lt;nintensdbcontext&gt;();
+</span></span><span style="display:flex;"><span>            optionsBuilder.UseMySql(connString, ServerVersion.AutoDetect(connString));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            factory = <span style="color:#8b008b;font-weight:bold">new</span> Mock&lt;IDbContextFactory&lt;nintensdbcontext&gt;&gt;();
+</span></span><span style="display:flex;"><span>            factory.Setup(f =&gt; f.CreateDbContext())
+</span></span><span style="display:flex;"><span>                .Returns(<span style="color:#8b008b;font-weight:bold">new</span> nintensdbcontext(optionsBuilder.Options));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Test]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> Test1()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            WeatherForecastService service = <span style="color:#8b008b;font-weight:bold">new</span> WeatherForecastService(factory.Object);
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> list = service.getWeatherForecasts().Result;
+</span></span><span style="display:flex;"><span>            Assert.IsNotNull(list);
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">foreach</span> (<span style="color:#00688b;font-weight:bold">var</span> item <span style="color:#8b008b;font-weight:bold">in</span> list)
+</span></span><span style="display:flex;"><span>                System.Console.WriteLine(<span style="color:#cd5555">$&#34;{item.Id} {item.Date} {item.TemperatureC} {item.TemperatureF} {item.Summary}&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="六-配置app应用注入service类">六 配置App应用，注入Service类</h3>
+<p>给blazor server项目nintens添加Autofac引用。我们使用Autofac完成依赖注入</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    Install-Package Autofac -Version <span style="color:#b452cd">6.3</span>.<span style="color:#b452cd">0</span>
+</span></span><span style="display:flex;"><span>    Install-Package Autofac.Extensions.DependencyInjection
+</span></span></code></pre></div><pre><code>给nintens添加repository,modal,service项目的依赖
+给nintens项目添加一个Startup类，用来配置项目中注入Service等信息
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">namespace</span> <span style="color:#008b45;text-decoration:underline">nintens</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">Startup</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> IConfiguration Configuration { <span style="color:#8b008b;font-weight:bold">get</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#8b008b;font-weight:bold">readonly</span> <span style="color:#00688b;font-weight:bold">string</span> connString;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> Startup(IConfiguration configuration)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            Configuration = configuration;
+</span></span><span style="display:flex;"><span>            connString = Configuration.GetConnectionString(<span style="color:#cd5555">&#34;Product&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> ConfigureServices(IServiceCollection services)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            services.AddDataProtection()
+</span></span><span style="display:flex;"><span>               .SetApplicationName(<span style="color:#cd5555">&#34;nintens&#34;</span>)
+</span></span><span style="display:flex;"><span>               .PersistKeysToFileSystem(<span style="color:#8b008b;font-weight:bold">new</span> DirectoryInfo(<span style="color:#cd5555">@&#34;/var/aspnetkeys/&#34;</span>)); ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            services.Configure&lt;RouteOptions&gt;(options =&gt; options.LowercaseUrls = <span style="color:#8b008b;font-weight:bold">true</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            services.AddDbContextFactory&lt;nintensdbcontext&gt;(options =&gt; options.UseMySql(
+</span></span><span style="display:flex;"><span>                 connString,
+</span></span><span style="display:flex;"><span>                ServerVersion.AutoDetect(connString)));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            services.AddTransient&lt;WeatherForecastService&gt;();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在builder创建，加入下面两行代码，手动调用startup中的处理</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#00688b;font-weight:bold">var</span> builder = WebApplication.CreateBuilder(args);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#228b22">// Manually create an instance of the Startup class</span>
+</span></span><span style="display:flex;"><span><span style="color:#00688b;font-weight:bold">var</span> startup = <span style="color:#8b008b;font-weight:bold">new</span> Startup(builder.Configuration);
+</span></span><span style="display:flex;"><span><span style="color:#228b22">// Manually call ConfigureServices()</span>
+</span></span><span style="display:flex;"><span>startup.ConfigureServices(builder.Services);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#228b22">// Add services to the container.</span>
+</span></span><span style="display:flex;"><span>builder.Host.UseServiceProviderFactory(<span style="color:#8b008b;font-weight:bold">new</span> AutofacServiceProviderFactory());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>builder.Services.AddRazorPages();
+</span></span><span style="display:flex;"><span>builder.Services.AddServerSideBlazor();
+</span></span><span style="display:flex;"><span><span style="color:#228b22">//builder.Services.AddSingleton&lt;WeatherForecastService&gt;();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>builder.Configuration.AddEnvironmentVariables().AddUserSecrets&lt;Startup&gt;(optional: <span style="color:#8b008b;font-weight:bold">true</span>, reloadOnChange: <span style="color:#8b008b;font-weight:bold">true</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00688b;font-weight:bold">var</span> app = builder.Build();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#228b22">// Configure the HTTP request pipeline.</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">if</span> (!app.Environment.IsDevelopment())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    app.UseExceptionHandler(<span style="color:#cd5555">&#34;/Error&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.UseStaticFiles();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.UseRouting();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.MapBlazorHub();
+</span></span><span style="display:flex;"><span>app.MapFallbackToPage(<span style="color:#cd5555">&#34;/_Host&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.Run();
+</span></span></code></pre></div><h3 id="七-配置客户端机密信息保存配置mysql连接信息">七 配置客户端机密信息保存,配置mysql连接信息</h3>
+<p>选择nintens项目，右键弹出菜单中选择 管理用户机密</p>
+<p>在打开的窗口中编辑secrets.json文件</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#8b008b;font-weight:bold">&#34;ConnectionStrings&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">&#34;Product&#34;</span>: <span style="color:#cd5555">&#34;server=localhost; userid=xxxxxx;pwd=xxxxx;port=3306;database=nintens;Allow Zero Datetime=true;convert zero datetime=True;Character Set=utf8 &#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="八-修改fetchdata画面改为通过service服务从数据库获取数据">八 修改FetchData画面，改为通过Service服务从数据库获取数据</h3>
+<p>修改FetchData.razor文件</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@page <span style="color:#cd5555">&#34;/fetchdata&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;PageTitle&gt;Weather forecast&lt;/PageTitle&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@using service
+</span></span><span style="display:flex;"><span>@using Modal
+</span></span><span style="display:flex;"><span>@inject WeatherForecastService ForecastService
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;h1&gt;Weather forecast&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;p&gt;This component demonstrates fetching data <span style="color:#8b008b;font-weight:bold">from</span> a service.&lt;/p&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@if (forecasts == <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &lt;p&gt;&lt;em&gt;Loading...&lt;/em&gt;&lt;/p&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &lt;table class=<span style="color:#cd5555">&#34;table&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;thead&gt;
+</span></span><span style="display:flex;"><span>            &lt;tr&gt;
+</span></span><span style="display:flex;"><span>                &lt;th&gt;Date&lt;/th&gt;
+</span></span><span style="display:flex;"><span>                &lt;th&gt;Temp. (C)&lt;/th&gt;
+</span></span><span style="display:flex;"><span>                &lt;th&gt;Temp. (F)&lt;/th&gt;
+</span></span><span style="display:flex;"><span>                &lt;th&gt;Summary&lt;/th&gt;
+</span></span><span style="display:flex;"><span>            &lt;/tr&gt;
+</span></span><span style="display:flex;"><span>        &lt;/thead&gt;
+</span></span><span style="display:flex;"><span>        &lt;tbody&gt;
+</span></span><span style="display:flex;"><span>            @foreach (<span style="color:#00688b;font-weight:bold">var</span> forecast <span style="color:#8b008b;font-weight:bold">in</span> forecasts)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                &lt;tr&gt;
+</span></span><span style="display:flex;"><span>                    &lt;td&gt;@forecast.Date.ToShortDateString()&lt;/td&gt;
+</span></span><span style="display:flex;"><span>                    &lt;td&gt;@forecast.TemperatureC&lt;/td&gt;
+</span></span><span style="display:flex;"><span>                    &lt;td&gt;@forecast.TemperatureF&lt;/td&gt;
+</span></span><span style="display:flex;"><span>                    &lt;td&gt;@forecast.Summary&lt;/td&gt;
+</span></span><span style="display:flex;"><span>                &lt;/tr&gt;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        &lt;/tbody&gt;
+</span></span><span style="display:flex;"><span>    &lt;/table&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@code {
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">private</span> IEnumerable&lt;WeatherForecast&gt; forecasts;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">async</span> Task OnInitializedAsync()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        forecasts = <span style="color:#8b008b;font-weight:bold">await</span> ForecastService.getWeatherForecasts();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="15">
+<li>运行项目，选择FetchData</li>
+</ol>
+<p>可以看到FetchData画面中显示出数据库中的数据</p>
+<p><img src="/images/FetchData.png" alt="Fetch Data"></p>
+<h3 id="总结">总结</h3>
+<p>至此我们完成了架构中最基础部分的工作</p>
+<ul>
+<li>创建Blazor Server 6.0项目</li>
+<li>创建基于Enitity Framework6.0 访问mysql数据库的 Repository项目</li>
+<li>完成Repository项目的功能测试</li>
+<li>创建Service项目</li>
+<li>完成Service项目的功能测试</li>
+<li>完成Blazor Server的服务注入</li>
+<li>完成配置信息的客户端数据保护</li>
+</ul>
+<p>本文地址：<a href="http://www.nintens.com/posts/blazorserver1/">http://www.nintens.com/posts/blazorserver1/</a><br>
+作者邮箱：<a href="mailto:liuguanglong@yahoo.com">liuguanglong@yahoo.com</a><br>
+欢迎转载，请在明显位置给出出处及链接</p>
 
                     
                     <HR width="100%" id="EOF">
-		    <p style="color:#777;">Last modified on 2022-03-19</p>
+		    <p style="color:#777;">Last modified on 2022-03-29</p>
                     
                 </div>
             </div>
