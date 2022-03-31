@@ -1,14 +1,230 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Nintens&#39;s Blogs </title>
+    <title>Nintens&#39; Blogs </title>
     <link>http://www.nintens.com/</link>
-    <description>Recent content on Nintens&#39;s Blogs </description>
+    <description>Recent content on Nintens&#39; Blogs </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Tue, 29 Mar 2022 11:25:05 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 30 Mar 2022 20:25:05 -0400</lastBuildDate>
     
         <atom:link href="http://www.nintens.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>使用Blazor Server构建企业级应用(二) -- 使用MudBlazor搭建UI框架</title>
+        <link>http://www.nintens.com/posts/blazorserver2/</link>
+        <pubDate>Wed, 30 Mar 2022 20:25:05 -0400</pubDate>
+        
+        <guid>http://www.nintens.com/posts/blazorserver2/</guid>
+        <description>Nintens&#39; Blogs  http://www.nintens.com/posts/blazorserver2/ -&lt;h2 id=&#34;使用blazor-server构建企业级应用二-使用mudblazor搭建ui框架&#34;&gt;使用Blazor Server构建企业级应用(二) 使用MudBlazor搭建UI框架&lt;/h2&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver2/&#34;&gt;http://www.nintens.com/posts/blazorserver2/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt;&lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+&lt;p&gt;本文是nintens架构系列文章的第二篇，包含以下内容&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MudBlazor基本配置&lt;/li&gt;
+&lt;li&gt;配置UI Layout&lt;/li&gt;
+&lt;li&gt;修改App应用图标，标题内容&lt;/li&gt;
+&lt;li&gt;配置App菜单&lt;/li&gt;
+&lt;li&gt;配置App LoginDisplay&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;一-引用mudblazor&#34;&gt;一 引用MudBlazor&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;给blazor server添加MudBlazor包。在程序包管理器控制台窗口中输入以下命令&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   Install-Package MudBlazor
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;将MudBlazor名字空间引入项目&lt;br&gt;
+在blazor server项目下的_Imports.razor中添加以下代码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   @using MudBlazor
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;引入MudBlazor的字体和格式配置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;打开_Layout.cshtml文件，在head部分中加入如下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;link&lt;/span&gt; &lt;span style=&#34;color:#658b00&#34;&gt;href&lt;/span&gt;=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;amp;display=swap&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#658b00&#34;&gt;rel&lt;/span&gt;=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;link&lt;/span&gt; &lt;span style=&#34;color:#658b00&#34;&gt;href&lt;/span&gt;=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;_content/MudBlazor/MudBlazor.min.css&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#658b00&#34;&gt;rel&lt;/span&gt;=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color:#658b00&#34;&gt;src&lt;/span&gt;=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;_content/MudBlazor/MudBlazor.min.js&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;script&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;将MudBlazor Service注入到App中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;打开Startup.cs文件在ConfigureServices函数中添加以下代码。这部分代码包含了Snackbar的配置信息。
+Snackbar的详细配置信息可以参考Mudblazor网站帮助信息。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;public void ConfigureServices(IServiceCollection services)
+{
+    ... ...
+
+    services.AddMudServices(config =&amp;gt;
+    {
+        config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;
+
+        config.SnackbarConfiguration.PreventDuplicates = false;
+        config.SnackbarConfiguration.NewestOnTop = false;
+        config.SnackbarConfiguration.ShowCloseIcon = true;
+        config.SnackbarConfiguration.VisibleStateDuration = 10000;
+        config.SnackbarConfiguration.HideTransitionDuration = 500;
+        config.SnackbarConfiguration.ShowTransitionDuration = 500;
+        config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+    });
+
+    ... ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;二-搭建ui架构&#34;&gt;二 搭建UI架构&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;配置UI布局&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;打开MainLayout.razor文件，删除所有内容。将以下代码复制到文件中&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@inherits LayoutComponentBase
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudThemeProvider/&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudDialogProvider 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    FullWidth=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    MaxWidth=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;MaxWidth.Medium&amp;#34;&lt;/span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    CloseButton=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    DisableBackdropClick=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    NoHeader=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Position=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;DialogPosition.TopCenter&amp;#34;&lt;/span&gt;/&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudSnackbarProvider /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudLayout&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudAppBar Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Primary&amp;#34;&lt;/span&gt; Fixed=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt; Dense=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; DisableGutters=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; Elevation=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        @if (&lt;span style=&#34;color:#b452cd&#34;&gt;_d&lt;/span&gt;rawerOpen == &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;MudElement Class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;d-flex justify-center&amp;#34;&lt;/span&gt; Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;width:260px;&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;img height=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;20&amp;#34;&lt;/span&gt; src=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;../logo_expand.png&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;/MudElement&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;MudElement Class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;d-flex justify-center&amp;#34;&lt;/span&gt; Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;width:60px;&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;img height=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;20&amp;#34;&lt;/span&gt; src=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;../logo_close.png&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;/MudElement&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudIconButton Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Material.Filled.Menu&amp;#34;&lt;/span&gt; Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Inherit&amp;#34;&lt;/span&gt; Edge=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Edge.Start&amp;#34;&lt;/span&gt; OnClick=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@((e) =&amp;gt; DrawerToggle())&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudText Align=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Align.Left&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;i&amp;gt;NinTens&amp;lt;/i&amp;gt;&amp;lt;/MudText&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudSpacer /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/MudAppBar&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudDrawerContainer Height=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;768px&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudDrawer  Height=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;768px&amp;#34;&lt;/span&gt; Width=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;260px&amp;#34;&lt;/span&gt; @bind-Open=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@_drawerOpen&amp;#34;&lt;/span&gt; Fixed=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt; Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@DrawerVariant.Mini&amp;#34;&lt;/span&gt; OpenMiniOnHover=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt; Elevation=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;NavMenu /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/MudDrawer&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudMainContent Class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;pt-16 px-16&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;MudContainer MaxWidth=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;MaxWidth.ExtraLarge&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                @Body
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/MudContainer&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/MudMainContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/MudDrawerContainer&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudLayout&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@code {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;bool&lt;/span&gt; &lt;span style=&#34;color:#b452cd&#34;&gt;_d&lt;/span&gt;rawerOpen = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; DrawerToggle()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#b452cd&#34;&gt;_d&lt;/span&gt;rawerOpen = !&lt;span style=&#34;color:#b452cd&#34;&gt;_d&lt;/span&gt;rawerOpen;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    MudTheme MyCustomTheme = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; MudTheme()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Palette = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; Palette()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            Primary = Colors.Blue.Darken2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            Secondary = Colors.Red.Darken2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            Tertiary = Colors.Green.Darken2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;配置APP应用的图标&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;准备两个图标放到wwwroot/目录下&lt;/p&gt;
+&lt;p&gt;运行程序，在menu展开的时候运行效果如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/menu_expand.png&#34; alt=&#34;Menu Expand&#34;&gt;&lt;/p&gt;
+&lt;p&gt;运行程序，在menu关闭的时候运行效果如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/menu_close.png&#34; alt=&#34;Menu Close&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;配置App应用的左侧菜单项目&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;打开NavMenu.razor文件，删除所有文件内容，复制已下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudNavLink Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt; Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Home&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt;&amp;gt;Home&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Calculate&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;counter&amp;#34;&lt;/span&gt;&amp;gt;Counter&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;fetchdata&amp;#34;&lt;/span&gt;&amp;gt; Fetch data&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行程序，在menu展开的时候运行效果如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/menu1.png&#34; alt=&#34;Menu1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;运行程序，在menu关闭的时候运行效果如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/menu2.png&#34; alt=&#34;Menu2&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;修改APP应用的名字和图标&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;将APP应用的图标放在wwwroot/目录下，打开_Layout.cshtml文件，在header部分代码中追加以下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ... ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;link rel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;icon&amp;#34;&lt;/span&gt; type=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;image/png&amp;#34;&lt;/span&gt; href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;~/favicon-16x16.png&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ... ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行程序效果如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/appicon.png&#34; alt=&#34;AppIcon&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;修改APP应用标题&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在Blazor Server应用中如果要修改App在浏览器中的标题，只需要在每个页面中设置PageTitle属性。&lt;br&gt;
+例如， 大概FetchData.razor文件，修改PageTitle属性内容为 Nintens - Weather forecast&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;PageTitle&amp;gt;Nintens - Weather forecast&amp;lt;/PageTitle&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行程序效果如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/apptitle.png&#34; alt=&#34;AppTitle&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;在APP标题栏添加LoginDisplay&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在Shared文件夹下添加razor组件 LoginDisplay.razor,复制以下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudText Align=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Align.Right&amp;#34;&lt;/span&gt; Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@($&amp;#34;&lt;/span&gt;color:{Colors.Yellow.Accent2};&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;&amp;gt;Hello, user@ninetens.com!&amp;lt;/MudText&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudMenu Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Material.Filled.Language&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Color.Warning&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @foreach (&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; culture &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;in&lt;/span&gt; supportedCultures)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudMenuItem  Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;height:25px;width:140px;&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;MudLink&amp;gt;@culture.DisplayName&amp;lt;/MudLink&amp;gt;&amp;lt;/MudMenuItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudMenu Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;width:120px;&amp;#34;&lt;/span&gt; Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Material.Filled.Settings&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Color.Warning&amp;#34;&lt;/span&gt; PositionAtCursor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudMenuItem Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;height:25px;width:100px;&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;MudLink&amp;gt;Profile&amp;lt;/MudLink&amp;gt;&amp;lt;/MudMenuItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudMenuItem Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;height:25px;width:100px;&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;MudLink&amp;gt;Logout&amp;lt;/MudLink&amp;gt;&amp;lt;/MudMenuItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@code
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; OnInitialized()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Culture = CultureInfo.CurrentCulture;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; CultureInfo Culture
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt; =&amp;gt; CultureInfo.CurrentCulture;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; CultureInfo[] supportedCultures = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt;[]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; CultureInfo(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;en-US&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; CultureInfo(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;zh-CN&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    };
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行程序效果如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/logindisplay.png&#34; alt=&#34;logindisplay&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;至此我们搭建了基于MudBlazor的UI框架，完成了以下任务&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MudBlazor基本配置&lt;/li&gt;
+&lt;li&gt;配置UI Layout&lt;/li&gt;
+&lt;li&gt;修改App应用图标，标题内容&lt;/li&gt;
+&lt;li&gt;配置App菜单&lt;/li&gt;
+&lt;li&gt;配置App LoginDisplay&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver2/&#34;&gt;http://www.nintens.com/posts/blazorserver2/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt;&lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+- http://www.nintens.com/posts/blazorserver2/ - Nintens@2022 Copywright</description>
+        </item>
     
     
     
@@ -18,7 +234,7 @@
         <pubDate>Tue, 29 Mar 2022 11:25:05 -0400</pubDate>
         
         <guid>http://www.nintens.com/posts/blazorserver1/</guid>
-        <description>Nintens&#39;s Blogs  http://www.nintens.com/posts/blazorserver1/ -&lt;h2 id=&#34;使用blazor-server构建企业级应用一&#34;&gt;使用Blazor Server构建企业级应用(一)&lt;/h2&gt;
+        <description>Nintens&#39; Blogs  http://www.nintens.com/posts/blazorserver1/ -&lt;h2 id=&#34;使用blazor-server构建企业级应用一&#34;&gt;使用Blazor Server构建企业级应用(一)&lt;/h2&gt;
 &lt;p&gt;Blazor Server 6.0 + Modal + Repository + Service + EnitityFrameWork Core + MySql + Data Protection&lt;/p&gt;
 &lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver1/&#34;&gt;http://www.nintens.com/posts/blazorserver1/&lt;/a&gt;&lt;br&gt;
 作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt;&lt;br&gt;

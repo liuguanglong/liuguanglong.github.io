@@ -2,19 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://www.nintens.com/tags/.net-core/</loc>
-    <lastmod>2022-03-29T11:25:05-04:00</lastmod>
-  </url><url>
     <loc>http://www.nintens.com/tags/asp.net-core/</loc>
-    <lastmod>2022-03-29T11:25:05-04:00</lastmod>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
   </url><url>
     <loc>http://www.nintens.com/categories/blazor/</loc>
-    <lastmod>2022-03-29T11:25:05-04:00</lastmod>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
   </url><url>
     <loc>http://www.nintens.com/tags/blazor-server/</loc>
-    <lastmod>2022-03-29T11:25:05-04:00</lastmod>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
   </url><url>
     <loc>http://www.nintens.com/categories/</loc>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
+  </url><url>
+    <loc>http://www.nintens.com/tags/mudblazor/</loc>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
+  </url><url>
+    <loc>http://www.nintens.com/</loc>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
+  </url><url>
+    <loc>http://www.nintens.com/posts/</loc>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
+  </url><url>
+    <loc>http://www.nintens.com/tags/</loc>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
+  </url><url>
+    <loc>http://www.nintens.com/posts/blazorserver2/</loc>
+    <lastmod>2022-03-30T20:25:05-04:00</lastmod>
+  </url><url>
+    <loc>http://www.nintens.com/tags/.net-core/</loc>
     <lastmod>2022-03-29T11:25:05-04:00</lastmod>
   </url><url>
     <loc>http://www.nintens.com/tags/data-protection/</loc>
@@ -24,15 +39,6 @@
     <lastmod>2022-03-29T11:25:05-04:00</lastmod>
   </url><url>
     <loc>http://www.nintens.com/tags/mysql/</loc>
-    <lastmod>2022-03-29T11:25:05-04:00</lastmod>
-  </url><url>
-    <loc>http://www.nintens.com/</loc>
-    <lastmod>2022-03-29T11:25:05-04:00</lastmod>
-  </url><url>
-    <loc>http://www.nintens.com/posts/</loc>
-    <lastmod>2022-03-29T11:25:05-04:00</lastmod>
-  </url><url>
-    <loc>http://www.nintens.com/tags/</loc>
     <lastmod>2022-03-29T11:25:05-04:00</lastmod>
   </url><url>
     <loc>http://www.nintens.com/posts/blazorserver1/</loc>

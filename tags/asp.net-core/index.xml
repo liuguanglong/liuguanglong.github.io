@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>asp.net core on Nintens&#39;s Blogs </title>
+    <title>asp.net core on Nintens&#39; Blogs </title>
     <link>http://www.nintens.com/tags/asp.net-core/</link>
-    <description>Recent content in asp.net core on Nintens&#39;s Blogs </description>
+    <description>Recent content in asp.net core on Nintens&#39; Blogs </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Tue, 29 Mar 2022 11:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/asp.net-core/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Mar 2022 20:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/asp.net-core/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Blazor Server构建企业级应用(二) -- 使用MudBlazor搭建UI框架</title>
+      <link>http://www.nintens.com/posts/blazorserver2/</link>
+      <pubDate>Wed, 30 Mar 2022 20:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/posts/blazorserver2/</guid>
+      <description>使用Blazor Server构建企业级应用(二) 使用MudBlazor搭建UI框架 本文地址：http://www.nintens.com/posts/blazorserver2/
+作者邮箱：liuguanglong@yahoo.com
+欢迎转载，请在明显位置给出出处及链接
+本文是nintens架构系列文章的第二篇，包含以下内容
+ MudBlazor基本配置 配置UI Layout 修改App应用图标，标题内容 配置App菜单 配置App LoginDisplay  一 引用MudBlazor  给blazor server添加MudBlazor包。在程序包管理器控制台窗口中输入以下命令   Install-Package MudBlazor 将MudBlazor名字空间引入项目
+在blazor server项目下的_Imports.razor中添加以下代码   @using MudBlazor 引入MudBlazor的字体和格式配置  打开_Layout.cshtml文件，在head部分中加入如下代码
+ &amp;lt;link href=&amp;#34;https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;amp;display=swap&amp;#34; rel=&amp;#34;stylesheet&amp;#34; /&amp;gt;  &amp;lt;link href=&amp;#34;_content/MudBlazor/MudBlazor.min.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34; /&amp;gt;  &amp;lt;script src=&amp;#34;_content/MudBlazor/MudBlazor.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 将MudBlazor Service注入到App中  打开Startup.cs文件在ConfigureServices函数中添加以下代码。这部分代码包含了Snackbar的配置信息。 Snackbar的详细配置信息可以参考Mudblazor网站帮助信息。
+public void ConfigureServices(IServiceCollection services){... ...services.AddMudServices(config =&amp;gt;{config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;config.SnackbarConfiguration.PreventDuplicates = false;config.SnackbarConfiguration.NewestOnTop = false;config.</description>
+    </item>
+    
     <item>
       <title>使用Blazor Server构建企业级应用(一) -- 基础架构</title>
       <link>http://www.nintens.com/posts/blazorserver1/</link>
