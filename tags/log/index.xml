@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MySql on Nintens&#39; Blogs </title>
-    <link>http://www.nintens.com/tags/mysql/</link>
-    <description>Recent content in MySql on Nintens&#39; Blogs </description>
+    <title>log on Nintens&#39; Blogs </title>
+    <link>http://www.nintens.com/tags/log/</link>
+    <description>Recent content in log on Nintens&#39; Blogs </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sat, 02 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 02 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/log/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用Blazor Server构建企业级应用(三) -- 使用Serilog记录和显示业务日志</title>
       <link>http://www.nintens.com/posts/blazorserver3/</link>
@@ -22,27 +22,6 @@
 选择nintens项目，右键弹出菜单中选择 管理用户机密。
 在打开的窗口中编辑secrets.json文件，添加以下配置信息
 &amp;#34;Serilog&amp;#34;: {  &amp;#34;Using&amp;#34;: [ &amp;#34;Serilog.Sinks.Console&amp;#34;, &amp;#34;Serilog.Sinks.File&amp;#34;, &amp;#34;Serilog.Sinks.MariaDB&amp;#34; ],  &amp;#34;Enrich&amp;#34;: [ &amp;#34;FromLogContext&amp;#34;, &amp;#34;WithMachineName&amp;#34;, &amp;#34;WithProcessId&amp;#34;, &amp;#34;WithThreadId&amp;#34; ],  &amp;#34;MinimumLevel&amp;#34;: {  &amp;#34;Default&amp;#34;: &amp;#34;Debug&amp;#34;,  &amp;#34;Override&amp;#34;: {  &amp;#34;Microsoft&amp;#34;: &amp;#34;Warning&amp;#34;,  &amp;#34;System&amp;#34;: &amp;#34;Warning&amp;#34;  }  },  &amp;#34;WriteTo&amp;#34;: [  {  &amp;#34;Name&amp;#34;: &amp;#34;Console&amp;#34;,  &amp;#34;Args&amp;#34;: {  &amp;#34;outputTemplate&amp;#34;: &amp;#34;{Timestamp:HH:mm:ss} [{Level}] [{EventId:l}] [{User}] [{IP}] {Message}{NewLine}{Exception}&amp;#34;,  &amp;#34;restrictedToMinimumLevel&amp;#34;: &amp;#34;Debug&amp;#34;  }  },  {  &amp;#34;Name&amp;#34;: &amp;#34;File&amp;#34;,  &amp;#34;Args&amp;#34;: {  &amp;#34;path&amp;#34;: &amp;#34;logs/log.</description>
-    </item>
-    
-    <item>
-      <title>使用Blazor Server构建企业级应用(一) -- 基础架构</title>
-      <link>http://www.nintens.com/posts/blazorserver1/</link>
-      <pubDate>Tue, 29 Mar 2022 11:25:05 -0400</pubDate>
-      
-      <guid>http://www.nintens.com/posts/blazorserver1/</guid>
-      <description>使用Blazor Server构建企业级应用(一) Blazor Server 6.0 + Modal + Repository + Service + EnitityFrameWork Core + MySql + Data Protection
-本文地址：http://www.nintens.com/posts/blazorserver1/
-作者邮箱：liuguanglong@yahoo.com
-欢迎转载，请在明显位置给出出处及链接
-本文是nintens架构系列文章的第一篇，包含以下内容
- 创建Blazor Server 6.0工程 创建基于Enitity Framework6.0 访问mysql数据库的 Repository项目 完成Repository项目的功能测试 创建Service项目 完成Service项目的功能测试 完成Blazor Server的服务注入 完成配置信息的客户端数据保护  一 创建Blazor Server工程   使用Vs2020创建BlazorServer类型项目
-选择Blazor Server应用
-设置Project信息
-  .net框架选择
-选择 .Net 6.0
-  选择不支持身份验证。 我们稍后再加入Asp.NET Core Identity身份验证功能。 选择不启动Docker相关功能。 我们后期加入对Docker的支持。
-成功创建的项目
-  项目就创建好后，打开launchSetting.json文件可以修改Debug时的参数配置。 对于Self Host，默认端口是5007. 对于IIS Host模式端口使用2551. 可以按照个人需要进行修改。</description>
     </item>
     
   </channel>
