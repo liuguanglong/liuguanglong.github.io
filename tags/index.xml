@@ -7,20 +7,38 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sat, 02 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 Apr 2022 21:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>asp.net core</title>
       <link>http://www.nintens.com/tags/asp.net-core/</link>
-      <pubDate>Sat, 02 Apr 2022 23:25:05 -0400</pubDate>
+      <pubDate>Tue, 05 Apr 2022 21:25:05 -0400</pubDate>
       
       <guid>http://www.nintens.com/tags/asp.net-core/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>asp.net Identity</title>
+      <link>http://www.nintens.com/tags/asp.net-identity/</link>
+      <pubDate>Tue, 05 Apr 2022 21:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/asp.net-identity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blazor authentication and authorization</title>
+      <link>http://www.nintens.com/tags/blazor-authentication-and-authorization/</link>
+      <pubDate>Tue, 05 Apr 2022 21:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/blazor-authentication-and-authorization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>blazor server</title>
       <link>http://www.nintens.com/tags/blazor-server/</link>
-      <pubDate>Sat, 02 Apr 2022 23:25:05 -0400</pubDate>
+      <pubDate>Tue, 05 Apr 2022 21:25:05 -0400</pubDate>
       
       <guid>http://www.nintens.com/tags/blazor-server/</guid>
       <description></description>

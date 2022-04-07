@@ -6,9 +6,190 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sat, 02 Apr 2022 23:25:05 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 05 Apr 2022 21:25:05 -0400</lastBuildDate>
     
         <atom:link href="http://www.nintens.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>使用Blazor Server构建企业级应用(四) -- 添加asp.net Identity用来完成授权和用户权限控制</title>
+        <link>http://www.nintens.com/posts/blazorserver4/</link>
+        <pubDate>Tue, 05 Apr 2022 21:25:05 -0400</pubDate>
+        
+        <guid>http://www.nintens.com/posts/blazorserver4/</guid>
+        <description>Nintens&#39; Blogs  http://www.nintens.com/posts/blazorserver4/ -&lt;h2 id=&#34;使用blazor-server构建企业级应用四-添加aspnet-identity用来完成授权和用户权限控制&#34;&gt;使用Blazor Server构建企业级应用(四) 添加asp.net Identity用来完成授权和用户权限控制&lt;/h2&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver4/&#34;&gt;http://www.nintens.com/posts/blazorserver4/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt; &lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+&lt;p&gt;本文是nintens架构系列文章的第四篇，包含以下内容&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加asp.net Identity使用的数据库表&lt;/li&gt;
+&lt;li&gt;在项目中添加asp.net Identity相关配置&lt;/li&gt;
+&lt;li&gt;配置应用权限要求用户登录才能访问&lt;/li&gt;
+&lt;li&gt;添加asp.net Identity自带的功能画面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;一-添加aspnet-identity使用的数据库表&#34;&gt;一 添加asp.net Identity使用的数据库表&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;在数据库中创建asp.NET Identity用到的数据库表&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在mysql中执行Identity.sql添加Identity用到的7张表到nintens数据库&lt;br&gt;
+Identity.sql默认会创建Administrators角色，同时会创建一个超级管理员用户 &lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt;，请修改为默认的管理员用户。&lt;br&gt;
+这个邮箱会用来获取更新用的密码。创建数据库表请修改。&lt;/p&gt;
+&lt;p&gt;下载链接: &lt;a href=&#34;http://www.nintens.com/images/identity.sql&#34;&gt;创建数据库用的Sql文件&lt;/a&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;添加用户验证用的DBContext&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在repository中引入asp.NET Identity相关的包&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Install-Package Microsoft.aspNetCore.Identity.EntityFrameworkCore  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在repository项目中添加ApplicationDBContext类&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;ApplicationDbContext&lt;/span&gt; : IdentityDbContext
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; ApplicationDbContext(DbContextOptions&amp;lt;ApplicationDbContext&amp;gt; options)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            : &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;base&lt;/span&gt;(options)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;二-在项目中添加aspent-identity相关配置&#34;&gt;二 在项目中添加asp.ent Identity相关配置&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;nintens项目配置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;引入asp.NET Identity相关的包&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Install-Package Microsoft.aspNetCore.Identity.EntityFrameworkCore  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Install-Package Microsoft.aspNetCore.Identity.UI  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在Startup.cs 文件中ConfigureServices函数中添加以下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services.AddDbContextPool&amp;lt;ApplicationDbContext&amp;gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    options =&amp;gt; options.UseMySql(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        connString,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ServerVersion.AutoDetect(connString)));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services.AddDefaultIdentity&amp;lt;IdentityUser&amp;gt;(options =&amp;gt; options.SignIn.RequireConfirmedEmail = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .AddRoles&amp;lt;IdentityRole&amp;gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .AddEntityFrameworkStores&amp;lt;ApplicationDbContext&amp;gt;().AddDefaultTokenProviders();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services.AddScoped&amp;lt;AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider&amp;lt;IdentityUser&amp;gt;&amp;gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services.AddAuthentication(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Identity.Application&amp;#34;&lt;/span&gt;).AddCookie();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在Program.cs中添加以下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;app.UseAuthentication();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;app.UseAuthorization();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;app.MapRazorPages().RequireAuthorization();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;app.MapBlazorHub().RequireAuthorization();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;添加错误处理的Component&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在Shared目录下添加Error.razor&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@using Microsoft.Extensions.Logging
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@inject ILogger&amp;lt;Error&amp;gt; Logger
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;CascadingValue Value=&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    @ChildContent
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/CascadingValue&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@code { 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;    [Parameter]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; RenderFragment ChildContent { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; ProcessError(Exception ex)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Logger.LogError(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Error:ProcessError - Type: {Type} Message: {Message}&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            ex.GetType(), ex.Message);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#228b22&#34;&gt;//StateHasChanged();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;三-配置应用权限要求用户登录才能访问&#34;&gt;三 配置应用权限要求用户登录才能访问&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;修改App.razor要求用户登录才能访问&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;修改_Imports.razor添加以下代码注入NavigationManager&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@inject NavigationManager NavigationManager
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将原来的代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;Router AppAssembly=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@typeof(App).Assembly&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;Found Context=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;routeData&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;RouteView RouteData=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@routeData&amp;#34;&lt;/span&gt; DefaultLayout=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@typeof(MainLayout)&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;FocusOnNavigate RouteData=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@routeData&amp;#34;&lt;/span&gt; Selector=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;h1&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/Found&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;NotFound&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;PageTitle&amp;gt;Not found&amp;lt;/PageTitle&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;LayoutView Layout=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@typeof(MainLayout)&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;p role=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;alert&amp;#34;&lt;/span&gt;&amp;gt;Sorry, there&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt;s nothing at &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt; address.&amp;lt;/p&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/LayoutView&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/NotFound&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/Router&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;改为&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;Error&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;Router AppAssembly=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@typeof(App).Assembly&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;Found Context=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;routeData&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;AuthorizeRouteView RouteData=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@routeData&amp;#34;&lt;/span&gt; DefaultLayout=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@typeof(MainLayout)&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;NotAuthorized&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;@&lt;/span&gt;{ NavigationManager.NavigateTo(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/login&amp;#34;&lt;/span&gt;); }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;/NotAuthorized&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             &amp;lt;/AuthorizeRouteView&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/Found&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;NotFound&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;PageTitle&amp;gt;Not found&amp;lt;/PageTitle&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;LayoutView Layout=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@typeof(MainLayout)&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;p role=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;alert&amp;#34;&lt;/span&gt;&amp;gt;Sorry, there&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt;s nothing at &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt; address.&amp;lt;/p&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/LayoutView&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/NotFound&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/Router&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/Error&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;项目要求用户登录才能访问，否则自动转移到登录画面&lt;/p&gt;
+&lt;h3 id=&#34;四-添加aspnet-identity自带的功能画面&#34;&gt;四 添加asp.net Identity自带的功能画面&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;复制asp.NET Identity相关的UI画面代码到nintens项目下&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;将Areas文件解压放到 nintens工程下&lt;br&gt;
+下载链接: &lt;a href=&#34;http://www.nintens.com/images/Areas.zip&#34;&gt;Identity功能页面&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/IdentityFiles.png&#34; alt=&#34;IdentityFiles&#34;&gt;&lt;/p&gt;
+&lt;p&gt;将Shared文件解压后放到 Pages目录下&lt;br&gt;
+下载链接: &lt;a href=&#34;http://www.nintens.com/images/Shared.zip&#34;&gt;IdentityLayout页面&lt;/a&gt;&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/IdentityFile2.png&#34; alt=&#34;IdentityFile2&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;添加发送邮件的服务，用来获取密码重置等服务。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在Startup.cs中注入EmailService&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services.AddTransient&amp;lt;IEmailSender, EmailSender&amp;gt;(i =&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; EmailSender(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Configuration[&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;EmailSender:Host&amp;#34;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Configuration.GetValue&amp;lt;&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;int&lt;/span&gt;&amp;gt;(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;EmailSender:Port&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Configuration.GetValue&amp;lt;&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;bool&lt;/span&gt;&amp;gt;(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;EmailSender:EnableSSL&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Configuration[&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;EmailSender:UserName&amp;#34;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Configuration[&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;EmailSender:Password&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将配置信息放入到客户端机密存储&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-JSON&#34; data-lang=&#34;JSON&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;&amp;#34;EmailSender&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;smtp.office365.com&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;&amp;#34;Port&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#b452cd&#34;&gt;587&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;&amp;#34;EnableSSL&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;&amp;#34;UserName&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;xxxx@xxxxx.com&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;&amp;#34;Password&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;xxxxxxxx&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;启动应用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;画面自动转向到login画面&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/Identitylogin.png&#34; alt=&#34;IdentityLogin&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击Forgot your password重置密码后，既可以登录访问应用。&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;添加 logout功能&lt;br&gt;
+打开 LoginDisplay.razor页面，修改Logout menu,添加url转向Logout页面。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudMenuItem Style=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;height:25px;width:100px;&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;MudLink Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Identity/Account/LogOut&amp;#34;&lt;/span&gt;&amp;gt;Logout&amp;lt;/MudLink&amp;gt;&amp;lt;/MudMenuItem&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;至此我们搭建了基于asp.net Identity的用户管理和权限控制框架，完成了以下任务&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加asp.net Identity使用的数据库表&lt;/li&gt;
+&lt;li&gt;在项目中添加asp.net Identity相关配置&lt;/li&gt;
+&lt;li&gt;配置应用权限要求用户登录才能访问&lt;/li&gt;
+&lt;li&gt;添加asp.net Identity自带的功能画面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下一章我们会讲解如何修改asp.net Identity自带的管理端画面&lt;/p&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver4/&#34;&gt;http://www.nintens.com/posts/blazorserver4/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt; &lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+- http://www.nintens.com/posts/blazorserver4/ - Nintens@2022 Copywright</description>
+        </item>
     
     
     
