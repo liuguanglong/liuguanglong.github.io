@@ -7,7 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Tue, 05 Apr 2022 21:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/blazor-authentication-and-authorization/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 09 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/blazor-authentication-and-authorization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Blazor Server构建企业级应用(五) -- 使用asp.net Identity完成功能的权限控制</title>
+      <link>http://www.nintens.com/posts/blazorserver5/</link>
+      <pubDate>Sat, 09 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/posts/blazorserver5/</guid>
+      <description>使用Blazor Server构建企业级应用(五) 使用asp.net Identity完成功能的权限控制 本文地址：http://www.nintens.com/posts/blazorserver5/
+作者邮箱：liuguanglong@yahoo.com 欢迎转载，请在明显位置给出出处及链接
+本文是nintens架构系列文章的第五篇，包含以下内容
+ 扩展IdentityUser类用来保存业务上的扩展数据 使用Asp.net Identity Role实现用户权限控制  一 给IdentityUser扩展字段  在respository项目中追加ApplicationUser类，用来扩展字段  public class ApplicationUser : IdentityUser {  public string? CustomTag { get; set; } } 在mysql数据库中的aspnetusers表中添加CustomTag字段  修改ApplicationContxt类,使用ApplicationUser类替代Identity中默认提供的IdentityUser类  public class ApplicationDbContext : IdentityDbContext&amp;lt;ApplicationUser&amp;gt; {  public ApplicationDbContext(DbContextOptions&amp;lt;ApplicationDbContext&amp;gt; options)  : base(options)  {  }   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)  {  }  protected override void OnModelCreating(ModelBuilder builder)  {  base.</description>
+    </item>
+    
     <item>
       <title>使用Blazor Server构建企业级应用(四) -- 添加asp.net Identity用来完成授权和用户权限控制</title>
       <link>http://www.nintens.com/posts/blazorserver4/</link>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html><head>
+<title>使用Blazor Server构建企业级应用(五) -- 使用asp.net Identity完成功能的权限控制</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-224238665-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css" integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media="screen">
+
+
+<script src="/vendor/js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons");
+</script>
+
+
+
+
+
+
+  <script src="/js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: '3231fec73fc43dd4bcc8',
+  clientSecret: 'f8ac50ce92aca43790a03f6f576b02fdfe0eb0a8',
+  repo: 'nintens.com',
+  owner: 'liuguanglong',
+  admin: ['liuguanglong'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>console.log("Hello from 'layouts/partials/extended_head.html'")</script>
+
+</head>
+<body>
+    	<div id="app"><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="http://www.nintens.com/">
+    
+        <div class="nav-title">
+            Nintens&#39; Blogs 
+        </div>
+        
+        <div class="nav-subtitle">
+            应无所住而生其心
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/categories">
+                Categories
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/tags">
+                Tags
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e4%ba%94-%e4%bd%bf%e7%94%a8aspnet-identity%e5%ae%8c%e6%88%90%e5%8a%9f%e8%83%bd%e7%9a%84%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6" onclick="onNavClick(`#使用blazor-server构建企业级应用五-使用aspnet-identity完成功能的权限控制-nav`)" id="使用blazor-server构建企业级应用五-使用aspnet-identity完成功能的权限控制-nav">
+									使用Blazor Server构建企业级应用(五) 使用asp.net Identity完成功能的权限控制
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80-%e7%bb%99identityuser%e6%89%a9%e5%b1%95%e5%ad%97%e6%ae%b5" onclick="onNavClick(`#一-给identityuser扩展字段-nav`)" id="一-给identityuser扩展字段-nav">
+									一 给IdentityUser扩展字段
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c-%e4%bd%bf%e7%94%a8identity-role%e5%ae%9e%e7%8e%b0%e7%94%a8%e6%88%b7%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6" onclick="onNavClick(`#二-使用identity-role实现用户权限控制-nav`)" id="二-使用identity-role实现用户权限控制-nav">
+									二 使用Identity Role实现用户权限控制
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+<div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/categories">
+                    Categories
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/tags">
+                    Tags
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e4%ba%94-%e4%bd%bf%e7%94%a8aspnet-identity%e5%ae%8c%e6%88%90%e5%8a%9f%e8%83%bd%e7%9a%84%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6" onclick="onNavClick(`#使用blazor-server构建企业级应用五-使用aspnet-identity完成功能的权限控制-nav`)" id="使用blazor-server构建企业级应用五-使用aspnet-identity完成功能的权限控制-nav">
+									使用Blazor Server构建企业级应用(五) 使用asp.net Identity完成功能的权限控制
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80-%e7%bb%99identityuser%e6%89%a9%e5%b1%95%e5%ad%97%e6%ae%b5" onclick="onNavClick(`#一-给identityuser扩展字段-nav`)" id="一-给identityuser扩展字段-nav">
+									一 给IdentityUser扩展字段
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c-%e4%bd%bf%e7%94%a8identity-role%e5%ae%9e%e7%8e%b0%e7%94%a8%e6%88%b7%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6" onclick="onNavClick(`#二-使用identity-role实现用户权限控制-nav`)" id="二-使用identity-role实现用户权限控制-nav">
+									二 使用Identity Role实现用户权限控制
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="http://www.nintens.com/">
+            Nintens&#39; Blogs 
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="http://www.nintens.com/">
+        <div class="single-column-header-title">Nintens&#39; Blogs </div>
+        
+        <div class="single-column-header-subtitle">应无所住而生其心</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+                
+            
+
+            <div class="post-head-wrapper"
+                
+                    
+                    
+                    style="background-image: url('http://www.nintens.com/images/chinese.jpg')"
+                    
+                
+            >
+                <div class="post-title">
+                    使用Blazor Server构建企业级应用(五) -- 使用asp.net Identity完成功能的权限控制
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2022-04-09 23:25
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/blazor">blazor</a>
+                                &nbsp;
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/blazor-server">blazor server</a>
+                                &nbsp;
+                            
+                                <a href="/tags/asp.net-core">asp.net core</a>
+                                &nbsp;
+                            
+                                <a href="/tags/asp.net-identity">Asp.net Identity</a>
+                                &nbsp;
+                            
+                                <a href="/tags/blazor-authentication-and-authorization">Blazor authentication and authorization</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    <h2 id="使用blazor-server构建企业级应用五-使用aspnet-identity完成功能的权限控制">使用Blazor Server构建企业级应用(五) 使用asp.net Identity完成功能的权限控制</h2>
+<p>本文地址：<a href="http://www.nintens.com/posts/blazorserver5/">http://www.nintens.com/posts/blazorserver5/</a><br>
+作者邮箱：<a href="mailto:liuguanglong@yahoo.com">liuguanglong@yahoo.com</a> <br>
+欢迎转载，请在明显位置给出出处及链接</p>
+<p>本文是nintens架构系列文章的第五篇，包含以下内容</p>
+<ul>
+<li>扩展IdentityUser类用来保存业务上的扩展数据</li>
+<li>使用Asp.net Identity Role实现用户权限控制</li>
+</ul>
+<h3 id="一-给identityuser扩展字段">一 给IdentityUser扩展字段</h3>
+<ol>
+<li>在respository项目中追加ApplicationUser类，用来扩展字段</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">ApplicationUser</span> : IdentityUser
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">string?</span> CustomTag { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="2">
+<li>在mysql数据库中的aspnetusers表中添加CustomTag字段</li>
+</ol>
+<p><img src="/images/ApplicationUser.png" alt="ApplicationUser"></p>
+<ol start="3">
+<li>修改ApplicationContxt类,使用ApplicationUser类替代Identity中默认提供的IdentityUser类</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">ApplicationDbContext</span> : IdentityDbContext&lt;ApplicationUser&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#8b008b;font-weight:bold">public</span> ApplicationDbContext(DbContextOptions&lt;ApplicationDbContext&gt; options)
+</span></span><span style="display:flex;"><span>      : <span style="color:#8b008b;font-weight:bold">base</span>(options)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">void</span> OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">void</span> OnModelCreating(ModelBuilder builder)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      <span style="color:#8b008b;font-weight:bold">base</span>.OnModelCreating(builder);
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>不需要修改OnModelCreating方法的实现，Identity会自动处理追加字段的mapping配置</p>
+<ol start="4">
+<li>修改Startup.cs文件,使用ApplicationUser类替代Identity中默认提供的IdentityUser类</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>services.AddDefaultIdentity&lt;ApplicationUser&gt;(options =&gt; options.SignIn.RequireConfirmedEmail = <span style="color:#8b008b;font-weight:bold">true</span>)
+</span></span><span style="display:flex;"><span>        .AddRoles&lt;IdentityRole&gt;()
+</span></span><span style="display:flex;"><span>        .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;().AddDefaultTokenProviders();
+</span></span></code></pre></div><ol start="5">
+<li>测试扩展类ApplicationUser类</li>
+</ol>
+<p>在repository.test项目下添加ApplicationDbContextTest类用来测试新追加的ApplicationUser类<br>
+添加测试代码，用来获取指定的用户，并设置CustomTag字段，执行后数据库中能够查询到设置的值。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">ApplicationDbContextTest</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        Mock&lt;IDbContextFactory&lt;ApplicationDbContext&gt;&gt; factory;
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [SetUp]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> Setup()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            String connString = <span style="color:#cd5555">&#34;server=localhost; userid=xxxxx;pwd=xxxxxx;port=3306;database=nintens;Allow Zero Datetime=true;Convert Zero Datetime=True&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> optionsBuilder = <span style="color:#8b008b;font-weight:bold">new</span> DbContextOptionsBuilder&lt;ApplicationDbContext&gt;();
+</span></span><span style="display:flex;"><span>            optionsBuilder.UseMySql(connString, ServerVersion.AutoDetect(connString));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            factory = <span style="color:#8b008b;font-weight:bold">new</span> Mock&lt;IDbContextFactory&lt;ApplicationDbContext&gt;&gt;();
+</span></span><span style="display:flex;"><span>            factory.Setup(f =&gt; f.CreateDbContext())
+</span></span><span style="display:flex;"><span>                .Returns(<span style="color:#8b008b;font-weight:bold">new</span> ApplicationDbContext(optionsBuilder.Options));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Test]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> Test1()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> dbcontext = factory.Object.CreateDbContext();
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> user = dbcontext.Users.Where(u =&gt; u.UserName == <span style="color:#cd5555">&#34;liuguanglong@yahoo.com&#34;</span>).FirstOrDefault();
+</span></span><span style="display:flex;"><span>            user.CustomTag = <span style="color:#cd5555">&#34;Administartor&#34;</span>;
+</span></span><span style="display:flex;"><span>            dbcontext.SaveChanges();    
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ol start="6">
+<li>将nintens解决方案中所有用到Identity类的代码改为使用ApplicationUser类</li>
+</ol>
+<h3 id="二-使用identity-role实现用户权限控制">二 使用Identity Role实现用户权限控制</h3>
+<ol>
+<li>修改NavMenu.razor代码，使用AuthorizeView来指定具有指定的角色才能看到View中的菜单项</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>&lt;MudNavMenu&gt;
+</span></span><span style="display:flex;"><span>    &lt;MudNavLink Href=<span style="color:#cd5555">&#34;/&#34;</span> Icon=<span style="color:#cd5555">&#34;@Icons.Filled.Home&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span>&gt;Home&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>    &lt;AuthorizeView Roles=<span style="color:#cd5555">&#34;Manager&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.Calculate&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;counter&#34;</span>&gt;Counter&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;fetchdata&#34;</span>&gt; Fetch data&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>    &lt;/AuthorizeView&gt;
+</span></span><span style="display:flex;"><span>&lt;/MudNavMenu&gt;
+</span></span></code></pre></div><ol start="2">
+<li>在Counter.razor页面和Fetch Data.razor中添加权限控制</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@page <span style="color:#cd5555">&#34;/counter&#34;</span>
+</span></span><span style="display:flex;"><span>@attribute [Authorize(Roles = <span style="color:#cd5555">&#34;Manager&#34;</span>)]
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@page <span style="color:#cd5555">&#34;/fetchdata&#34;</span>
+</span></span><span style="display:flex;"><span>@attribute [Authorize(Roles = <span style="color:#cd5555">&#34;Manager&#34;</span>)]
+</span></span></code></pre></div><p>启动程序，由于当前用户没有Manager权限，因此无法看到Counter和Fetch Data菜单项 <br>
+<img src="/images/MenuWithRole1.png" alt="MenuWithRole1"></p>
+<p>如果在浏览器中输入url访问指定的页面，会显示错误提示信息。<br>
+<img src="/images/MenuWithRole3.png" alt="MenuWithRole3"></p>
+<ol start="3">
+<li>添加Manager角色，并给当前用户添加Manager角色<br>
+在ApplicationDbContextTest类中添加并执行以下代码</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#658b00">[Test]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> InsertRole()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#00688b;font-weight:bold">var</span> dbcontext = factory.Object.CreateDbContext();
+</span></span><span style="display:flex;"><span>   <span style="color:#00688b;font-weight:bold">var</span> role = <span style="color:#8b008b;font-weight:bold">new</span> IdentityRole(<span style="color:#cd5555">&#34;Manager&#34;</span>);
+</span></span><span style="display:flex;"><span>   role.NormalizedName = <span style="color:#cd5555">&#34;MANAGER&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#00688b;font-weight:bold">var</span> roleManager = dbcontext.Roles.Add(role);
+</span></span><span style="display:flex;"><span>   <span style="color:#00688b;font-weight:bold">var</span> user = dbcontext.Users.Where(u =&gt; u.UserName == <span style="color:#cd5555">&#34;liuguanglong@yahoo.com&#34;</span>).FirstOrDefault();
+</span></span><span style="display:flex;"><span>   <span style="color:#8b008b;font-weight:bold">if</span>(user != <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      <span style="color:#00688b;font-weight:bold">var</span> userRole = <span style="color:#8b008b;font-weight:bold">new</span> IdentityUserRole&lt;String&gt;
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         RoleId = role.Id,
+</span></span><span style="display:flex;"><span>         UserId = user.Id
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      dbcontext.UserRoles.Add(userRole);
+</span></span><span style="display:flex;"><span>      dbcontext.SaveChanges();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>启动程序，重新登录后，可以看到Counter和Fetch Data菜单项<br>
+<img src="/images/MenuWithRole2.png" alt="MenuWithRole2"></p>
+<h3 id="总结">总结</h3>
+<p>至此我们完成了使用asp.net Identity实现用户权限控制，完成了以下任务</p>
+<ul>
+<li>扩展IdentityUser类用来保存业务上的扩展数据</li>
+<li>使用Asp.net Identity Role实现用户权限控制</li>
+</ul>
+<p>本文地址：<a href="http://www.nintens.com/posts/blazorserver5/">http://www.nintens.com/posts/blazorserver5/</a><br>
+作者邮箱：<a href="mailto:liuguanglong@yahoo.com">liuguanglong@yahoo.com</a><br>
+欢迎转载，请在明显位置给出出处及链接</p>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2022-04-09</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts">
+			Next<br>No newer posts.
+                </a>
+                
+                
+                
+                <a class="older-posts" href="http://www.nintens.com/posts/blazorserver4/">
+			Previous<br>使用Blazor Server构建企业级应用(四) -- 添加asp.net Identity用来完成授权和用户权限控制
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script>
+    </body>
+</html>

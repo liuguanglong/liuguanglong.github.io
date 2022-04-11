@@ -6,9 +6,156 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Tue, 05 Apr 2022 21:25:05 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 09 Apr 2022 23:25:05 -0400</lastBuildDate>
     
         <atom:link href="http://www.nintens.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>使用Blazor Server构建企业级应用(五) -- 使用asp.net Identity完成功能的权限控制</title>
+        <link>http://www.nintens.com/posts/blazorserver5/</link>
+        <pubDate>Sat, 09 Apr 2022 23:25:05 -0400</pubDate>
+        
+        <guid>http://www.nintens.com/posts/blazorserver5/</guid>
+        <description>Nintens&#39; Blogs  http://www.nintens.com/posts/blazorserver5/ -&lt;h2 id=&#34;使用blazor-server构建企业级应用五-使用aspnet-identity完成功能的权限控制&#34;&gt;使用Blazor Server构建企业级应用(五) 使用asp.net Identity完成功能的权限控制&lt;/h2&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver5/&#34;&gt;http://www.nintens.com/posts/blazorserver5/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt; &lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+&lt;p&gt;本文是nintens架构系列文章的第五篇，包含以下内容&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;扩展IdentityUser类用来保存业务上的扩展数据&lt;/li&gt;
+&lt;li&gt;使用Asp.net Identity Role实现用户权限控制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;一-给identityuser扩展字段&#34;&gt;一 给IdentityUser扩展字段&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;在respository项目中追加ApplicationUser类，用来扩展字段&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;ApplicationUser&lt;/span&gt; : IdentityUser
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;string?&lt;/span&gt; CustomTag { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;在mysql数据库中的aspnetusers表中添加CustomTag字段&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.nintens.com/images/ApplicationUser.png&#34; alt=&#34;ApplicationUser&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;修改ApplicationContxt类,使用ApplicationUser类替代Identity中默认提供的IdentityUser类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;ApplicationDbContext&lt;/span&gt; : IdentityDbContext&amp;lt;ApplicationUser&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; ApplicationDbContext(DbContextOptions&amp;lt;ApplicationDbContext&amp;gt; options)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      : &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;base&lt;/span&gt;(options)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; OnModelCreating(ModelBuilder builder)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;base&lt;/span&gt;.OnModelCreating(builder);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不需要修改OnModelCreating方法的实现，Identity会自动处理追加字段的mapping配置&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;修改Startup.cs文件,使用ApplicationUser类替代Identity中默认提供的IdentityUser类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services.AddDefaultIdentity&amp;lt;ApplicationUser&amp;gt;(options =&amp;gt; options.SignIn.RequireConfirmedEmail = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        .AddRoles&amp;lt;IdentityRole&amp;gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        .AddEntityFrameworkStores&amp;lt;ApplicationDbContext&amp;gt;().AddDefaultTokenProviders();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;测试扩展类ApplicationUser类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在repository.test项目下添加ApplicationDbContextTest类用来测试新追加的ApplicationUser类&lt;br&gt;
+添加测试代码，用来获取指定的用户，并设置CustomTag字段，执行后数据库中能够查询到设置的值。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;ApplicationDbContextTest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Mock&amp;lt;IDbContextFactory&amp;lt;ApplicationDbContext&amp;gt;&amp;gt; factory;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [SetUp]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; Setup()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            String connString = &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;server=localhost; userid=xxxxx;pwd=xxxxxx;port=3306;database=nintens;Allow Zero Datetime=true;Convert Zero Datetime=True&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; optionsBuilder = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; DbContextOptionsBuilder&amp;lt;ApplicationDbContext&amp;gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            optionsBuilder.UseMySql(connString, ServerVersion.AutoDetect(connString));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            factory = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; Mock&amp;lt;IDbContextFactory&amp;lt;ApplicationDbContext&amp;gt;&amp;gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            factory.Setup(f =&amp;gt; f.CreateDbContext())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                .Returns(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; ApplicationDbContext(optionsBuilder.Options));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [Test]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; Test1()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; dbcontext = factory.Object.CreateDbContext();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; user = dbcontext.Users.Where(u =&amp;gt; u.UserName == &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;liuguanglong@yahoo.com&amp;#34;&lt;/span&gt;).FirstOrDefault();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            user.CustomTag = &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Administartor&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            dbcontext.SaveChanges();    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;将nintens解决方案中所有用到Identity类的代码改为使用ApplicationUser类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;二-使用identity-role实现用户权限控制&#34;&gt;二 使用Identity Role实现用户权限控制&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;修改NavMenu.razor代码，使用AuthorizeView来指定具有指定的角色才能看到View中的菜单项&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudNavLink Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt; Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Home&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt;&amp;gt;Home&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;AuthorizeView Roles=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Manager&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Calculate&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;counter&amp;#34;&lt;/span&gt;&amp;gt;Counter&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;fetchdata&amp;#34;&lt;/span&gt;&amp;gt; Fetch data&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/AuthorizeView&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;在Counter.razor页面和Fetch Data.razor中添加权限控制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@page &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/counter&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@attribute [Authorize(Roles = &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Manager&amp;#34;&lt;/span&gt;)]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@page &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/fetchdata&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@attribute [Authorize(Roles = &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Manager&amp;#34;&lt;/span&gt;)]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;启动程序，由于当前用户没有Manager权限，因此无法看到Counter和Fetch Data菜单项 &lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/MenuWithRole1.png&#34; alt=&#34;MenuWithRole1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;如果在浏览器中输入url访问指定的页面，会显示错误提示信息。&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/MenuWithRole3.png&#34; alt=&#34;MenuWithRole3&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;添加Manager角色，并给当前用户添加Manager角色&lt;br&gt;
+在ApplicationDbContextTest类中添加并执行以下代码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;[Test]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; InsertRole()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; dbcontext = factory.Object.CreateDbContext();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; role = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; IdentityRole(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Manager&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   role.NormalizedName = &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;MANAGER&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; roleManager = dbcontext.Roles.Add(role);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; user = dbcontext.Users.Where(u =&amp;gt; u.UserName == &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;liuguanglong@yahoo.com&amp;#34;&lt;/span&gt;).FirstOrDefault();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt;(user != &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;null&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; userRole = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; IdentityUserRole&amp;lt;String&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         RoleId = role.Id,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         UserId = user.Id
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      dbcontext.UserRoles.Add(userRole);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      dbcontext.SaveChanges();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;启动程序，重新登录后，可以看到Counter和Fetch Data菜单项&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/MenuWithRole2.png&#34; alt=&#34;MenuWithRole2&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;至此我们完成了使用asp.net Identity实现用户权限控制，完成了以下任务&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;扩展IdentityUser类用来保存业务上的扩展数据&lt;/li&gt;
+&lt;li&gt;使用Asp.net Identity Role实现用户权限控制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver5/&#34;&gt;http://www.nintens.com/posts/blazorserver5/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt;&lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+- http://www.nintens.com/posts/blazorserver5/ - Nintens@2022 Copywright</description>
+        </item>
     
     
     
