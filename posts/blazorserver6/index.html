@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html><head>
+<title>使用Blazor Server构建企业级应用(六) -- 提供基于Token的身份验证的WebApi服务</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-224238665-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css" integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media="screen">
+
+
+<script src="/vendor/js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons");
+</script>
+
+
+
+
+
+
+  <script src="/js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: '3231fec73fc43dd4bcc8',
+  clientSecret: 'f8ac50ce92aca43790a03f6f576b02fdfe0eb0a8',
+  repo: 'nintens.com',
+  owner: 'liuguanglong',
+  admin: ['liuguanglong'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>console.log("Hello from 'layouts/partials/extended_head.html'")</script>
+
+</head>
+<body>
+    	<div id="app"><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="http://www.nintens.com/">
+    
+        <div class="nav-title">
+            Nintens&#39; Blogs 
+        </div>
+        
+        <div class="nav-subtitle">
+            应无所住而生其心
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/categories">
+                Categories
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/tags">
+                Tags
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e5%85%ad-%e6%8f%90%e4%be%9b%e5%9f%ba%e4%ba%8etoken%e7%9a%84%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e7%9a%84webapi%e6%9c%8d%e5%8a%a1" onclick="onNavClick(`#使用blazor-server构建企业级应用六-提供基于token的身份验证的webapi服务-nav`)" id="使用blazor-server构建企业级应用六-提供基于token的身份验证的webapi服务-nav">
+									使用Blazor Server构建企业级应用（六) 提供基于Token的身份验证的WebApi服务
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80--%e6%8f%90%e4%be%9b%e5%9f%ba%e4%ba%8ewebapi-restful%e6%9c%8d%e5%8a%a1%e4%be%9b%e5%a4%96%e9%83%a8%e7%b3%bb%e7%bb%9f%e8%ae%bf%e9%97%ae" onclick="onNavClick(`#一--提供基于webapi-restful服务供外部系统访问-nav`)" id="一--提供基于webapi-restful服务供外部系统访问-nav">
+									一 提供基于Webapi Restful服务供外部系统访问
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c--%e4%bd%bf%e7%94%a8swagger%e6%8f%90%e4%be%9bwebapi%e6%8e%a5%e5%8f%a3%e4%bf%a1%e6%81%af" onclick="onNavClick(`#二--使用swagger提供webapi接口信息-nav`)" id="二--使用swagger提供webapi接口信息-nav">
+									二 使用Swagger提供Webapi接口信息
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89--%e7%bb%99webapi%e6%9c%8d%e5%8a%a1%e6%b7%bb%e5%8a%a0%e8%ba%ab%e4%bb%bd%e5%92%8c%e6%9d%83%e9%99%90%e9%aa%8c%e8%af%81" onclick="onNavClick(`#三--给webapi服务添加身份和权限验证-nav`)" id="三--给webapi服务添加身份和权限验证-nav">
+									三 给WebApi服务添加身份和权限验证
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%9b%9b--%e4%bd%bf%e7%94%a8swagger%e6%94%af%e6%8c%81%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81" onclick="onNavClick(`#四--使用swagger支持身份验证-nav`)" id="四--使用swagger支持身份验证-nav">
+									四 使用Swagger支持身份验证
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+<div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/categories">
+                    Categories
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/tags">
+                    Tags
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e5%85%ad-%e6%8f%90%e4%be%9b%e5%9f%ba%e4%ba%8etoken%e7%9a%84%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e7%9a%84webapi%e6%9c%8d%e5%8a%a1" onclick="onNavClick(`#使用blazor-server构建企业级应用六-提供基于token的身份验证的webapi服务-nav`)" id="使用blazor-server构建企业级应用六-提供基于token的身份验证的webapi服务-nav">
+									使用Blazor Server构建企业级应用（六) 提供基于Token的身份验证的WebApi服务
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80--%e6%8f%90%e4%be%9b%e5%9f%ba%e4%ba%8ewebapi-restful%e6%9c%8d%e5%8a%a1%e4%be%9b%e5%a4%96%e9%83%a8%e7%b3%bb%e7%bb%9f%e8%ae%bf%e9%97%ae" onclick="onNavClick(`#一--提供基于webapi-restful服务供外部系统访问-nav`)" id="一--提供基于webapi-restful服务供外部系统访问-nav">
+									一 提供基于Webapi Restful服务供外部系统访问
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c--%e4%bd%bf%e7%94%a8swagger%e6%8f%90%e4%be%9bwebapi%e6%8e%a5%e5%8f%a3%e4%bf%a1%e6%81%af" onclick="onNavClick(`#二--使用swagger提供webapi接口信息-nav`)" id="二--使用swagger提供webapi接口信息-nav">
+									二 使用Swagger提供Webapi接口信息
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89--%e7%bb%99webapi%e6%9c%8d%e5%8a%a1%e6%b7%bb%e5%8a%a0%e8%ba%ab%e4%bb%bd%e5%92%8c%e6%9d%83%e9%99%90%e9%aa%8c%e8%af%81" onclick="onNavClick(`#三--给webapi服务添加身份和权限验证-nav`)" id="三--给webapi服务添加身份和权限验证-nav">
+									三 给WebApi服务添加身份和权限验证
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%9b%9b--%e4%bd%bf%e7%94%a8swagger%e6%94%af%e6%8c%81%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81" onclick="onNavClick(`#四--使用swagger支持身份验证-nav`)" id="四--使用swagger支持身份验证-nav">
+									四 使用Swagger支持身份验证
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="http://www.nintens.com/">
+            Nintens&#39; Blogs 
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="http://www.nintens.com/">
+        <div class="single-column-header-title">Nintens&#39; Blogs </div>
+        
+        <div class="single-column-header-subtitle">应无所住而生其心</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+                
+            
+
+            <div class="post-head-wrapper"
+                
+                    
+                    
+                    style="background-image: url('http://www.nintens.com/images/chinese.jpg')"
+                    
+                
+            >
+                <div class="post-title">
+                    使用Blazor Server构建企业级应用(六) -- 提供基于Token的身份验证的WebApi服务
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2022-04-10 23:25
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/blazor">blazor</a>
+                                &nbsp;
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/blazor-server">blazor server</a>
+                                &nbsp;
+                            
+                                <a href="/tags/asp.net-core">asp.net core</a>
+                                &nbsp;
+                            
+                                <a href="/tags/webapi">WebApi</a>
+                                &nbsp;
+                            
+                                <a href="/tags/restful-api">Restful Api</a>
+                                &nbsp;
+                            
+                                <a href="/tags/jwtbearer-token">JwtBearer Token</a>
+                                &nbsp;
+                            
+                                <a href="/tags/blazor-authentication-and-authorization">Blazor authentication and authorization</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    <h2 id="使用blazor-server构建企业级应用六-提供基于token的身份验证的webapi服务">使用Blazor Server构建企业级应用（六) 提供基于Token的身份验证的WebApi服务</h2>
+<p>本文地址：http://www.nintens.com/posts/blazorserver6/<br>
+作者邮箱：liuguanglong@yahoo.com<br>
+欢迎转载，请在明显位置给出出处及链接</p>
+<p>本文是nintens架构系列文章的第六篇，包含以下内容</p>
+<ul>
+<li>提供基于Webapi Restful服务供外部系统访问</li>
+<li>使用Swagger提供Webapi接口信息</li>
+<li>配置WebApi服务添加身份和权限验证</li>
+<li>配置Swagger身份验证</li>
+</ul>
+<h3 id="一--提供基于webapi-restful服务供外部系统访问">一  提供基于Webapi Restful服务供外部系统访问</h3>
+<ol>
+<li>添加WebApi Controller类，用来提供restful服务<br>
+在nintens项目下添加Controller文件夹，添加一个FetchDataController类<br>
+FetchDataContrller的路由到 baseurl/api/FetchData<br>
+类中的GetWeacherForeCast访问被映射到默认的Get请求</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#658b00">[Route(&#34;api/[controller]</span><span style="color:#cd5555">&#34;)]
+</span></span></span><span style="display:flex;"><span><span style="color:#cd5555"></span><span style="color:#658b00">[ApiController]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">FetchDataController</span> : ControllerBase
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    WeatherForecastService service;
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> FetchDataController(WeatherForecastService taskService)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">this</span>.service = taskService;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">    [HttpGet]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">async</span> Task&lt;ActionResult&lt;IEnumerable&lt;WeatherForecast&gt;&gt;&gt; GetWeatherForecast()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#00688b;font-weight:bold">var</span> forecasts = <span style="color:#8b008b;font-weight:bold">await</span> service.getWeatherForecasts();
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">return</span> Ok(forecasts);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="2">
+<li>项目中添加配置支持Controller<br>
+在Program.cs文件中加入以下代码</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>app.MapControllers();
+</span></span></code></pre></div><ol start="3">
+<li>访问Controller获取天气预报数据<br>
+运行程序，在浏览器中输入Contoller映射的访问地址<br>
+http://localhost:5007/api/FetchData<br>
+运行结果如下图<br>
+<img src="/images/blazorserverwebapi1.png" alt="blazorserverwebapi1"></li>
+</ol>
+<h3 id="二--使用swagger提供webapi接口信息">二  使用Swagger提供Webapi接口信息</h3>
+<ol>
+<li>nintens项目引入Swashbuckle.AspNetCore包，在程序包管理器中运行以下命令</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>Install-Package Swashbuckle.AspNetCore
+</span></span></code></pre></div><ol start="2">
+<li>在Startup.cs文件中添加以下代码</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>services.AddSwaggerGen(c =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    c.SwaggerDoc(<span style="color:#cd5555">&#34;v1&#34;</span>, <span style="color:#8b008b;font-weight:bold">new</span> OpenApiInfo { Title = <span style="color:#cd5555">&#34;NintensRestfulApi&#34;</span>, Version = <span style="color:#cd5555">&#34;v1&#34;</span> });
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><ol start="3">
+<li>在Program.cs文件中添加以下代码</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>app.UseSwagger();
+</span></span><span style="display:flex;"><span>app.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(<span style="color:#cd5555">&#34;/swagger/v1/swagger.json&#34;</span>, <span style="color:#cd5555">&#34;NintensRestfulApi v1&#34;</span>));
+</span></span></code></pre></div><p>运行程序，在浏览器中访问Swagger地址  http://localhost:2551/swagger/index.html</p>
+<p>浏览器中显示Swagger自带的UI<br>
+<img src="/images/blazorserverwebapi2.png" alt="blazorserverwebapi2"></p>
+<p>点击画面中的Execute，获取FetchData运行结果 <br>
+<img src="/images/blazorserverwebapi3.png" alt="blazorserverwebapi3"></p>
+<h3 id="三--给webapi服务添加身份和权限验证">三  给WebApi服务添加身份和权限验证</h3>
+<ol>
+<li>nintens项目引入Microsoft.AspNetCore.Authentication.JwtBearer包，在程序包管理器中运行以下命令</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>Install-Package Microsoft.AspNetCore.Authentication.JwtBearer
+</span></span></code></pre></div><ol start="2">
+<li>添加登录获取Token的Controller</li>
+</ol>
+<p>在Controllers文件夹下添加AuthenticateController类<br>
+Login方法验证用户名和密码，如果验证成功将用户的Role信息放到Token中返回给请求方</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">LoginModel</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span><span style="color:#658b00">        [Required(ErrorMessage = &#34;User Name is required&#34;)]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">string</span> Username { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Required(ErrorMessage = &#34;Password is required&#34;)]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">string</span> Password { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">    [Route(&#34;api/[controller]</span><span style="color:#cd5555">&#34;)]
+</span></span></span><span style="display:flex;"><span><span style="color:#cd5555"></span><span style="color:#658b00">    [ApiController]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">AuthenticateController</span> : ControllerBase
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#8b008b;font-weight:bold">readonly</span> UserManager&lt;IdentityUser&gt; userManager;
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#8b008b;font-weight:bold">readonly</span> RoleManager&lt;IdentityRole&gt; roleManager;
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#8b008b;font-weight:bold">readonly</span> IConfiguration <span style="color:#b452cd">_</span>configuration;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> AuthenticateController(UserManager&lt;IdentityUser&gt; userManager, RoleManager&lt;IdentityRole&gt; roleManager, IConfiguration configuration)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">this</span>.userManager = userManager;
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">this</span>.roleManager = roleManager;
+</span></span><span style="display:flex;"><span>            <span style="color:#b452cd">_</span>configuration = configuration;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [HttpPost]</span>
+</span></span><span style="display:flex;"><span><span style="color:#658b00">        [Route(&#34;login&#34;)]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">async</span> Task&lt;IActionResult&gt; Login([FromBody] LoginModel model)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> user = userManager.FindByNameAsync(model.Username).Result;
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">if</span> (user != <span style="color:#8b008b;font-weight:bold">null</span> &amp;&amp; <span style="color:#8b008b;font-weight:bold">await</span> userManager.CheckPasswordAsync(user, model.Password))
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#00688b;font-weight:bold">var</span> userRoles = <span style="color:#8b008b;font-weight:bold">await</span> userManager.GetRolesAsync(user);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#00688b;font-weight:bold">var</span> authClaims = <span style="color:#8b008b;font-weight:bold">new</span> List&lt;Claim&gt;
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    <span style="color:#8b008b;font-weight:bold">new</span> Claim(ClaimTypes.Name, user.UserName),
+</span></span><span style="display:flex;"><span>                    <span style="color:#8b008b;font-weight:bold">new</span> Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+</span></span><span style="display:flex;"><span>                };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#228b22">//Add Rolesinfo to Token</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">foreach</span> (<span style="color:#00688b;font-weight:bold">var</span> userRole <span style="color:#8b008b;font-weight:bold">in</span> userRoles)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    authClaims.Add(<span style="color:#8b008b;font-weight:bold">new</span> Claim(ClaimTypes.Role, userRole));
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#228b22">//Gen Token</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#00688b;font-weight:bold">var</span> authSigningKey = <span style="color:#8b008b;font-weight:bold">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(<span style="color:#b452cd">_</span>configuration[<span style="color:#cd5555">&#34;JWT:Secret&#34;</span>]));
+</span></span><span style="display:flex;"><span>                <span style="color:#00688b;font-weight:bold">var</span> token = <span style="color:#8b008b;font-weight:bold">new</span> JwtSecurityToken(
+</span></span><span style="display:flex;"><span>                    issuer: <span style="color:#b452cd">_</span>configuration[<span style="color:#cd5555">&#34;JWT:ValidIssuer&#34;</span>],
+</span></span><span style="display:flex;"><span>                    audience: <span style="color:#b452cd">_</span>configuration[<span style="color:#cd5555">&#34;JWT:ValidAudience&#34;</span>],
+</span></span><span style="display:flex;"><span>                    expires: DateTime.Now.AddHours(<span style="color:#b452cd">3</span>),
+</span></span><span style="display:flex;"><span>                    claims: authClaims,
+</span></span><span style="display:flex;"><span>                    signingCredentials: <span style="color:#8b008b;font-weight:bold">new</span> SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+</span></span><span style="display:flex;"><span>                    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">return</span> Ok(<span style="color:#8b008b;font-weight:bold">new</span>
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    token = <span style="color:#8b008b;font-weight:bold">new</span> JwtSecurityTokenHandler().WriteToken(token),
+</span></span><span style="display:flex;"><span>                    expiration = token.ValidTo
+</span></span><span style="display:flex;"><span>                });
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> Unauthorized();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ol start="3">
+<li>在客户端机密存储中加入Token方法用到的信息</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JSON" data-lang="JSON"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#8b008b;font-weight:bold">&#34;JWT&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">&#34;ValidAudience&#34;</span>: <span style="color:#cd5555">&#34;http://localhost:4200&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">&#34;ValidIssuer&#34;</span>: <span style="color:#cd5555">&#34;www.nintens.com&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">&#34;Secret&#34;</span>: <span style="color:#cd5555">&#34;ByYM000OLlMQG6VVVp1OH7Xzyr7gHuw1qnintens@2021+&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="4">
+<li>添加BearerToken验证功能</li>
+</ol>
+<p>在nintens项目下添加JwtBearerConfiguration类，</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>  <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">static</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">JwtBearerConfiguration</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">static</span> AuthenticationBuilder AddJwtBearerConfiguration(<span style="color:#8b008b;font-weight:bold">this</span> AuthenticationBuilder builder,<span style="color:#00688b;font-weight:bold">string</span> ValidIssuer, <span style="color:#00688b;font-weight:bold">string</span> ValidAudience, <span style="color:#00688b;font-weight:bold">string</span> secret)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> builder.AddJwtBearer(options =&gt;
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                options.SaveToken = <span style="color:#8b008b;font-weight:bold">true</span>;
+</span></span><span style="display:flex;"><span>                options.RequireHttpsMetadata = <span style="color:#8b008b;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>                options.TokenValidationParameters = <span style="color:#8b008b;font-weight:bold">new</span> TokenValidationParameters()
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    ClockSkew = <span style="color:#8b008b;font-weight:bold">new</span> System.TimeSpan(<span style="color:#b452cd">0</span>, <span style="color:#b452cd">0</span>, <span style="color:#b452cd">30</span>),
+</span></span><span style="display:flex;"><span>                    ValidateIssuerSigningKey = <span style="color:#8b008b;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>                    ValidateIssuer = <span style="color:#8b008b;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>                    ValidateAudience = <span style="color:#8b008b;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>                    ValidAudience = ValidAudience,
+</span></span><span style="display:flex;"><span>                    ValidIssuer = ValidIssuer,
+</span></span><span style="display:flex;"><span>                    IssuerSigningKey = <span style="color:#8b008b;font-weight:bold">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+</span></span><span style="display:flex;"><span>                };
+</span></span><span style="display:flex;"><span>                options.Events = <span style="color:#8b008b;font-weight:bold">new</span> JwtBearerEvents()
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    OnChallenge = context =&gt;
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        context.HandleResponse();
+</span></span><span style="display:flex;"><span>                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+</span></span><span style="display:flex;"><span>                        context.Response.ContentType = <span style="color:#cd5555">&#34;application/json&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#228b22">// Ensure we always have an error and error description.</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#8b008b;font-weight:bold">if</span> (<span style="color:#00688b;font-weight:bold">string</span>.IsNullOrEmpty(context.Error))
+</span></span><span style="display:flex;"><span>                            context.Error = <span style="color:#cd5555">&#34;invalid_token&#34;</span>;
+</span></span><span style="display:flex;"><span>                        <span style="color:#8b008b;font-weight:bold">if</span> (<span style="color:#00688b;font-weight:bold">string</span>.IsNullOrEmpty(context.ErrorDescription))
+</span></span><span style="display:flex;"><span>                            context.ErrorDescription = <span style="color:#cd5555">&#34;This request requires a valid JWT access token to be provided&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#228b22">// Add some extra context for expired tokens.</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#8b008b;font-weight:bold">if</span> (context.AuthenticateFailure != <span style="color:#8b008b;font-weight:bold">null</span> &amp;&amp; context.AuthenticateFailure.GetType() == <span style="color:#8b008b;font-weight:bold">typeof</span>(SecurityTokenExpiredException))
+</span></span><span style="display:flex;"><span>                        {
+</span></span><span style="display:flex;"><span>                            <span style="color:#00688b;font-weight:bold">var</span> authenticationException = context.AuthenticateFailure <span style="color:#8b008b;font-weight:bold">as</span> SecurityTokenExpiredException;
+</span></span><span style="display:flex;"><span>                            context.Response.Headers.Add(<span style="color:#cd5555">&#34;x-token-expired&#34;</span>, authenticationException.Expires.ToString(<span style="color:#cd5555">&#34;o&#34;</span>));
+</span></span><span style="display:flex;"><span>                            context.ErrorDescription = <span style="color:#cd5555">$&#34;The token expired on {authenticationException.Expires.ToString(&#34;</span>o<span style="color:#cd5555">&#34;)}&#34;</span>;
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#8b008b;font-weight:bold">return</span> context.Response.WriteAsync(JsonSerializer.Serialize(<span style="color:#8b008b;font-weight:bold">new</span>
+</span></span><span style="display:flex;"><span>                        {
+</span></span><span style="display:flex;"><span>                            error = context.Error,
+</span></span><span style="display:flex;"><span>                            error_description = context.ErrorDescription
+</span></span><span style="display:flex;"><span>                        }));
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                };
+</span></span><span style="display:flex;"><span>            });
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ol start="5">
+<li>添加BearerToken认证
+修改Startup.cs文件，添加JwtBearerToken认证</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>services.AddAuthentication(<span style="color:#cd5555">&#34;Identity.Application&#34;</span>)
+</span></span><span style="display:flex;"><span>    .AddCookie()
+</span></span><span style="display:flex;"><span>    .AddJwtBearerConfiguration(
+</span></span><span style="display:flex;"><span>        Configuration[<span style="color:#cd5555">&#34;Jwt:ValidIssuer&#34;</span>],
+</span></span><span style="display:flex;"><span>        Configuration[<span style="color:#cd5555">&#34;Jwt:ValidAudience&#34;</span>],
+</span></span><span style="display:flex;"><span>        Configuration[<span style="color:#cd5555">&#34;JWT:Secret&#34;</span>]
+</span></span><span style="display:flex;"><span>  ); 
+</span></span></code></pre></div><ol start="6">
+<li>给WebApi服务添加权限控制</li>
+</ol>
+<p>修改FetchDataController类，在类上添加Authorize属性，要求用户具有ServiceUser角色才能访问此服务</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#658b00">    [Authorize(Roles = &#34;ServiceUser&#34;, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#658b00">    [Route(&#34;api/[controller]</span><span style="color:#cd5555">&#34;)]
+</span></span></span><span style="display:flex;"><span><span style="color:#cd5555"></span><span style="color:#658b00">    [ApiController]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">FetchDataController</span> : ControllerBase
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        WeatherForecastService service;
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> FetchDataController(WeatherForecastService taskService)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">this</span>.service = taskService;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [HttpGet]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">async</span> Task&lt;ActionResult&lt;IEnumerable&lt;WeatherForecast&gt;&gt;&gt; GetWeatherForecast()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> forecasts = <span style="color:#8b008b;font-weight:bold">await</span> service.getWeatherForecasts();
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> Ok(forecasts);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ol start="7">
+<li>通过浏览器访问FetchData服务</li>
+</ol>
+<p>因为当前用户没有ServiceUser角色，所以执行结果是error.</p>
+<p><img src="/images/blazorserverwebapi4.png" alt="blazorserverwebapi4"></p>
+<ol start="8">
+<li>给用户添加ServiceUser角色</li>
+</ol>
+<p>执行以下代码添加ServiceUser角色并给当前用户添加ServiceUser角色</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#658b00">        [Test]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">void</span> AddServiceUser()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> dbcontext = factory.Object.CreateDbContext();
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> role = <span style="color:#8b008b;font-weight:bold">new</span> IdentityRole(<span style="color:#cd5555">&#34;ServiceUser&#34;</span>);
+</span></span><span style="display:flex;"><span>            role.NormalizedName = <span style="color:#cd5555">&#34;SERVICEUSER&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> roleManager = dbcontext.Roles.Add(role);
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> user = dbcontext.Users.Where(u =&gt; u.UserName == <span style="color:#cd5555">&#34;liuguanglong@yahoo.com&#34;</span>).FirstOrDefault();
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">if</span> (user != <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#00688b;font-weight:bold">var</span> userRole = <span style="color:#8b008b;font-weight:bold">new</span> IdentityUserRole&lt;String&gt;
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    RoleId = role.Id,
+</span></span><span style="display:flex;"><span>                    UserId = user.Id
+</span></span><span style="display:flex;"><span>                };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                dbcontext.UserRoles.Add(userRole);
+</span></span><span style="display:flex;"><span>                dbcontext.SaveChanges();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><ol start="9">
+<li>使用Postman获取Token并访问权限</li>
+</ol>
+<p>Post方式访问 http://localhost:2551/api/Authenticate/login<br>
+Body内容输入</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JSON" data-lang="JSON"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">&#34;Username&#34;</span>:<span style="color:#cd5555">&#34;liuguanglong@yahoo.com&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">&#34;Password&#34;</span>:<span style="color:#cd5555">&#34;xxxxxxxxx&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>成功获取Token<br>
+<img src="/images/blazorserverwebapi5.png" alt="blazorserverwebapi5"></p>
+<p>使用Token访问FetchData方法,成功返回<br>
+<img src="/images/blazorserverwebapi6.png" alt="blazorserverwebapi6"></p>
+<h3 id="四--使用swagger支持身份验证">四  使用Swagger支持身份验证</h3>
+<ol>
+<li>修改Swagger配置，让swagger接受BearerToken授权</li>
+</ol>
+<p>修改Startup.cs文件中Swagger生成配置信息</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>services.AddSwaggerGen(opt =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    opt.SwaggerDoc(<span style="color:#cd5555">&#34;v1&#34;</span>, <span style="color:#8b008b;font-weight:bold">new</span> OpenApiInfo { Title = <span style="color:#cd5555">&#34;NintensRestfulApi&#34;</span>, Version = <span style="color:#cd5555">&#34;v1&#34;</span> });
+</span></span><span style="display:flex;"><span>    opt.AddSecurityDefinition(<span style="color:#cd5555">&#34;Bearer&#34;</span>, <span style="color:#8b008b;font-weight:bold">new</span> OpenApiSecurityScheme
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        In = ParameterLocation.Header,
+</span></span><span style="display:flex;"><span>        Description = <span style="color:#cd5555">&#34;Please enter token&#34;</span>,
+</span></span><span style="display:flex;"><span>        Name = <span style="color:#cd5555">&#34;Authorization&#34;</span>,
+</span></span><span style="display:flex;"><span>        Type = SecuritySchemeType.Http,
+</span></span><span style="display:flex;"><span>        BearerFormat = <span style="color:#cd5555">&#34;JWT&#34;</span>,
+</span></span><span style="display:flex;"><span>        Scheme = <span style="color:#cd5555">&#34;bearer&#34;</span>
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    opt.AddSecurityRequirement(<span style="color:#8b008b;font-weight:bold">new</span> OpenApiSecurityRequirement
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">new</span> OpenApiSecurityScheme
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                Reference = <span style="color:#8b008b;font-weight:bold">new</span> OpenApiReference
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    Type=ReferenceType.SecurityScheme,
+</span></span><span style="display:flex;"><span>                    Id=<span style="color:#cd5555">&#34;Bearer&#34;</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">new</span> <span style="color:#00688b;font-weight:bold">string</span>[]{}
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><ol start="2">
+<li>使用Swagger登录获取Token<br>
+访问login服务，输入用户名和密码，成功获取Token值</li>
+</ol>
+<p><img src="/images/blazorserverwebapi7.png" alt="blazorserverwebapi7"></p>
+<ol start="3">
+<li>使用Token值获取授权<br>
+在swagger UI中点击Authorize按钮，然后输入login服务获取的Token值</li>
+</ol>
+<p><img src="/images/blazorserverwebapi8.png" alt="blazorserverwebapi8"></p>
+<ol start="4">
+<li>直接访问fetchdata服务</li>
+</ol>
+<p>访问服务时，swagger会把BearToken作为Authorization的值追加到http request的head部分<br>
+<img src="/images/blazorserverwebapi9.png" alt="blazorserverwebapi9"></p>
+<p>设置好Swagger的Token验证后，现在不再需要postman也可以直接测试和验证WebAPI服务</p>
+<h3 id="总结">总结</h3>
+<p>本文是至此我们完成了架构中WebApi服务相关的配置，实现了以下功能</p>
+<ul>
+<li>提供基于Webapi Restful服务供外部系统访问</li>
+<li>使用Swagger提供Webapi接口信息</li>
+<li>配置WebApi服务添加身份和权限验证</li>
+<li>配置Swagger身份验证</li>
+</ul>
+<p>本文地址：<a href="http://www.nintens.com/posts/blazorserver6/">http://www.nintens.com/posts/blazorserver6/</a><br>
+作者邮箱：<a href="mailto:liuguanglong@yahoo.com">liuguanglong@yahoo.com</a><br>
+欢迎转载，请在明显位置给出出处及链接</p>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2022-04-10</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts">
+			Next<br>No newer posts.
+                </a>
+                
+                
+                
+                <a class="older-posts" href="http://www.nintens.com/posts/blazorserver5/">
+			Previous<br>使用Blazor Server构建企业级应用(五) -- 使用asp.net Identity完成功能的权限控制
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script>
+    </body>
+</html>

@@ -7,13 +7,58 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sat, 09 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 10 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>asp.net core</title>
       <link>http://www.nintens.com/tags/asp.net-core/</link>
-      <pubDate>Sat, 09 Apr 2022 23:25:05 -0400</pubDate>
+      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
       
       <guid>http://www.nintens.com/tags/asp.net-core/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blazor authentication and authorization</title>
+      <link>http://www.nintens.com/tags/blazor-authentication-and-authorization/</link>
+      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/blazor-authentication-and-authorization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blazor server</title>
+      <link>http://www.nintens.com/tags/blazor-server/</link>
+      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/blazor-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JwtBearer Token</title>
+      <link>http://www.nintens.com/tags/jwtbearer-token/</link>
+      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/jwtbearer-token/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Restful Api</title>
+      <link>http://www.nintens.com/tags/restful-api/</link>
+      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/restful-api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WebApi</title>
+      <link>http://www.nintens.com/tags/webapi/</link>
+      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/webapi/</guid>
       <description></description>
     </item>
     
@@ -23,24 +68,6 @@
       <pubDate>Sat, 09 Apr 2022 23:25:05 -0400</pubDate>
       
       <guid>http://www.nintens.com/tags/asp.net-identity/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Blazor authentication and authorization</title>
-      <link>http://www.nintens.com/tags/blazor-authentication-and-authorization/</link>
-      <pubDate>Sat, 09 Apr 2022 23:25:05 -0400</pubDate>
-      
-      <guid>http://www.nintens.com/tags/blazor-authentication-and-authorization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>blazor server</title>
-      <link>http://www.nintens.com/tags/blazor-server/</link>
-      <pubDate>Sat, 09 Apr 2022 23:25:05 -0400</pubDate>
-      
-      <guid>http://www.nintens.com/tags/blazor-server/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JwtBearer Token on Nintens&#39; Blogs </title>
+    <link>http://www.nintens.com/tags/jwtbearer-token/</link>
+    <description>Recent content in JwtBearer Token on Nintens&#39; Blogs </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Nintens@2022 Copywright</copyright>
+    <lastBuildDate>Sun, 10 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/jwtbearer-token/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Blazor Server构建企业级应用(六) -- 提供基于Token的身份验证的WebApi服务</title>
+      <link>http://www.nintens.com/posts/blazorserver6/</link>
+      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/posts/blazorserver6/</guid>
+      <description>使用Blazor Server构建企业级应用（六) 提供基于Token的身份验证的WebApi服务 本文地址：http://www.nintens.com/posts/blazorserver6/
+作者邮箱：liuguanglong@yahoo.com
+欢迎转载，请在明显位置给出出处及链接
+本文是nintens架构系列文章的第六篇，包含以下内容
+ 提供基于Webapi Restful服务供外部系统访问 使用Swagger提供Webapi接口信息 配置WebApi服务添加身份和权限验证 配置Swagger身份验证  一 提供基于Webapi Restful服务供外部系统访问  添加WebApi Controller类，用来提供restful服务
+在nintens项目下添加Controller文件夹，添加一个FetchDataController类
+FetchDataContrller的路由到 baseurl/api/FetchData
+类中的GetWeacherForeCast访问被映射到默认的Get请求  [Route(&amp;#34;api/[controller]&amp;#34;)] [ApiController] public class FetchDataController : ControllerBase {  WeatherForecastService service;  public FetchDataController(WeatherForecastService taskService)  {  this.service = taskService;  } [HttpGet]  public async Task&amp;lt;ActionResult&amp;lt;IEnumerable&amp;lt;WeatherForecast&amp;gt;&amp;gt;&amp;gt; GetWeatherForecast()  {  var forecasts = await service.getWeatherForecasts();  return Ok(forecasts);  } } 项目中添加配置支持Controller
+在Program.cs文件中加入以下代码  app.</description>
+    </item>
+    
+  </channel>
+</rss>
