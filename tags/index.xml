@@ -7,13 +7,67 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sun, 10 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>asp.net core</title>
       <link>http://www.nintens.com/tags/asp.net-core/</link>
-      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
+      <pubDate>Tue, 19 Apr 2022 23:25:05 -0400</pubDate>
       
       <guid>http://www.nintens.com/tags/asp.net-core/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blazor server</title>
+      <link>http://www.nintens.com/tags/blazor-server/</link>
+      <pubDate>Tue, 19 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/blazor-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Culture</title>
+      <link>http://www.nintens.com/tags/culture/</link>
+      <pubDate>Tue, 19 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/culture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Localization</title>
+      <link>http://www.nintens.com/tags/localization/</link>
+      <pubDate>Tue, 19 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/localization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Local Time</title>
+      <link>http://www.nintens.com/tags/local-time/</link>
+      <pubDate>Sun, 17 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/local-time/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Serilog</title>
+      <link>http://www.nintens.com/tags/serilog/</link>
+      <pubDate>Sun, 17 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/serilog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TimeZone</title>
+      <link>http://www.nintens.com/tags/timezone/</link>
+      <pubDate>Sun, 17 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/tags/timezone/</guid>
       <description></description>
     </item>
     
@@ -23,15 +77,6 @@
       <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
       
       <guid>http://www.nintens.com/tags/blazor-authentication-and-authorization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>blazor server</title>
-      <link>http://www.nintens.com/tags/blazor-server/</link>
-      <pubDate>Sun, 10 Apr 2022 23:25:05 -0400</pubDate>
-      
-      <guid>http://www.nintens.com/tags/blazor-server/</guid>
       <description></description>
     </item>
     
@@ -86,15 +131,6 @@
       <pubDate>Sat, 02 Apr 2022 23:25:05 -0400</pubDate>
       
       <guid>http://www.nintens.com/tags/mysql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Serilog</title>
-      <link>http://www.nintens.com/tags/serilog/</link>
-      <pubDate>Sat, 02 Apr 2022 23:25:05 -0400</pubDate>
-      
-      <guid>http://www.nintens.com/tags/serilog/</guid>
       <description></description>
     </item>
     

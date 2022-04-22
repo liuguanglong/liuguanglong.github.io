@@ -6,9 +6,587 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sun, 10 Apr 2022 23:25:05 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 19 Apr 2022 23:25:05 -0400</lastBuildDate>
     
         <atom:link href="http://www.nintens.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>使用Blazor Server构建企业级应用(八) -- 画面的本地化</title>
+        <link>http://www.nintens.com/posts/blazorserver8/</link>
+        <pubDate>Tue, 19 Apr 2022 23:25:05 -0400</pubDate>
+        
+        <guid>http://www.nintens.com/posts/blazorserver8/</guid>
+        <description>Nintens&#39; Blogs  http://www.nintens.com/posts/blazorserver8/ -&lt;h2 id=&#34;使用blazor-server构建企业级应用八----画面的本地化&#34;&gt;使用Blazor Server构建企业级应用(八) &amp;ndash; 画面的本地化&lt;/h2&gt;
+&lt;p&gt;本文地址：http://www.nintens.com/posts/blazorserver8/&lt;br&gt;
+作者邮箱：liuguanglong@yahoo.com&lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+&lt;p&gt;本文是nintens架构系列文章的第八篇，包含以下内容&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;配置应用支持本地化&lt;/li&gt;
+&lt;li&gt;支持用户选择本地化语言&lt;/li&gt;
+&lt;li&gt;业务画面支持多语言&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;一--配置应用支持本地化&#34;&gt;一  配置应用支持本地化&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;配置应用支持Localization&lt;br&gt;
+在StartUp.cs文件的ConfigureServices方法中添加如下代码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;services.AddLocalization();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;配置应用支持多语言&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在Program.cs文件中添加下面代码，应用支持英文和中文两种语言的本地化。设置英文为默认语言。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; supportedCultures = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt;[] { &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;en-US&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;zh-CN&amp;#34;&lt;/span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; localizationOptions = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; RequestLocalizationOptions().SetDefaultCulture(supportedCultures[&lt;span style=&#34;color:#b452cd&#34;&gt;0&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .AddSupportedCultures(supportedCultures)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    .AddSupportedUICultures(supportedCultures);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;localizationOptions.ApplyCurrentCultureToResponseHeaders = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; questStringCultureProvider = localizationOptions.RequestCultureProviders[&lt;span style=&#34;color:#b452cd&#34;&gt;0&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;localizationOptions.RequestCultureProviders.RemoveAt(&lt;span style=&#34;color:#b452cd&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;localizationOptions.RequestCultureProviders.Insert(&lt;span style=&#34;color:#b452cd&#34;&gt;1&lt;/span&gt;, questStringCultureProvider);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;app.UseRequestLocalization(localizationOptions);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;二--支持用户选择本地化语言&#34;&gt;二  支持用户选择本地化语言&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;添加将语言宣言添加到Cookie的Controller&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在Controller文件夹下添加CultureController类,代码中的Set方法将Culture值放到用户Cookie中&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;    [Route(&amp;#34;api/[controller]&lt;/span&gt;/[action]&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;)]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#cd5555&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;    [ApiController]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;CultureController&lt;/span&gt; : ControllerBase
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; IActionResult Set(&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;string&lt;/span&gt; culture, &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;string&lt;/span&gt; redirectUri)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (culture != &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;null&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                HttpContext.Response.Cookies.Append(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    CookieRequestCultureProvider.DefaultCookieName,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    CookieRequestCultureProvider.MakeCookieValue(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; RequestCulture(culture, culture)));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; LocalRedirect(redirectUri);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;在UserProfile中添加Culture选择功能&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;修改后的画面代码如下,添加了一个Select控件用来选择Culture&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@page &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/userprofile&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@if (curUser == &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;null&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudProgressCircular Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Primary&amp;#34;&lt;/span&gt; Indeterminate=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudGrid&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudItem xs=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;12&amp;#34;&lt;/span&gt; sm=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudPaper Class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;pa-4&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;MudForm&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;!-- Only allow edit &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; a &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; user --&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTextField T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;UserName&amp;#34;&lt;/span&gt; @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@curUser.UserName&amp;#34;&lt;/span&gt; Required=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; ReadOnly=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; RequiredError=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;User Name is required!&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSelect T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@curUser.TimeZoneId&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;TimeZone&amp;#34;&lt;/span&gt;  AnchorOrigin=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Origin.BottomCenter&amp;#34;&lt;/span&gt; Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Outlined&amp;#34;&lt;/span&gt; Clearable&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 @foreach (&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; timezone &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;in&lt;/span&gt; TimeZoneInfo.GetSystemTimeZones())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &amp;lt;MudSelectItem T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@timezone.Id&amp;#34;&lt;/span&gt;&amp;gt;@timezone.DisplayName&amp;lt;/MudSelectItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;/MudSelect&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSelect T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;CultureInfo&amp;#34;&lt;/span&gt;  @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Culture&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Culture&amp;#34;&lt;/span&gt;  AnchorOrigin=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Origin.BottomCenter&amp;#34;&lt;/span&gt; Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Outlined&amp;#34;&lt;/span&gt; Clearable&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 @foreach (&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; culture &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;in&lt;/span&gt; supportedCultures)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &amp;lt;MudSelectItem T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;CultureInfo&amp;#34;&lt;/span&gt; Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@culture&amp;#34;&lt;/span&gt;&amp;gt;@culture.DisplayName&amp;lt;/MudSelectItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;/MudSelect&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSpacer/&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 &amp;lt;div class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;d-flex flex-row-reverse&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                   &amp;lt;MudButton Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Filled&amp;#34;&lt;/span&gt; Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Primary&amp;#34;&lt;/span&gt; Size=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Size.Small&amp;#34;&lt;/span&gt; @onclick=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;(() =&amp;gt; Save())&amp;#34;&lt;/span&gt;&amp;gt;Save&amp;lt;/MudButton&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/MudForm&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/MudPaper&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/MudItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudGrid&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;修改UserProfile.razor.cs代码,添加Culture相关的处理逻辑。 
+当用户修改Culture时，调用CultureController中的Set方法，修改Cookie中的culture值&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;partial&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;UserProfile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;         [Inject]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        NavigationManager Nav { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt; ; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; Task OnInitializedAsync()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;base&lt;/span&gt;.OnInitialized();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            Culture = CultureInfo.CurrentCulture;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            StateHasChanged();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; CultureInfo[] supportedCultures = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt;[]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; CultureInfo(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;en-US&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; CultureInfo(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;zh-CN&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; CultureInfo Culture
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt; =&amp;gt; CultureInfo.CurrentCulture;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (CultureInfo.CurrentCulture != &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;value&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; uri = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; Uri(Nav.Uri)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; cultureEscaped = Uri.EscapeDataString(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;value&lt;/span&gt;.Name);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; uriEscaped = Uri.EscapeDataString(uri);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    Nav.NavigateTo(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &lt;span style=&#34;color:#cd5555&#34;&gt;$&amp;#34;api/Culture/Set?culture={cultureEscaped}&amp;amp;redirectUri={uriEscaped}&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        forceLoad: &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;三-业务画面支持多语言&#34;&gt;三 业务画面支持多语言&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;将Localization命名控件引入到所有的业务画面&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在_Imports.razor中添加以下代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@using Microsoft.Extensions.Localization
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;添加本地化资源文件&lt;br&gt;
+在UserProfile.razor所在目录添加两个资源文件 UserProfile.resx UserProfile.zh.resx分别对应缺省的英文本地化资源和中文本地化资源。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在两个文件中添加画面中要显示的三个项目&lt;/p&gt;
+&lt;p&gt;UserProfile.resx的内容如下图&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/local1.png&#34; alt=&#34;local1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;UserProfile.zh.resx的内容如下图&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/local2.png&#34; alt=&#34;local2&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;修改UserProfile画面，支持本地化展示&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在画面中使用注入的IStringLocalizer&lt;!-- raw HTML omitted --&gt;类实例Loc来获取当前用户选择Culture资源文件中的项目值。&lt;br&gt;
+如果要获取UserName项目值，只需要访问 Loc[&amp;ldquo;UserName&amp;rdquo;]即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@page &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/userprofile&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@using System.Globalization
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@inject IStringLocalizer&amp;lt;UserProfile&amp;gt; Loc
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@if (curUser == &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;null&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudProgressCircular Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Primary&amp;#34;&lt;/span&gt; Indeterminate=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudGrid&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudItem xs=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;12&amp;#34;&lt;/span&gt; sm=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudPaper Class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;pa-4&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;MudForm&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;!-- Only allow edit &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; a &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; user --&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTextField T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Loc[&amp;#34;&lt;/span&gt;UserName&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;]&amp;#34;&lt;/span&gt; @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@curUser.UserName&amp;#34;&lt;/span&gt; Required=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; ReadOnly=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; RequiredError=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;User Name is required!&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSelect T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@curUser.TimeZoneId&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Loc[&amp;#34;&lt;/span&gt;TimeZone&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;]&amp;#34;&lt;/span&gt;  AnchorOrigin=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Origin.BottomCenter&amp;#34;&lt;/span&gt; Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Outlined&amp;#34;&lt;/span&gt; Clearable&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 @foreach (&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; timezone &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;in&lt;/span&gt; TimeZoneInfo.GetSystemTimeZones())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &amp;lt;MudSelectItem T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@timezone.Id&amp;#34;&lt;/span&gt;&amp;gt;@timezone.DisplayName&amp;lt;/MudSelectItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;/MudSelect&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSelect T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;CultureInfo&amp;#34;&lt;/span&gt;  @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Culture&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Loc[&amp;#34;&lt;/span&gt;Culture&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;]&amp;#34;&lt;/span&gt;  AnchorOrigin=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Origin.BottomCenter&amp;#34;&lt;/span&gt; Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Outlined&amp;#34;&lt;/span&gt; Clearable&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 @foreach (&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; culture &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;in&lt;/span&gt; supportedCultures)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &amp;lt;MudSelectItem T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;CultureInfo&amp;#34;&lt;/span&gt; Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@culture&amp;#34;&lt;/span&gt;&amp;gt;@culture.DisplayName&amp;lt;/MudSelectItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;/MudSelect&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSpacer/&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 &amp;lt;div class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;d-flex flex-row-reverse&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                   &amp;lt;MudButton Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Filled&amp;#34;&lt;/span&gt; Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Primary&amp;#34;&lt;/span&gt; Size=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Size.Small&amp;#34;&lt;/span&gt; @onclick=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;(() =&amp;gt; Save())&amp;#34;&lt;/span&gt;&amp;gt;Save&amp;lt;/MudButton&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/MudForm&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/MudPaper&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/MudItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudGrid&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;运行应用&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;选择 User Profile页面&lt;/p&gt;
+&lt;p&gt;当用户Culture选择为中文时，运行效果如下图&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/local3.png&#34; alt=&#34;local3&#34;&gt;&lt;/p&gt;
+&lt;p&gt;当用户Culture选择为英文时，运行效果如下图&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/local4.png&#34; alt=&#34;local4&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;本文是至此我们完成了架构中关于支持多语言和本地化的处理，实现了以下功能&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;配置应用支持本地化&lt;/li&gt;
+&lt;li&gt;支持用户选择本地化语言&lt;/li&gt;
+&lt;li&gt;业务画面支持多语言&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver8/&#34;&gt;http://www.nintens.com/posts/blazorserver8/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt;&lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+- http://www.nintens.com/posts/blazorserver8/ - Nintens@2022 Copywright</description>
+        </item>
+    
+    
+    
+        <item>
+        <title>使用Blazor Server构建企业级应用(七) -- 按照时区表示时间类型数据</title>
+        <link>http://www.nintens.com/posts/blazorserver7/</link>
+        <pubDate>Sun, 17 Apr 2022 23:25:05 -0400</pubDate>
+        
+        <guid>http://www.nintens.com/posts/blazorserver7/</guid>
+        <description>Nintens&#39; Blogs  http://www.nintens.com/posts/blazorserver7/ -&lt;h2 id=&#34;使用blazor-server构建企业级应用七----按照时区表示时间类型数据&#34;&gt;使用Blazor Server构建企业级应用(七) &amp;ndash; 按照时区表示时间类型数据&lt;/h2&gt;
+&lt;p&gt;本文地址：http://www.nintens.com/posts/blazorserver7/&lt;br&gt;
+作者邮箱：liuguanglong@yahoo.com&lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+&lt;p&gt;本文是nintens架构系列文章的第七篇，包含以下内容&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;日期类行数据的存储&lt;/li&gt;
+&lt;li&gt;支持用户设置自己所在时区&lt;/li&gt;
+&lt;li&gt;按照用户所在时区展示时间数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;一--日期类行数据的存储&#34;&gt;一  日期类行数据的存储&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;保存时将时间类数据保存为UTC时间&lt;br&gt;
+时间类型的数据定义为DateTime类型，在Mysql中字段类型使用DATETIME。&lt;br&gt;
+成员属性和数据库字段映射列类型为timestamp.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;映射代码例子如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;modelBuilder.Entity&amp;lt;OperationLog&amp;gt;().Property(u =&amp;gt; u.Timestamp).HasColumnType(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;timestamp&amp;#34;&lt;/span&gt;).IsRequired(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;类实例创建时类成员的值取UTC时间&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   a.Timestamp = DateTime.UtcNow;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;二--支持用户设置自己所在时区&#34;&gt;二  支持用户设置自己所在时区&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;保存用户时区信息   &lt;br&gt;
+扩展ApplicationUser的属性，添加TimeZoneId信息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;ApplicationUser&lt;/span&gt; : IdentityUser
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;string?&lt;/span&gt; CustomTag { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;string?&lt;/span&gt; TimeZoneId { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; } = TimeZoneInfo.Local.Id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;修改数据库中aspnetusers表定义，添加一个TimeZoneId字段，类型为VARCHAR(45)&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;添加ApplicationUser的服务类&lt;br&gt;
+实现根据用户名获取用户信息和更新TimeZone信息的方法&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;ApplicationIdentityService&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; IDbContextFactory&amp;lt;ApplicationDbContext&amp;gt; contextFactory;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; ApplicationIdentityService(IDbContextFactory&amp;lt;ApplicationDbContext&amp;gt; contextFactory)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt;.contextFactory = contextFactory;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; Task&amp;lt;ApplicationUser&amp;gt; getUser(String name)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#008b45;text-decoration:underline&#34;&gt;var&lt;/span&gt; context = contextFactory.CreateDbContext();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; context.Users.Where(u =&amp;gt; u.UserName == name).FirstOrDefaultAsync();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; Task updateTimeZone(ApplicationUser user)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#008b45;text-decoration:underline&#34;&gt;var&lt;/span&gt; context = contextFactory.CreateDbContext();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; userinfo = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; context.Users.Where(u =&amp;gt; u.UserName == user.UserName).FirstOrDefaultAsync();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (userinfo != &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;null&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                userinfo.TimeZoneId = user.TimeZoneId;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; context.SaveChangesAsync();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;添加用户信息维护画面&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在Pages目录下添加一个Razor组件，取名字UserProfile.razor，添加一个类 UserProfile.razor.cs 用来保存组件的业务代码&lt;/p&gt;
+&lt;p&gt;UserProfile.razor页面的代码如下，主要是添加一个选择时区的控件。 选择控件的可选项为服务器支持的所有的时区&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@page &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/userprofile&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@if (curUser == &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;null&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudProgressCircular Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Primary&amp;#34;&lt;/span&gt; Indeterminate=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudGrid&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudItem xs=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;12&amp;#34;&lt;/span&gt; sm=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudPaper Class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;pa-4&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;MudForm&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;!-- Only allow edit &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; a &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; user --&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTextField T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;UserName&amp;#34;&lt;/span&gt; @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@curUser.UserName&amp;#34;&lt;/span&gt; Required=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; ReadOnly=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; RequiredError=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;User Name is required!&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSelect T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; @bind-Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@curUser.TimeZoneId&amp;#34;&lt;/span&gt; Label=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;TimeZone&amp;#34;&lt;/span&gt;  AnchorOrigin=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Origin.BottomCenter&amp;#34;&lt;/span&gt; Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Outlined&amp;#34;&lt;/span&gt; Clearable&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 @foreach (&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; timezone &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;in&lt;/span&gt; TimeZoneInfo.GetSystemTimeZones())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                        &amp;lt;MudSelectItem T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; Value=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@timezone.Id&amp;#34;&lt;/span&gt;&amp;gt;@timezone.DisplayName&amp;lt;/MudSelectItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;/MudSelect&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSpacer/&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 &amp;lt;div class=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;d-flex flex-row-reverse&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                   &amp;lt;MudButton Variant=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Variant.Filled&amp;#34;&lt;/span&gt; Color=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Primary&amp;#34;&lt;/span&gt; Size=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Size.Small&amp;#34;&lt;/span&gt; @onclick=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;(() =&amp;gt; Save())&amp;#34;&lt;/span&gt;&amp;gt;Save&amp;lt;/MudButton&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                 &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/MudForm&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/MudPaper&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/MudItem&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudGrid&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;UserProfile.razor.cs代码如下,添加了Save方法，调用ApplicationUser的服务类，用来保存用户时区信息。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;partial&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;UserProfile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [Inject]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        IHttpContextAccessor HttpContextAccessor { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [Inject]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ApplicationIdentityService service { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [Inject]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ILogger&amp;lt;UserProfile&amp;gt; logger { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; ApplicationUser curUser;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; Task OnInitializedAsync()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;base&lt;/span&gt;.OnInitialized();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            curUser = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; service.getUser(HttpContextAccessor.HttpContext.User.Identity.Name);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            StateHasChanged();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; Save()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; service.updateTimeZone(curUser);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            Snackbar.Add(&lt;span style=&#34;color:#cd5555&#34;&gt;$&amp;#34;User Profile is updated successfully!&amp;#34;&lt;/span&gt;, Severity.Info);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            StateHasChanged();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在StartUp.cs文件中添加以下代码注册ApplicationUser的存储服务类ApplicationIdentityService&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; services.AddTransient&amp;lt;ApplicationIdentityService&amp;gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在NavMenu.razor文件中添加菜单选项&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudNavLink Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt; Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Home&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt;&amp;gt;Home&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;testformbuilder&amp;#34;&lt;/span&gt;&amp;gt;Test Form Builder&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;userprofile&amp;#34;&lt;/span&gt;&amp;gt; User Profile&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;AuthorizeView Roles=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Manager&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Calculate&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;counter&amp;#34;&lt;/span&gt;&amp;gt;Counter&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;fetchdata&amp;#34;&lt;/span&gt;&amp;gt; Fetch data&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/AuthorizeView&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;运行程序，选择User Profile&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;运行效果如下图&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/timezone2.png&#34; alt=&#34;timezone2&#34;&gt;&lt;/p&gt;
+&lt;p&gt;用户可以选择和保存所在时区&lt;/p&gt;
+&lt;p&gt;查看数据库，可以看到用户的时区信息被保存在aspnetusers表中&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/timezone3.png&#34; alt=&#34;timezone3&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;三--按照用户所在时区展示时间数据&#34;&gt;三  按照用户所在时区展示时间数据&lt;/h3&gt;
+&lt;p&gt;我们实现一个例子用来表示使用Serilog保存的系统日志&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;添加日志数据类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;添加OperationLog类用来保存日志查询结果&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;OperationLog&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;int&lt;/span&gt; Id { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String EventInfo { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; DateTime? Timestamp { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String Message { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String User { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String Ip { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String Level { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String Exception { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String Properties { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [NotMapped]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String EventId
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (String.IsNullOrEmpty(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt;.EventInfo))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    JObject obj = JObject.Parse(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt;.EventInfo);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; obj.Value&amp;lt;String&amp;gt;(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Id&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            { }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [NotMapped]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; String EventName
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (String.IsNullOrEmpty(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt;.EventInfo))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    JObject obj = JObject.Parse(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;this&lt;/span&gt;.EventInfo);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; obj.Value&amp;lt;String&amp;gt;(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            { }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;在WeatherForecastService方法中添加一个查询日志的方法&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; Task&amp;lt;Tuple&amp;lt;&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;int&lt;/span&gt;, List&amp;lt;OperationLog&amp;gt;&amp;gt;&amp;gt; getLogs(String searchString, String sortLabel, &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;bool&lt;/span&gt; desc, &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;int&lt;/span&gt; pageSize, &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;int&lt;/span&gt; page)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#008b45;text-decoration:underline&#34;&gt;var&lt;/span&gt; context = contextFactory.CreateDbContext();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            String sql = &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (String.IsNullOrEmpty(searchString))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                sql = String.Format(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;select * from logs&amp;#34;&lt;/span&gt;, searchString);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                sql = String.Format(&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;select * from logs where eventid like &amp;#39;%{0}%&amp;#39; or message like &amp;#39;%{0}%&amp;#39; or user like &amp;#39;%{0}%&amp;#39; or ip like &amp;#39;%{0}%&amp;#39; or exception like &amp;#39;%{0}%&amp;#39;&amp;#34;&lt;/span&gt;, searchString);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (String.IsNullOrEmpty(sortLabel))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                sortLabel = &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Id&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                desc = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            sql = sql + &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34; order by &amp;#34;&lt;/span&gt; + sortLabel;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;if&lt;/span&gt; (desc)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                sql = sql + &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34; desc&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; total = context.operationLogs.FromSqlRaw(sql).Count();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; list = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; context.operationLogs.FromSqlRaw(sql).Skip(page * pageSize).Take(pageSize).ToListAsync();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; Tuple.Create(total, list);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;添加表示日志的页面Systemlog.razor&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;页面用来展示系统日志&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;@page &lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/systemlog&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudTable ServerData=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@(new Func&amp;lt;TableState, Task&amp;lt;TableData&amp;lt;OperationLog&amp;gt;&amp;gt;&amp;gt;(ServerReload))&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  Dense=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; Hover=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; Bordered=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; Striped=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; Context=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;log&amp;#34;&lt;/span&gt; @ref=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;table&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;ToolBarContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudSpacer /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTextField T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt; ValueChanged=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@(s=&amp;gt;OnSearch(s))&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                              FullWidth=&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;false&lt;/span&gt; Placeholder=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Search for Event Id,Event Name,Message,User,Ip,Exception&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                              Adornment=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Adornment.Start&amp;#34;&lt;/span&gt; AdornmentIcon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Material.Filled.Search&amp;#34;&lt;/span&gt; IconSize=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Size.Small&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;/MudTextField&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/ToolBarContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;HeaderContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;&amp;lt;MudTableSortLabel SortLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Id&amp;#34;&lt;/span&gt; T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;OperationLog&amp;#34;&lt;/span&gt;&amp;gt;Id&amp;lt;/MudTableSortLabel&amp;gt;&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;User&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;Event Id&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;Event Name&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;&amp;lt;MudTableSortLabel SortLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Timestamp&amp;#34;&lt;/span&gt; T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;OperationLog&amp;#34;&lt;/span&gt;&amp;gt;Timestamp&amp;lt;/MudTableSortLabel&amp;gt;&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;&amp;lt;MudTableSortLabel SortLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Message&amp;#34;&lt;/span&gt; T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;OperationLog&amp;#34;&lt;/span&gt;&amp;gt;Message&amp;lt;/MudTableSortLabel&amp;gt;&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;Ip&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;&amp;lt;MudTableSortLabel SortLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Level&amp;#34;&lt;/span&gt; T=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;OperationLog&amp;#34;&lt;/span&gt;&amp;gt;Level&amp;lt;/MudTableSortLabel&amp;gt;&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;Exception&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTh&amp;gt;Properties&amp;lt;/MudTh&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/HeaderContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;RowTemplate&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Id&amp;#34;&lt;/span&gt;&amp;gt;@log.Id&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;User&amp;#34;&lt;/span&gt;&amp;gt;@log.User&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Event Id&amp;#34;&lt;/span&gt;&amp;gt;@log.EventId&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Event Name&amp;#34;&lt;/span&gt;&amp;gt;@log.EventName&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Timestamp&amp;#34;&lt;/span&gt;&amp;gt;@ToLocalDateTime(log.Timestamp)&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Message&amp;#34;&lt;/span&gt;&amp;gt;@log.Message&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Ip&amp;#34;&lt;/span&gt;&amp;gt;@log.Ip&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Level&amp;#34;&lt;/span&gt;&amp;gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;@&lt;/span&gt;((LogLevel)Enum.Parse(&lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;typeof&lt;/span&gt;(LogLevel),@log.Level))&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Exception&amp;#34;&lt;/span&gt;&amp;gt;@log.Exception&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTd DataLabel=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Properties&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;/MudTd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/RowTemplate&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;NoRecordsContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudText&amp;gt;No matching records found&amp;lt;/MudText&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/NoRecordsContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;LoadingContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudText&amp;gt;Loading...&amp;lt;/MudText&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/LoadingContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;PagerContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &amp;lt;MudTablePager /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &amp;lt;/PagerContent&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;/MudTable&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;添加逻辑处理代码类Systemlog.razor.cs&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;画面初始化处理时根据当前用户名后获取时区信息Id。&lt;br&gt;
+使用ToLocalDateTime方法将日志中的UTC时间转换为当前时区的时间。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;partial&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#008b45;font-weight:bold&#34;&gt;Systemlog&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; MudTable&amp;lt;OperationLog&amp;gt; table;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;string&lt;/span&gt; searchString = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [Inject]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        IHttpContextAccessor HttpContextAccessor { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [Inject]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ApplicationIdentityService userservice { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#658b00&#34;&gt;        [Inject]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        WeatherForecastService service { &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;get&lt;/span&gt;; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;set&lt;/span&gt;; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        TimeZoneInfo zone = TimeZoneInfo.Local;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; Task OnInitializedAsync()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;base&lt;/span&gt;.OnInitialized();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;var&lt;/span&gt; user = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; userservice.getUser(HttpContextAccessor.HttpContext.User.Identity.Name);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            zone = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;void&lt;/span&gt; OnSearch(&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;string&lt;/span&gt; text)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            searchString = text;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            table.ReloadServerData();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;async&lt;/span&gt; Task&amp;lt;TableData&amp;lt;OperationLog&amp;gt;&amp;gt; ServerReload(TableState state)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            Tuple&amp;lt;&lt;span style=&#34;color:#00688b;font-weight:bold&#34;&gt;int&lt;/span&gt;, List&amp;lt;OperationLog&amp;gt;&amp;gt; ret = &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;await&lt;/span&gt; service.getLogs(searchString, state.SortLabel, state.SortDirection == SortDirection.Descending, state.PageSize, state.Page);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;new&lt;/span&gt; TableData&amp;lt;OperationLog&amp;gt;() { TotalItems = ret.Item1, Items = ret.Item2 };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;public&lt;/span&gt; DateTimeOffset ToLocalDateTime(DateTime? dateTime)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            DateTimeOffset utcTime = DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#8b008b;font-weight:bold&#34;&gt;return&lt;/span&gt; utcTime.ToOffset(zone.BaseUtcOffset);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;在NavMenu.razor文件中添加菜单选项&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C#&#34; data-lang=&#34;C#&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;MudNavLink Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;/&amp;#34;&lt;/span&gt; Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Home&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt;&amp;gt;Home&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;testformbuilder&amp;#34;&lt;/span&gt;&amp;gt;Test Form Builder&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;userprofile&amp;#34;&lt;/span&gt;&amp;gt; User Profile&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;systemlog&amp;#34;&lt;/span&gt;&amp;gt; System Logs&amp;lt;/MudNavLink&amp;gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;AuthorizeView Roles=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Manager&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.Calculate&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;counter&amp;#34;&lt;/span&gt;&amp;gt;Counter&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;MudNavLink Icon=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;@Icons.Filled.WbSunny&amp;#34;&lt;/span&gt; IconColor=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;Color.Tertiary&amp;#34;&lt;/span&gt; Href=&lt;span style=&#34;color:#cd5555&#34;&gt;&amp;#34;fetchdata&amp;#34;&lt;/span&gt;&amp;gt; Fetch data&amp;lt;/MudNavLink&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/AuthorizeView&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/MudNavMenu&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;运行程序，选择System Logs画面&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;运行效果如下图&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/timezone4.png&#34; alt=&#34;timezone4&#34;&gt;&lt;br&gt;
+可以看到日志的TimeStamp显示的是当前用户选择的Tokyo时间，东9区的时间，日期字符串最后 +09：00表示时间为UTC时间加9个小时。&lt;/p&gt;
+&lt;p&gt;通过User Profile页面将用户的时区改为Pacific Standard Time并保存。 切换到System Logs画面，运行效果如下图&lt;br&gt;
+&lt;img src=&#34;http://www.nintens.com/images/timezone5.png&#34; alt=&#34;timezone5&#34;&gt;&lt;br&gt;
+日志的TimeStamp显示的是当前用户选择的Pacific Standard Time时区的时间，西8区的时间， -08:00表示时间为UTC时间减去8个小时。&lt;/p&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;本文是至此我们完成了架构中时间类型数据的存储和按照时区展示的方法，实现了以下功能&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;日期类行数据的存储&lt;/li&gt;
+&lt;li&gt;支持用户设置自己所在时区&lt;/li&gt;
+&lt;li&gt;支持本地化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文地址：&lt;a href=&#34;http://www.nintens.com/posts/blazorserver7/&#34;&gt;http://www.nintens.com/posts/blazorserver7/&lt;/a&gt;&lt;br&gt;
+作者邮箱：&lt;a href=&#34;mailto:liuguanglong@yahoo.com&#34;&gt;liuguanglong@yahoo.com&lt;/a&gt;&lt;br&gt;
+欢迎转载，请在明显位置给出出处及链接&lt;/p&gt;
+- http://www.nintens.com/posts/blazorserver7/ - Nintens@2022 Copywright</description>
+        </item>
     
     
     

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Localization on Nintens&#39; Blogs </title>
+    <link>http://www.nintens.com/tags/localization/</link>
+    <description>Recent content in Localization on Nintens&#39; Blogs </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Nintens@2022 Copywright</copyright>
+    <lastBuildDate>Tue, 19 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/localization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Blazor Server构建企业级应用(八) -- 画面的本地化</title>
+      <link>http://www.nintens.com/posts/blazorserver8/</link>
+      <pubDate>Tue, 19 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/posts/blazorserver8/</guid>
+      <description>使用Blazor Server构建企业级应用(八) &amp;ndash; 画面的本地化 本文地址：http://www.nintens.com/posts/blazorserver8/
+作者邮箱：liuguanglong@yahoo.com
+欢迎转载，请在明显位置给出出处及链接
+本文是nintens架构系列文章的第八篇，包含以下内容
+ 配置应用支持本地化 支持用户选择本地化语言 业务画面支持多语言  一 配置应用支持本地化  配置应用支持Localization
+在StartUp.cs文件的ConfigureServices方法中添加如下代码  services.AddLocalization(); 配置应用支持多语言  在Program.cs文件中添加下面代码，应用支持英文和中文两种语言的本地化。设置英文为默认语言。
+var supportedCultures = new[] { &amp;#34;en-US&amp;#34;, &amp;#34;zh-CN&amp;#34; }; var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])  .AddSupportedCultures(supportedCultures)  .AddSupportedUICultures(supportedCultures); localizationOptions.ApplyCurrentCultureToResponseHeaders = true; var questStringCultureProvider = localizationOptions.RequestCultureProviders[0]; localizationOptions.RequestCultureProviders.RemoveAt(0); localizationOptions.RequestCultureProviders.Insert(1, questStringCultureProvider);  app.UseRequestLocalization(localizationOptions); 二 支持用户选择本地化语言  添加将语言宣言添加到Cookie的Controller  在Controller文件夹下添加CultureController类,代码中的Set方法将Culture值放到用户Cookie中
+[Route(&amp;#34;api/[controller]/[action]&amp;#34;)] [ApiController]  public class CultureController : ControllerBase  {  public IActionResult Set(string culture, string redirectUri)  {  if (culture !</description>
+    </item>
+    
+  </channel>
+</rss>

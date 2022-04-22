@@ -7,7 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Sat, 02 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/serilog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/serilog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Blazor Server构建企业级应用(七) -- 按照时区表示时间类型数据</title>
+      <link>http://www.nintens.com/posts/blazorserver7/</link>
+      <pubDate>Sun, 17 Apr 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/posts/blazorserver7/</guid>
+      <description>使用Blazor Server构建企业级应用(七) &amp;ndash; 按照时区表示时间类型数据 本文地址：http://www.nintens.com/posts/blazorserver7/
+作者邮箱：liuguanglong@yahoo.com
+欢迎转载，请在明显位置给出出处及链接
+本文是nintens架构系列文章的第七篇，包含以下内容
+ 日期类行数据的存储 支持用户设置自己所在时区 按照用户所在时区展示时间数据  一 日期类行数据的存储  保存时将时间类数据保存为UTC时间
+时间类型的数据定义为DateTime类型，在Mysql中字段类型使用DATETIME。
+成员属性和数据库字段映射列类型为timestamp.  映射代码例子如下
+modelBuilder.Entity&amp;lt;OperationLog&amp;gt;().Property(u =&amp;gt; u.Timestamp).HasColumnType(&amp;#34;timestamp&amp;#34;).IsRequired(true); 类实例创建时类成员的值取UTC时间
+ a.Timestamp = DateTime.UtcNow; 二 支持用户设置自己所在时区  保存用户时区信息 扩展ApplicationUser的属性，添加TimeZoneId信息   public class ApplicationUser : IdentityUser  {  public string? CustomTag { get; set; }  public string? TimeZoneId { get; set; } = TimeZoneInfo.Local.Id;  } 修改数据库中aspnetusers表定义，添加一个TimeZoneId字段，类型为VARCHAR(45)
+添加ApplicationUser的服务类
+实现根据用户名获取用户信息和更新TimeZone信息的方法   public class ApplicationIdentityService  {  private IDbContextFactory&amp;lt;ApplicationDbContext&amp;gt; contextFactory;   public ApplicationIdentityService(IDbContextFactory&amp;lt;ApplicationDbContext&amp;gt; contextFactory)  {  this.</description>
+    </item>
+    
     <item>
       <title>使用Blazor Server构建企业级应用(三) -- 使用Serilog记录和显示业务日志</title>
       <link>http://www.nintens.com/posts/blazorserver3/</link>

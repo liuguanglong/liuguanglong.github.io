@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html><head>
+<title>使用Blazor Server构建企业级应用(八) -- 画面的本地化</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-224238665-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css" integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media="screen">
+
+
+<script src="/vendor/js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons");
+</script>
+
+
+
+
+
+
+  <script src="/js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: '3231fec73fc43dd4bcc8',
+  clientSecret: 'f8ac50ce92aca43790a03f6f576b02fdfe0eb0a8',
+  repo: 'nintens.com',
+  owner: 'liuguanglong',
+  admin: ['liuguanglong'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>console.log("Hello from 'layouts/partials/extended_head.html'")</script>
+
+</head>
+<body>
+    	<div id="app"><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="http://www.nintens.com/">
+    
+        <div class="nav-title">
+            Nintens&#39; Blogs 
+        </div>
+        
+        <div class="nav-subtitle">
+            应无所住而生其心
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/categories">
+                Categories
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/tags">
+                Tags
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e5%85%ab----%e7%94%bb%e9%9d%a2%e7%9a%84%e6%9c%ac%e5%9c%b0%e5%8c%96" onclick="onNavClick(`#使用blazor-server构建企业级应用八----画面的本地化-nav`)" id="使用blazor-server构建企业级应用八----画面的本地化-nav">
+									使用Blazor Server构建企业级应用(八) – 画面的本地化
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80--%e9%85%8d%e7%bd%ae%e5%ba%94%e7%94%a8%e6%94%af%e6%8c%81%e6%9c%ac%e5%9c%b0%e5%8c%96" onclick="onNavClick(`#一--配置应用支持本地化-nav`)" id="一--配置应用支持本地化-nav">
+									一 配置应用支持本地化
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c--%e6%94%af%e6%8c%81%e7%94%a8%e6%88%b7%e9%80%89%e6%8b%a9%e6%9c%ac%e5%9c%b0%e5%8c%96%e8%af%ad%e8%a8%80" onclick="onNavClick(`#二--支持用户选择本地化语言-nav`)" id="二--支持用户选择本地化语言-nav">
+									二 支持用户选择本地化语言
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89-%e4%b8%9a%e5%8a%a1%e7%94%bb%e9%9d%a2%e6%94%af%e6%8c%81%e5%a4%9a%e8%af%ad%e8%a8%80" onclick="onNavClick(`#三-业务画面支持多语言-nav`)" id="三-业务画面支持多语言-nav">
+									三 业务画面支持多语言
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+<div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/categories">
+                    Categories
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/tags">
+                    Tags
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e5%85%ab----%e7%94%bb%e9%9d%a2%e7%9a%84%e6%9c%ac%e5%9c%b0%e5%8c%96" onclick="onNavClick(`#使用blazor-server构建企业级应用八----画面的本地化-nav`)" id="使用blazor-server构建企业级应用八----画面的本地化-nav">
+									使用Blazor Server构建企业级应用(八) – 画面的本地化
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80--%e9%85%8d%e7%bd%ae%e5%ba%94%e7%94%a8%e6%94%af%e6%8c%81%e6%9c%ac%e5%9c%b0%e5%8c%96" onclick="onNavClick(`#一--配置应用支持本地化-nav`)" id="一--配置应用支持本地化-nav">
+									一 配置应用支持本地化
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c--%e6%94%af%e6%8c%81%e7%94%a8%e6%88%b7%e9%80%89%e6%8b%a9%e6%9c%ac%e5%9c%b0%e5%8c%96%e8%af%ad%e8%a8%80" onclick="onNavClick(`#二--支持用户选择本地化语言-nav`)" id="二--支持用户选择本地化语言-nav">
+									二 支持用户选择本地化语言
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89-%e4%b8%9a%e5%8a%a1%e7%94%bb%e9%9d%a2%e6%94%af%e6%8c%81%e5%a4%9a%e8%af%ad%e8%a8%80" onclick="onNavClick(`#三-业务画面支持多语言-nav`)" id="三-业务画面支持多语言-nav">
+									三 业务画面支持多语言
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="http://www.nintens.com/">
+            Nintens&#39; Blogs 
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="http://www.nintens.com/">
+        <div class="single-column-header-title">Nintens&#39; Blogs </div>
+        
+        <div class="single-column-header-subtitle">应无所住而生其心</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+                
+            
+
+            <div class="post-head-wrapper"
+                
+                    
+                    
+                    style="background-image: url('http://www.nintens.com/images/chinese.jpg')"
+                    
+                
+            >
+                <div class="post-title">
+                    使用Blazor Server构建企业级应用(八) -- 画面的本地化
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2022-04-19 23:25
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/blazor">blazor</a>
+                                &nbsp;
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/blazor-server">blazor server</a>
+                                &nbsp;
+                            
+                                <a href="/tags/asp.net-core">asp.net core</a>
+                                &nbsp;
+                            
+                                <a href="/tags/culture">Culture</a>
+                                &nbsp;
+                            
+                                <a href="/tags/localization">Localization</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    <h2 id="使用blazor-server构建企业级应用八----画面的本地化">使用Blazor Server构建企业级应用(八) &ndash; 画面的本地化</h2>
+<p>本文地址：http://www.nintens.com/posts/blazorserver8/<br>
+作者邮箱：liuguanglong@yahoo.com<br>
+欢迎转载，请在明显位置给出出处及链接</p>
+<p>本文是nintens架构系列文章的第八篇，包含以下内容</p>
+<ul>
+<li>配置应用支持本地化</li>
+<li>支持用户选择本地化语言</li>
+<li>业务画面支持多语言</li>
+</ul>
+<h3 id="一--配置应用支持本地化">一  配置应用支持本地化</h3>
+<ol>
+<li>配置应用支持Localization<br>
+在StartUp.cs文件的ConfigureServices方法中添加如下代码</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>services.AddLocalization();
+</span></span></code></pre></div><ol start="2">
+<li>配置应用支持多语言</li>
+</ol>
+<p>在Program.cs文件中添加下面代码，应用支持英文和中文两种语言的本地化。设置英文为默认语言。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#00688b;font-weight:bold">var</span> supportedCultures = <span style="color:#8b008b;font-weight:bold">new</span>[] { <span style="color:#cd5555">&#34;en-US&#34;</span>, <span style="color:#cd5555">&#34;zh-CN&#34;</span> };
+</span></span><span style="display:flex;"><span><span style="color:#00688b;font-weight:bold">var</span> localizationOptions = <span style="color:#8b008b;font-weight:bold">new</span> RequestLocalizationOptions().SetDefaultCulture(supportedCultures[<span style="color:#b452cd">0</span>])
+</span></span><span style="display:flex;"><span>    .AddSupportedCultures(supportedCultures)
+</span></span><span style="display:flex;"><span>    .AddSupportedUICultures(supportedCultures);
+</span></span><span style="display:flex;"><span>localizationOptions.ApplyCurrentCultureToResponseHeaders = <span style="color:#8b008b;font-weight:bold">true</span>;
+</span></span><span style="display:flex;"><span><span style="color:#00688b;font-weight:bold">var</span> questStringCultureProvider = localizationOptions.RequestCultureProviders[<span style="color:#b452cd">0</span>];
+</span></span><span style="display:flex;"><span>localizationOptions.RequestCultureProviders.RemoveAt(<span style="color:#b452cd">0</span>);
+</span></span><span style="display:flex;"><span>localizationOptions.RequestCultureProviders.Insert(<span style="color:#b452cd">1</span>, questStringCultureProvider);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.UseRequestLocalization(localizationOptions);
+</span></span></code></pre></div><h3 id="二--支持用户选择本地化语言">二  支持用户选择本地化语言</h3>
+<ol>
+<li>添加将语言宣言添加到Cookie的Controller</li>
+</ol>
+<p>在Controller文件夹下添加CultureController类,代码中的Set方法将Culture值放到用户Cookie中</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span><span style="color:#658b00">    [Route(&#34;api/[controller]</span>/[action]<span style="color:#cd5555">&#34;)]
+</span></span></span><span style="display:flex;"><span><span style="color:#cd5555"></span><span style="color:#658b00">    [ApiController]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">CultureController</span> : ControllerBase
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> IActionResult Set(<span style="color:#00688b;font-weight:bold">string</span> culture, <span style="color:#00688b;font-weight:bold">string</span> redirectUri)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">if</span> (culture != <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                HttpContext.Response.Cookies.Append(
+</span></span><span style="display:flex;"><span>                    CookieRequestCultureProvider.DefaultCookieName,
+</span></span><span style="display:flex;"><span>                    CookieRequestCultureProvider.MakeCookieValue(
+</span></span><span style="display:flex;"><span>                        <span style="color:#8b008b;font-weight:bold">new</span> RequestCulture(culture, culture)));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> LocalRedirect(redirectUri);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ol start="2">
+<li>在UserProfile中添加Culture选择功能</li>
+</ol>
+<p>修改后的画面代码如下,添加了一个Select控件用来选择Culture</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@page <span style="color:#cd5555">&#34;/userprofile&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@if (curUser == <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &lt;MudProgressCircular Color=<span style="color:#cd5555">&#34;Color.Primary&#34;</span> Indeterminate=<span style="color:#cd5555">&#34;true&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>&lt;MudGrid&gt;
+</span></span><span style="display:flex;"><span>    &lt;MudItem xs=<span style="color:#cd5555">&#34;12&#34;</span> sm=<span style="color:#cd5555">&#34;6&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudPaper Class=<span style="color:#cd5555">&#34;pa-4&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;MudForm&gt;
+</span></span><span style="display:flex;"><span>                &lt;!-- Only allow edit <span style="color:#8b008b;font-weight:bold">if</span> a <span style="color:#8b008b;font-weight:bold">new</span> user --&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTextField T=<span style="color:#cd5555">&#34;string&#34;</span> Label=<span style="color:#cd5555">&#34;UserName&#34;</span> @bind-Value=<span style="color:#cd5555">&#34;@curUser.UserName&#34;</span> Required=<span style="color:#cd5555">&#34;true&#34;</span> ReadOnly=<span style="color:#cd5555">&#34;true&#34;</span> RequiredError=<span style="color:#cd5555">&#34;User Name is required!&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudSelect T=<span style="color:#cd5555">&#34;string&#34;</span> @bind-Value=<span style="color:#cd5555">&#34;@curUser.TimeZoneId&#34;</span> Label=<span style="color:#cd5555">&#34;TimeZone&#34;</span>  AnchorOrigin=<span style="color:#cd5555">&#34;Origin.BottomCenter&#34;</span> Variant=<span style="color:#cd5555">&#34;Variant.Outlined&#34;</span> Clearable&gt;
+</span></span><span style="display:flex;"><span>                 @foreach (<span style="color:#00688b;font-weight:bold">var</span> timezone <span style="color:#8b008b;font-weight:bold">in</span> TimeZoneInfo.GetSystemTimeZones())
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        &lt;MudSelectItem T=<span style="color:#cd5555">&#34;string&#34;</span> Value=<span style="color:#cd5555">&#34;@timezone.Id&#34;</span>&gt;@timezone.DisplayName&lt;/MudSelectItem&gt;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                &lt;/MudSelect&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudSelect T=<span style="color:#cd5555">&#34;CultureInfo&#34;</span>  @bind-Value=<span style="color:#cd5555">&#34;@Culture&#34;</span> Label=<span style="color:#cd5555">&#34;Culture&#34;</span>  AnchorOrigin=<span style="color:#cd5555">&#34;Origin.BottomCenter&#34;</span> Variant=<span style="color:#cd5555">&#34;Variant.Outlined&#34;</span> Clearable&gt;
+</span></span><span style="display:flex;"><span>                 @foreach (<span style="color:#00688b;font-weight:bold">var</span> culture <span style="color:#8b008b;font-weight:bold">in</span> supportedCultures)
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        &lt;MudSelectItem T=<span style="color:#cd5555">&#34;CultureInfo&#34;</span> Value=<span style="color:#cd5555">&#34;@culture&#34;</span>&gt;@culture.DisplayName&lt;/MudSelectItem&gt;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                &lt;/MudSelect&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudSpacer/&gt;
+</span></span><span style="display:flex;"><span>                 &lt;div class=<span style="color:#cd5555">&#34;d-flex flex-row-reverse&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                   &lt;MudButton Variant=<span style="color:#cd5555">&#34;Variant.Filled&#34;</span> Color=<span style="color:#cd5555">&#34;Color.Primary&#34;</span> Size=<span style="color:#cd5555">&#34;Size.Small&#34;</span> @onclick=<span style="color:#cd5555">&#34;(() =&gt; Save())&#34;</span>&gt;Save&lt;/MudButton&gt;
+</span></span><span style="display:flex;"><span>                 &lt;/div&gt;
+</span></span><span style="display:flex;"><span>            &lt;/MudForm&gt;
+</span></span><span style="display:flex;"><span>        &lt;/MudPaper&gt;
+</span></span><span style="display:flex;"><span>    &lt;/MudItem&gt;
+</span></span><span style="display:flex;"><span>&lt;/MudGrid&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>修改UserProfile.razor.cs代码,添加Culture相关的处理逻辑。 
+当用户修改Culture时，调用CultureController中的Set方法，修改Cookie中的culture值</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">partial</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">UserProfile</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span><span style="color:#658b00">         [Inject]</span>
+</span></span><span style="display:flex;"><span>        NavigationManager Nav { <span style="color:#8b008b;font-weight:bold">get</span>;<span style="color:#8b008b;font-weight:bold">set</span> ; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">async</span> Task OnInitializedAsync()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">base</span>.OnInitialized();
+</span></span><span style="display:flex;"><span>            Culture = CultureInfo.CurrentCulture;
+</span></span><span style="display:flex;"><span>            StateHasChanged();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> CultureInfo[] supportedCultures = <span style="color:#8b008b;font-weight:bold">new</span>[]
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">new</span> CultureInfo(<span style="color:#cd5555">&#34;en-US&#34;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">new</span> CultureInfo(<span style="color:#cd5555">&#34;zh-CN&#34;</span>),
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> CultureInfo Culture
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">get</span> =&gt; CultureInfo.CurrentCulture;
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">set</span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">if</span> (CultureInfo.CurrentCulture != <span style="color:#8b008b;font-weight:bold">value</span>)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    <span style="color:#00688b;font-weight:bold">var</span> uri = <span style="color:#8b008b;font-weight:bold">new</span> Uri(Nav.Uri)
+</span></span><span style="display:flex;"><span>                        .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+</span></span><span style="display:flex;"><span>                    <span style="color:#00688b;font-weight:bold">var</span> cultureEscaped = Uri.EscapeDataString(<span style="color:#8b008b;font-weight:bold">value</span>.Name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#00688b;font-weight:bold">var</span> uriEscaped = Uri.EscapeDataString(uri);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    Nav.NavigateTo(
+</span></span><span style="display:flex;"><span>                        <span style="color:#cd5555">$&#34;api/Culture/Set?culture={cultureEscaped}&amp;redirectUri={uriEscaped}&#34;</span>,
+</span></span><span style="display:flex;"><span>                        forceLoad: <span style="color:#8b008b;font-weight:bold">true</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="三-业务画面支持多语言">三 业务画面支持多语言</h3>
+<ol>
+<li>将Localization命名控件引入到所有的业务画面</li>
+</ol>
+<p>在_Imports.razor中添加以下代码</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@using Microsoft.Extensions.Localization
+</span></span></code></pre></div><ol start="2">
+<li>添加本地化资源文件<br>
+在UserProfile.razor所在目录添加两个资源文件 UserProfile.resx UserProfile.zh.resx分别对应缺省的英文本地化资源和中文本地化资源。</li>
+</ol>
+<p>在两个文件中添加画面中要显示的三个项目</p>
+<p>UserProfile.resx的内容如下图<br>
+<img src="/images/local1.png" alt="local1"></p>
+<p>UserProfile.zh.resx的内容如下图<br>
+<img src="/images/local2.png" alt="local2"></p>
+<ol start="3">
+<li>修改UserProfile画面，支持本地化展示</li>
+</ol>
+<p>在画面中使用注入的IStringLocalizer<!-- raw HTML omitted -->类实例Loc来获取当前用户选择Culture资源文件中的项目值。<br>
+如果要获取UserName项目值，只需要访问 Loc[&ldquo;UserName&rdquo;]即可。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@page <span style="color:#cd5555">&#34;/userprofile&#34;</span>
+</span></span><span style="display:flex;"><span>@using System.Globalization
+</span></span><span style="display:flex;"><span>@inject IStringLocalizer&lt;UserProfile&gt; Loc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@if (curUser == <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &lt;MudProgressCircular Color=<span style="color:#cd5555">&#34;Color.Primary&#34;</span> Indeterminate=<span style="color:#cd5555">&#34;true&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>&lt;MudGrid&gt;
+</span></span><span style="display:flex;"><span>    &lt;MudItem xs=<span style="color:#cd5555">&#34;12&#34;</span> sm=<span style="color:#cd5555">&#34;6&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudPaper Class=<span style="color:#cd5555">&#34;pa-4&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;MudForm&gt;
+</span></span><span style="display:flex;"><span>                &lt;!-- Only allow edit <span style="color:#8b008b;font-weight:bold">if</span> a <span style="color:#8b008b;font-weight:bold">new</span> user --&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTextField T=<span style="color:#cd5555">&#34;string&#34;</span> Label=<span style="color:#cd5555">&#34;@Loc[&#34;</span>UserName<span style="color:#cd5555">&#34;]&#34;</span> @bind-Value=<span style="color:#cd5555">&#34;@curUser.UserName&#34;</span> Required=<span style="color:#cd5555">&#34;true&#34;</span> ReadOnly=<span style="color:#cd5555">&#34;true&#34;</span> RequiredError=<span style="color:#cd5555">&#34;User Name is required!&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudSelect T=<span style="color:#cd5555">&#34;string&#34;</span> @bind-Value=<span style="color:#cd5555">&#34;@curUser.TimeZoneId&#34;</span> Label=<span style="color:#cd5555">&#34;@Loc[&#34;</span>TimeZone<span style="color:#cd5555">&#34;]&#34;</span>  AnchorOrigin=<span style="color:#cd5555">&#34;Origin.BottomCenter&#34;</span> Variant=<span style="color:#cd5555">&#34;Variant.Outlined&#34;</span> Clearable&gt;
+</span></span><span style="display:flex;"><span>                 @foreach (<span style="color:#00688b;font-weight:bold">var</span> timezone <span style="color:#8b008b;font-weight:bold">in</span> TimeZoneInfo.GetSystemTimeZones())
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        &lt;MudSelectItem T=<span style="color:#cd5555">&#34;string&#34;</span> Value=<span style="color:#cd5555">&#34;@timezone.Id&#34;</span>&gt;@timezone.DisplayName&lt;/MudSelectItem&gt;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                &lt;/MudSelect&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                &lt;MudSelect T=<span style="color:#cd5555">&#34;CultureInfo&#34;</span>  @bind-Value=<span style="color:#cd5555">&#34;@Culture&#34;</span> Label=<span style="color:#cd5555">&#34;@Loc[&#34;</span>Culture<span style="color:#cd5555">&#34;]&#34;</span>  AnchorOrigin=<span style="color:#cd5555">&#34;Origin.BottomCenter&#34;</span> Variant=<span style="color:#cd5555">&#34;Variant.Outlined&#34;</span> Clearable&gt;
+</span></span><span style="display:flex;"><span>                 @foreach (<span style="color:#00688b;font-weight:bold">var</span> culture <span style="color:#8b008b;font-weight:bold">in</span> supportedCultures)
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        &lt;MudSelectItem T=<span style="color:#cd5555">&#34;CultureInfo&#34;</span> Value=<span style="color:#cd5555">&#34;@culture&#34;</span>&gt;@culture.DisplayName&lt;/MudSelectItem&gt;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                &lt;/MudSelect&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                &lt;MudSpacer/&gt;
+</span></span><span style="display:flex;"><span>                 &lt;div class=<span style="color:#cd5555">&#34;d-flex flex-row-reverse&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                   &lt;MudButton Variant=<span style="color:#cd5555">&#34;Variant.Filled&#34;</span> Color=<span style="color:#cd5555">&#34;Color.Primary&#34;</span> Size=<span style="color:#cd5555">&#34;Size.Small&#34;</span> @onclick=<span style="color:#cd5555">&#34;(() =&gt; Save())&#34;</span>&gt;Save&lt;/MudButton&gt;
+</span></span><span style="display:flex;"><span>                 &lt;/div&gt;
+</span></span><span style="display:flex;"><span>            &lt;/MudForm&gt;
+</span></span><span style="display:flex;"><span>        &lt;/MudPaper&gt;
+</span></span><span style="display:flex;"><span>    &lt;/MudItem&gt;
+</span></span><span style="display:flex;"><span>&lt;/MudGrid&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="4">
+<li>运行应用</li>
+</ol>
+<p>选择 User Profile页面</p>
+<p>当用户Culture选择为中文时，运行效果如下图<br>
+<img src="/images/local3.png" alt="local3"></p>
+<p>当用户Culture选择为英文时，运行效果如下图<br>
+<img src="/images/local4.png" alt="local4"></p>
+<h3 id="总结">总结</h3>
+<p>本文是至此我们完成了架构中关于支持多语言和本地化的处理，实现了以下功能</p>
+<ul>
+<li>配置应用支持本地化</li>
+<li>支持用户选择本地化语言</li>
+<li>业务画面支持多语言</li>
+</ul>
+<p>本文地址：<a href="http://www.nintens.com/posts/blazorserver8/">http://www.nintens.com/posts/blazorserver8/</a><br>
+作者邮箱：<a href="mailto:liuguanglong@yahoo.com">liuguanglong@yahoo.com</a><br>
+欢迎转载，请在明显位置给出出处及链接</p>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2022-04-19</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts">
+			Next<br>No newer posts.
+                </a>
+                
+                
+                
+                <a class="older-posts" href="http://www.nintens.com/posts/blazorserver7/">
+			Previous<br>使用Blazor Server构建企业级应用(七) -- 按照时区表示时间类型数据
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script>
+    </body>
+</html>

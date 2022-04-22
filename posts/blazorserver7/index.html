@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html><head>
+<title>使用Blazor Server构建企业级应用(七) -- 按照时区表示时间类型数据</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-224238665-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+
+
+
+<link rel="stylesheet" href="http://www.nintens.com/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css" integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media="screen">
+
+
+<script src="/vendor/js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons");
+</script>
+
+
+
+
+
+
+  <script src="/js/toc.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/vendor/js/md5.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+  clientID: '3231fec73fc43dd4bcc8',
+  clientSecret: 'f8ac50ce92aca43790a03f6f576b02fdfe0eb0a8',
+  repo: 'nintens.com',
+  owner: 'liuguanglong',
+  admin: ['liuguanglong'],
+  id: md5(location.pathname),
+  distractionFreeMode: 'false'
+  });
+  window.onload = function () {
+        gitalk.render('gitalk-container')
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>console.log("Hello from 'layouts/partials/extended_head.html'")</script>
+
+</head>
+<body>
+    	<div id="app"><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="http://www.nintens.com/">
+    
+        <div class="nav-title">
+            Nintens&#39; Blogs 
+        </div>
+        
+        <div class="nav-subtitle">
+            应无所住而生其心
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/posts">
+                Archive
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/categories">
+                Categories
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/tags">
+                Tags
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/index.xml">
+                RSS Feed
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e4%b8%83----%e6%8c%89%e7%85%a7%e6%97%b6%e5%8c%ba%e8%a1%a8%e7%a4%ba%e6%97%b6%e9%97%b4%e7%b1%bb%e5%9e%8b%e6%95%b0%e6%8d%ae" onclick="onNavClick(`#使用blazor-server构建企业级应用七----按照时区表示时间类型数据-nav`)" id="使用blazor-server构建企业级应用七----按照时区表示时间类型数据-nav">
+									使用Blazor Server构建企业级应用(七) – 按照时区表示时间类型数据
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80--%e6%97%a5%e6%9c%9f%e7%b1%bb%e8%a1%8c%e6%95%b0%e6%8d%ae%e7%9a%84%e5%ad%98%e5%82%a8" onclick="onNavClick(`#一--日期类行数据的存储-nav`)" id="一--日期类行数据的存储-nav">
+									一 日期类行数据的存储
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c--%e6%94%af%e6%8c%81%e7%94%a8%e6%88%b7%e8%ae%be%e7%bd%ae%e8%87%aa%e5%b7%b1%e6%89%80%e5%9c%a8%e6%97%b6%e5%8c%ba" onclick="onNavClick(`#二--支持用户设置自己所在时区-nav`)" id="二--支持用户设置自己所在时区-nav">
+									二 支持用户设置自己所在时区
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89--%e6%8c%89%e7%85%a7%e7%94%a8%e6%88%b7%e6%89%80%e5%9c%a8%e6%97%b6%e5%8c%ba%e5%b1%95%e7%a4%ba%e6%97%b6%e9%97%b4%e6%95%b0%e6%8d%ae" onclick="onNavClick(`#三--按照用户所在时区展示时间数据-nav`)" id="三--按照用户所在时区展示时间数据-nav">
+									三 按照用户所在时区展示时间数据
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+<div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/posts">
+                    Archive
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/categories">
+                    Categories
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/tags">
+                    Tags
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/index.xml">
+                    RSS Feed
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%bd%bf%e7%94%a8blazor-server%e6%9e%84%e5%bb%ba%e4%bc%81%e4%b8%9a%e7%ba%a7%e5%ba%94%e7%94%a8%e4%b8%83----%e6%8c%89%e7%85%a7%e6%97%b6%e5%8c%ba%e8%a1%a8%e7%a4%ba%e6%97%b6%e9%97%b4%e7%b1%bb%e5%9e%8b%e6%95%b0%e6%8d%ae" onclick="onNavClick(`#使用blazor-server构建企业级应用七----按照时区表示时间类型数据-nav`)" id="使用blazor-server构建企业级应用七----按照时区表示时间类型数据-nav">
+									使用Blazor Server构建企业级应用(七) – 按照时区表示时间类型数据
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e4%b8%80--%e6%97%a5%e6%9c%9f%e7%b1%bb%e8%a1%8c%e6%95%b0%e6%8d%ae%e7%9a%84%e5%ad%98%e5%82%a8" onclick="onNavClick(`#一--日期类行数据的存储-nav`)" id="一--日期类行数据的存储-nav">
+									一 日期类行数据的存储
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%ba%8c--%e6%94%af%e6%8c%81%e7%94%a8%e6%88%b7%e8%ae%be%e7%bd%ae%e8%87%aa%e5%b7%b1%e6%89%80%e5%9c%a8%e6%97%b6%e5%8c%ba" onclick="onNavClick(`#二--支持用户设置自己所在时区-nav`)" id="二--支持用户设置自己所在时区-nav">
+									二 支持用户设置自己所在时区
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%89--%e6%8c%89%e7%85%a7%e7%94%a8%e6%88%b7%e6%89%80%e5%9c%a8%e6%97%b6%e5%8c%ba%e5%b1%95%e7%a4%ba%e6%97%b6%e9%97%b4%e6%95%b0%e6%8d%ae" onclick="onNavClick(`#三--按照用户所在时区展示时间数据-nav`)" id="三--按照用户所在时区展示时间数据-nav">
+									三 按照用户所在时区展示时间数据
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e6%80%bb%e7%bb%93" onclick="onNavClick(`#总结-nav`)" id="总结-nav">
+									总结
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="http://www.nintens.com/">
+            Nintens&#39; Blogs 
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="http://www.nintens.com/">
+        <div class="single-column-header-title">Nintens&#39; Blogs </div>
+        
+        <div class="single-column-header-subtitle">应无所住而生其心</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+                
+            
+
+            <div class="post-head-wrapper"
+                
+                    
+                    
+                    style="background-image: url('http://www.nintens.com/images/chinese.jpg')"
+                    
+                
+            >
+                <div class="post-title">
+                    使用Blazor Server构建企业级应用(七) -- 按照时区表示时间类型数据
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2022-04-17 23:25
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/blazor">blazor</a>
+                                &nbsp;
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/blazor-server">blazor server</a>
+                                &nbsp;
+                            
+                                <a href="/tags/asp.net-core">asp.net core</a>
+                                &nbsp;
+                            
+                                <a href="/tags/timezone">TimeZone</a>
+                                &nbsp;
+                            
+                                <a href="/tags/serilog">Serilog</a>
+                                &nbsp;
+                            
+                                <a href="/tags/local-time">Local Time</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    <h2 id="使用blazor-server构建企业级应用七----按照时区表示时间类型数据">使用Blazor Server构建企业级应用(七) &ndash; 按照时区表示时间类型数据</h2>
+<p>本文地址：http://www.nintens.com/posts/blazorserver7/<br>
+作者邮箱：liuguanglong@yahoo.com<br>
+欢迎转载，请在明显位置给出出处及链接</p>
+<p>本文是nintens架构系列文章的第七篇，包含以下内容</p>
+<ul>
+<li>日期类行数据的存储</li>
+<li>支持用户设置自己所在时区</li>
+<li>按照用户所在时区展示时间数据</li>
+</ul>
+<h3 id="一--日期类行数据的存储">一  日期类行数据的存储</h3>
+<ol>
+<li>保存时将时间类数据保存为UTC时间<br>
+时间类型的数据定义为DateTime类型，在Mysql中字段类型使用DATETIME。<br>
+成员属性和数据库字段映射列类型为timestamp.</li>
+</ol>
+<p>映射代码例子如下</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>modelBuilder.Entity&lt;OperationLog&gt;().Property(u =&gt; u.Timestamp).HasColumnType(<span style="color:#cd5555">&#34;timestamp&#34;</span>).IsRequired(<span style="color:#8b008b;font-weight:bold">true</span>);
+</span></span></code></pre></div><p>类实例创建时类成员的值取UTC时间</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>   a.Timestamp = DateTime.UtcNow;
+</span></span></code></pre></div><h3 id="二--支持用户设置自己所在时区">二  支持用户设置自己所在时区</h3>
+<ol>
+<li>保存用户时区信息   <br>
+扩展ApplicationUser的属性，添加TimeZoneId信息</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">ApplicationUser</span> : IdentityUser
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">string?</span> CustomTag { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">string?</span> TimeZoneId { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; } = TimeZoneInfo.Local.Id;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>修改数据库中aspnetusers表定义，添加一个TimeZoneId字段，类型为VARCHAR(45)</p>
+<ol start="2">
+<li>添加ApplicationUser的服务类<br>
+实现根据用户名获取用户信息和更新TimeZone信息的方法</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">ApplicationIdentityService</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> IDbContextFactory&lt;ApplicationDbContext&gt; contextFactory;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> ApplicationIdentityService(IDbContextFactory&lt;ApplicationDbContext&gt; contextFactory)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">this</span>.contextFactory = contextFactory;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">async</span> Task&lt;ApplicationUser&gt; getUser(String name)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">using</span> <span style="color:#008b45;text-decoration:underline">var</span> context = contextFactory.CreateDbContext();
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> <span style="color:#8b008b;font-weight:bold">await</span> context.Users.Where(u =&gt; u.UserName == name).FirstOrDefaultAsync();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">async</span> Task updateTimeZone(ApplicationUser user)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">using</span> <span style="color:#008b45;text-decoration:underline">var</span> context = contextFactory.CreateDbContext();
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> userinfo = <span style="color:#8b008b;font-weight:bold">await</span> context.Users.Where(u =&gt; u.UserName == user.UserName).FirstOrDefaultAsync();
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">if</span> (userinfo != <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                userinfo.TimeZoneId = user.TimeZoneId;
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">await</span> context.SaveChangesAsync();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><ol start="3">
+<li>添加用户信息维护画面</li>
+</ol>
+<p>在Pages目录下添加一个Razor组件，取名字UserProfile.razor，添加一个类 UserProfile.razor.cs 用来保存组件的业务代码</p>
+<p>UserProfile.razor页面的代码如下，主要是添加一个选择时区的控件。 选择控件的可选项为服务器支持的所有的时区</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@page <span style="color:#cd5555">&#34;/userprofile&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@if (curUser == <span style="color:#8b008b;font-weight:bold">null</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &lt;MudProgressCircular Color=<span style="color:#cd5555">&#34;Color.Primary&#34;</span> Indeterminate=<span style="color:#cd5555">&#34;true&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#8b008b;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>&lt;MudGrid&gt;
+</span></span><span style="display:flex;"><span>    &lt;MudItem xs=<span style="color:#cd5555">&#34;12&#34;</span> sm=<span style="color:#cd5555">&#34;6&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudPaper Class=<span style="color:#cd5555">&#34;pa-4&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;MudForm&gt;
+</span></span><span style="display:flex;"><span>                &lt;!-- Only allow edit <span style="color:#8b008b;font-weight:bold">if</span> a <span style="color:#8b008b;font-weight:bold">new</span> user --&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTextField T=<span style="color:#cd5555">&#34;string&#34;</span> Label=<span style="color:#cd5555">&#34;UserName&#34;</span> @bind-Value=<span style="color:#cd5555">&#34;@curUser.UserName&#34;</span> Required=<span style="color:#cd5555">&#34;true&#34;</span> ReadOnly=<span style="color:#cd5555">&#34;true&#34;</span> RequiredError=<span style="color:#cd5555">&#34;User Name is required!&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudSelect T=<span style="color:#cd5555">&#34;string&#34;</span> @bind-Value=<span style="color:#cd5555">&#34;@curUser.TimeZoneId&#34;</span> Label=<span style="color:#cd5555">&#34;TimeZone&#34;</span>  AnchorOrigin=<span style="color:#cd5555">&#34;Origin.BottomCenter&#34;</span> Variant=<span style="color:#cd5555">&#34;Variant.Outlined&#34;</span> Clearable&gt;
+</span></span><span style="display:flex;"><span>                 @foreach (<span style="color:#00688b;font-weight:bold">var</span> timezone <span style="color:#8b008b;font-weight:bold">in</span> TimeZoneInfo.GetSystemTimeZones())
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        &lt;MudSelectItem T=<span style="color:#cd5555">&#34;string&#34;</span> Value=<span style="color:#cd5555">&#34;@timezone.Id&#34;</span>&gt;@timezone.DisplayName&lt;/MudSelectItem&gt;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                &lt;/MudSelect&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                &lt;MudSpacer/&gt;
+</span></span><span style="display:flex;"><span>                 &lt;div class=<span style="color:#cd5555">&#34;d-flex flex-row-reverse&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                   &lt;MudButton Variant=<span style="color:#cd5555">&#34;Variant.Filled&#34;</span> Color=<span style="color:#cd5555">&#34;Color.Primary&#34;</span> Size=<span style="color:#cd5555">&#34;Size.Small&#34;</span> @onclick=<span style="color:#cd5555">&#34;(() =&gt; Save())&#34;</span>&gt;Save&lt;/MudButton&gt;
+</span></span><span style="display:flex;"><span>                 &lt;/div&gt;
+</span></span><span style="display:flex;"><span>            &lt;/MudForm&gt;
+</span></span><span style="display:flex;"><span>        &lt;/MudPaper&gt;
+</span></span><span style="display:flex;"><span>    &lt;/MudItem&gt;
+</span></span><span style="display:flex;"><span>&lt;/MudGrid&gt;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>UserProfile.razor.cs代码如下,添加了Save方法，调用ApplicationUser的服务类，用来保存用户时区信息。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">partial</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">UserProfile</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span><span style="color:#658b00">        [Inject]</span>
+</span></span><span style="display:flex;"><span>        IHttpContextAccessor HttpContextAccessor { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Inject]</span>
+</span></span><span style="display:flex;"><span>        ApplicationIdentityService service { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Inject]</span>
+</span></span><span style="display:flex;"><span>        ILogger&lt;UserProfile&gt; logger { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> ApplicationUser curUser;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">async</span> Task OnInitializedAsync()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">base</span>.OnInitialized();
+</span></span><span style="display:flex;"><span>            curUser = <span style="color:#8b008b;font-weight:bold">await</span> service.getUser(HttpContextAccessor.HttpContext.User.Identity.Name);
+</span></span><span style="display:flex;"><span>            StateHasChanged();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#8b008b;font-weight:bold">async</span> <span style="color:#8b008b;font-weight:bold">void</span> Save()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">await</span> service.updateTimeZone(curUser);
+</span></span><span style="display:flex;"><span>            Snackbar.Add(<span style="color:#cd5555">$&#34;User Profile is updated successfully!&#34;</span>, Severity.Info);
+</span></span><span style="display:flex;"><span>            StateHasChanged();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>在StartUp.cs文件中添加以下代码注册ApplicationUser的存储服务类ApplicationIdentityService</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span> services.AddTransient&lt;ApplicationIdentityService&gt;();
+</span></span></code></pre></div><p>在NavMenu.razor文件中添加菜单选项</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>&lt;MudNavMenu&gt;
+</span></span><span style="display:flex;"><span>    &lt;MudNavLink Href=<span style="color:#cd5555">&#34;/&#34;</span> Icon=<span style="color:#cd5555">&#34;@Icons.Filled.Home&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span>&gt;Home&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;testformbuilder&#34;</span>&gt;Test Form Builder&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;userprofile&#34;</span>&gt; User Profile&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>    &lt;AuthorizeView Roles=<span style="color:#cd5555">&#34;Manager&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.Calculate&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;counter&#34;</span>&gt;Counter&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;fetchdata&#34;</span>&gt; Fetch data&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>    &lt;/AuthorizeView&gt;
+</span></span><span style="display:flex;"><span>&lt;/MudNavMenu&gt;
+</span></span></code></pre></div><ol start="4">
+<li>运行程序，选择User Profile</li>
+</ol>
+<p>运行效果如下图<br>
+<img src="/images/timezone2.png" alt="timezone2"></p>
+<p>用户可以选择和保存所在时区</p>
+<p>查看数据库，可以看到用户的时区信息被保存在aspnetusers表中<br>
+<img src="/images/timezone3.png" alt="timezone3"></p>
+<h3 id="三--按照用户所在时区展示时间数据">三  按照用户所在时区展示时间数据</h3>
+<p>我们实现一个例子用来表示使用Serilog保存的系统日志</p>
+<ol>
+<li>添加日志数据类</li>
+</ol>
+<p>添加OperationLog类用来保存日志查询结果</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">OperationLog</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#00688b;font-weight:bold">int</span> Id { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String EventInfo { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> DateTime? Timestamp { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String Message { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String User { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String Ip { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String Level { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String Exception { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String Properties { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [NotMapped]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String EventId
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">get</span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">if</span> (String.IsNullOrEmpty(<span style="color:#8b008b;font-weight:bold">this</span>.EventInfo))
+</span></span><span style="display:flex;"><span>                    <span style="color:#8b008b;font-weight:bold">return</span> <span style="color:#cd5555">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    JObject obj = JObject.Parse(<span style="color:#8b008b;font-weight:bold">this</span>.EventInfo);
+</span></span><span style="display:flex;"><span>                    <span style="color:#8b008b;font-weight:bold">return</span> obj.Value&lt;String&gt;(<span style="color:#cd5555">&#34;Id&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">set</span>
+</span></span><span style="display:flex;"><span>            { }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [NotMapped]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> String EventName
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">get</span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">if</span> (String.IsNullOrEmpty(<span style="color:#8b008b;font-weight:bold">this</span>.EventInfo))
+</span></span><span style="display:flex;"><span>                    <span style="color:#8b008b;font-weight:bold">return</span> <span style="color:#cd5555">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#8b008b;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    JObject obj = JObject.Parse(<span style="color:#8b008b;font-weight:bold">this</span>.EventInfo);
+</span></span><span style="display:flex;"><span>                    <span style="color:#8b008b;font-weight:bold">return</span> obj.Value&lt;String&gt;(<span style="color:#cd5555">&#34;Name&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">set</span>
+</span></span><span style="display:flex;"><span>            { }
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><ol start="2">
+<li>在WeatherForecastService方法中添加一个查询日志的方法</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">async</span> Task&lt;Tuple&lt;<span style="color:#00688b;font-weight:bold">int</span>, List&lt;OperationLog&gt;&gt;&gt; getLogs(String searchString, String sortLabel, <span style="color:#00688b;font-weight:bold">bool</span> desc, <span style="color:#00688b;font-weight:bold">int</span> pageSize, <span style="color:#00688b;font-weight:bold">int</span> page)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">using</span> <span style="color:#008b45;text-decoration:underline">var</span> context = contextFactory.CreateDbContext();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            String sql = <span style="color:#cd5555">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">if</span> (String.IsNullOrEmpty(searchString))
+</span></span><span style="display:flex;"><span>                sql = String.Format(<span style="color:#cd5555">&#34;select * from logs&#34;</span>, searchString);
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>                sql = String.Format(<span style="color:#cd5555">&#34;select * from logs where eventid like &#39;%{0}%&#39; or message like &#39;%{0}%&#39; or user like &#39;%{0}%&#39; or ip like &#39;%{0}%&#39; or exception like &#39;%{0}%&#39;&#34;</span>, searchString);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">if</span> (String.IsNullOrEmpty(sortLabel))
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                sortLabel = <span style="color:#cd5555">&#34;Id&#34;</span>;
+</span></span><span style="display:flex;"><span>                desc = <span style="color:#8b008b;font-weight:bold">true</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            sql = sql + <span style="color:#cd5555">&#34; order by &#34;</span> + sortLabel;
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">if</span> (desc)
+</span></span><span style="display:flex;"><span>                sql = sql + <span style="color:#cd5555">&#34; desc&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> total = context.operationLogs.FromSqlRaw(sql).Count();
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> list = <span style="color:#8b008b;font-weight:bold">await</span> context.operationLogs.FromSqlRaw(sql).Skip(page * pageSize).Take(pageSize).ToListAsync();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> Tuple.Create(total, list);
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><ol start="3">
+<li>添加表示日志的页面Systemlog.razor</li>
+</ol>
+<p>页面用来展示系统日志</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>@page <span style="color:#cd5555">&#34;/systemlog&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;div&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudTable ServerData=<span style="color:#cd5555">&#34;@(new Func&lt;TableState, Task&lt;TableData&lt;OperationLog&gt;&gt;&gt;(ServerReload))&#34;</span>
+</span></span><span style="display:flex;"><span>                  Dense=<span style="color:#cd5555">&#34;true&#34;</span> Hover=<span style="color:#cd5555">&#34;true&#34;</span> Bordered=<span style="color:#cd5555">&#34;true&#34;</span> Striped=<span style="color:#cd5555">&#34;true&#34;</span> Context=<span style="color:#cd5555">&#34;log&#34;</span> @ref=<span style="color:#cd5555">&#34;table&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;ToolBarContent&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudSpacer /&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTextField T=<span style="color:#cd5555">&#34;string&#34;</span> ValueChanged=<span style="color:#cd5555">&#34;@(s=&gt;OnSearch(s))&#34;</span>
+</span></span><span style="display:flex;"><span>                              FullWidth=<span style="color:#8b008b;font-weight:bold">false</span> Placeholder=<span style="color:#cd5555">&#34;Search for Event Id,Event Name,Message,User,Ip,Exception&#34;</span>
+</span></span><span style="display:flex;"><span>                              Adornment=<span style="color:#cd5555">&#34;Adornment.Start&#34;</span> AdornmentIcon=<span style="color:#cd5555">&#34;@Icons.Material.Filled.Search&#34;</span> IconSize=<span style="color:#cd5555">&#34;Size.Small&#34;</span>&gt;&lt;/MudTextField&gt;
+</span></span><span style="display:flex;"><span>            &lt;/ToolBarContent&gt;
+</span></span><span style="display:flex;"><span>            &lt;HeaderContent&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;&lt;MudTableSortLabel SortLabel=<span style="color:#cd5555">&#34;Id&#34;</span> T=<span style="color:#cd5555">&#34;OperationLog&#34;</span>&gt;Id&lt;/MudTableSortLabel&gt;&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;User&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;Event Id&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;Event Name&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;&lt;MudTableSortLabel SortLabel=<span style="color:#cd5555">&#34;Timestamp&#34;</span> T=<span style="color:#cd5555">&#34;OperationLog&#34;</span>&gt;Timestamp&lt;/MudTableSortLabel&gt;&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;&lt;MudTableSortLabel SortLabel=<span style="color:#cd5555">&#34;Message&#34;</span> T=<span style="color:#cd5555">&#34;OperationLog&#34;</span>&gt;Message&lt;/MudTableSortLabel&gt;&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;Ip&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;&lt;MudTableSortLabel SortLabel=<span style="color:#cd5555">&#34;Level&#34;</span> T=<span style="color:#cd5555">&#34;OperationLog&#34;</span>&gt;Level&lt;/MudTableSortLabel&gt;&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;Exception&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTh&gt;Properties&lt;/MudTh&gt;
+</span></span><span style="display:flex;"><span>            &lt;/HeaderContent&gt;
+</span></span><span style="display:flex;"><span>            &lt;RowTemplate&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Id&#34;</span>&gt;@log.Id&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;User&#34;</span>&gt;@log.User&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Event Id&#34;</span>&gt;@log.EventId&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Event Name&#34;</span>&gt;@log.EventName&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Timestamp&#34;</span>&gt;@ToLocalDateTime(log.Timestamp)&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Message&#34;</span>&gt;@log.Message&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Ip&#34;</span>&gt;@log.Ip&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Level&#34;</span>&gt;<span style="color:#a61717;background-color:#e3d2d2">@</span>((LogLevel)Enum.Parse(<span style="color:#8b008b;font-weight:bold">typeof</span>(LogLevel),@log.Level))&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Exception&#34;</span>&gt;@log.Exception&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTd DataLabel=<span style="color:#cd5555">&#34;Properties&#34;</span>&gt;&lt;/MudTd&gt;
+</span></span><span style="display:flex;"><span>            &lt;/RowTemplate&gt;
+</span></span><span style="display:flex;"><span>            &lt;NoRecordsContent&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudText&gt;No matching records found&lt;/MudText&gt;
+</span></span><span style="display:flex;"><span>            &lt;/NoRecordsContent&gt;
+</span></span><span style="display:flex;"><span>            &lt;LoadingContent&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudText&gt;Loading...&lt;/MudText&gt;
+</span></span><span style="display:flex;"><span>            &lt;/LoadingContent&gt;
+</span></span><span style="display:flex;"><span>            &lt;PagerContent&gt;
+</span></span><span style="display:flex;"><span>                &lt;MudTablePager /&gt;
+</span></span><span style="display:flex;"><span>            &lt;/PagerContent&gt;
+</span></span><span style="display:flex;"><span>        &lt;/MudTable&gt;
+</span></span><span style="display:flex;"><span>    &lt;/div&gt;
+</span></span></code></pre></div><ol start="4">
+<li>添加逻辑处理代码类Systemlog.razor.cs</li>
+</ol>
+<p>画面初始化处理时根据当前用户名后获取时区信息Id。<br>
+使用ToLocalDateTime方法将日志中的UTC时间转换为当前时区的时间。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>    <span style="color:#8b008b;font-weight:bold">public</span> <span style="color:#8b008b;font-weight:bold">partial</span> <span style="color:#8b008b;font-weight:bold">class</span> <span style="color:#008b45;font-weight:bold">Systemlog</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> MudTable&lt;OperationLog&gt; table;
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#00688b;font-weight:bold">string</span> searchString = <span style="color:#8b008b;font-weight:bold">null</span>;
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Inject]</span>
+</span></span><span style="display:flex;"><span>        IHttpContextAccessor HttpContextAccessor { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Inject]</span>
+</span></span><span style="display:flex;"><span>        ApplicationIdentityService userservice { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#658b00">
+</span></span></span><span style="display:flex;"><span><span style="color:#658b00">        [Inject]</span>
+</span></span><span style="display:flex;"><span>        WeatherForecastService service { <span style="color:#8b008b;font-weight:bold">get</span>; <span style="color:#8b008b;font-weight:bold">set</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        TimeZoneInfo zone = TimeZoneInfo.Local;
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">protected</span> <span style="color:#8b008b;font-weight:bold">override</span> <span style="color:#8b008b;font-weight:bold">async</span> Task OnInitializedAsync()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">base</span>.OnInitialized();
+</span></span><span style="display:flex;"><span>            <span style="color:#00688b;font-weight:bold">var</span> user = <span style="color:#8b008b;font-weight:bold">await</span> userservice.getUser(HttpContextAccessor.HttpContext.User.Identity.Name);
+</span></span><span style="display:flex;"><span>            zone = TimeZoneInfo.FindSystemTimeZoneById(user.TimeZoneId);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#8b008b;font-weight:bold">void</span> OnSearch(<span style="color:#00688b;font-weight:bold">string</span> text)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            searchString = text;
+</span></span><span style="display:flex;"><span>            table.ReloadServerData();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">private</span> <span style="color:#8b008b;font-weight:bold">async</span> Task&lt;TableData&lt;OperationLog&gt;&gt; ServerReload(TableState state)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            Tuple&lt;<span style="color:#00688b;font-weight:bold">int</span>, List&lt;OperationLog&gt;&gt; ret = <span style="color:#8b008b;font-weight:bold">await</span> service.getLogs(searchString, state.SortLabel, state.SortDirection == SortDirection.Descending, state.PageSize, state.Page);
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> <span style="color:#8b008b;font-weight:bold">new</span> TableData&lt;OperationLog&gt;() { TotalItems = ret.Item1, Items = ret.Item2 };
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b008b;font-weight:bold">public</span> DateTimeOffset ToLocalDateTime(DateTime? dateTime)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            DateTimeOffset utcTime = DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc);
+</span></span><span style="display:flex;"><span>            <span style="color:#8b008b;font-weight:bold">return</span> utcTime.ToOffset(zone.BaseUtcOffset);
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><ol start="5">
+<li>在NavMenu.razor文件中添加菜单选项</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#eed;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C#" data-lang="C#"><span style="display:flex;"><span>&lt;MudNavMenu&gt;
+</span></span><span style="display:flex;"><span>    &lt;MudNavLink Href=<span style="color:#cd5555">&#34;/&#34;</span> Icon=<span style="color:#cd5555">&#34;@Icons.Filled.Home&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span>&gt;Home&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;testformbuilder&#34;</span>&gt;Test Form Builder&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;userprofile&#34;</span>&gt; User Profile&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;systemlog&#34;</span>&gt; System Logs&lt;/MudNavLink&gt;        
+</span></span><span style="display:flex;"><span>    &lt;AuthorizeView Roles=<span style="color:#cd5555">&#34;Manager&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.Calculate&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;counter&#34;</span>&gt;Counter&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>        &lt;MudNavLink Icon=<span style="color:#cd5555">&#34;@Icons.Filled.WbSunny&#34;</span> IconColor=<span style="color:#cd5555">&#34;Color.Tertiary&#34;</span> Href=<span style="color:#cd5555">&#34;fetchdata&#34;</span>&gt; Fetch data&lt;/MudNavLink&gt;
+</span></span><span style="display:flex;"><span>    &lt;/AuthorizeView&gt;
+</span></span><span style="display:flex;"><span>&lt;/MudNavMenu&gt;
+</span></span></code></pre></div><ol start="6">
+<li>运行程序，选择System Logs画面</li>
+</ol>
+<p>运行效果如下图<br>
+<img src="/images/timezone4.png" alt="timezone4"><br>
+可以看到日志的TimeStamp显示的是当前用户选择的Tokyo时间，东9区的时间，日期字符串最后 +09：00表示时间为UTC时间加9个小时。</p>
+<p>通过User Profile页面将用户的时区改为Pacific Standard Time并保存。 切换到System Logs画面，运行效果如下图<br>
+<img src="/images/timezone5.png" alt="timezone5"><br>
+日志的TimeStamp显示的是当前用户选择的Pacific Standard Time时区的时间，西8区的时间， -08:00表示时间为UTC时间减去8个小时。</p>
+<h3 id="总结">总结</h3>
+<p>本文是至此我们完成了架构中时间类型数据的存储和按照时区展示的方法，实现了以下功能</p>
+<ul>
+<li>日期类行数据的存储</li>
+<li>支持用户设置自己所在时区</li>
+<li>支持本地化</li>
+</ul>
+<p>本文地址：<a href="http://www.nintens.com/posts/blazorserver7/">http://www.nintens.com/posts/blazorserver7/</a><br>
+作者邮箱：<a href="mailto:liuguanglong@yahoo.com">liuguanglong@yahoo.com</a><br>
+欢迎转载，请在明显位置给出出处及链接</p>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2022-04-17</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="http://www.nintens.com/posts/blazorserver8/">
+			Next<br>使用Blazor Server构建企业级应用(八) -- 画面的本地化
+                </a>
+                
+                
+                
+                <a class="older-posts" href="http://www.nintens.com/posts/blazorserver6/">
+			Previous<br>使用Blazor Server构建企业级应用(六) -- 提供基于Token的身份验证的WebApi服务
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+<div id="gitalk-container"></div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	Nintens@2022 Copywright
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script>
+    </body>
+</html>
