@@ -7,7 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Nintens@2022 Copywright</copyright>
-    <lastBuildDate>Tue, 19 Apr 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/blazor-server/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 01 May 2022 23:25:05 -0400</lastBuildDate><atom:link href="http://www.nintens.com/tags/blazor-server/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Blazor Server构建企业级应用(九) -- Linux下的Docker部署</title>
+      <link>http://www.nintens.com/posts/blazorserver9/</link>
+      <pubDate>Sun, 01 May 2022 23:25:05 -0400</pubDate>
+      
+      <guid>http://www.nintens.com/posts/blazorserver9/</guid>
+      <description>使用Blazor Server构建企业级应用(九) &amp;ndash; Linux下的Docker部署 本文地址：http://www.nintens.com/posts/blazorserver9/
+作者邮箱：liuguanglong@yahoo.com
+欢迎转载，请在明显位置给出出处及链接
+本文是nintens架构系列文章的第九篇，包含以下内容
+ Docker自动化打包 基于Docker-Compose的Blazor应用发布  一 Docker自动化打包  添加Docker支持  选择 Balzor项目-&amp;gt;右键 添加-&amp;gt; Docker支持 -&amp;gt; 目标OS: Linux 在项目文件夹目录会生成Dockerfile 为了支持SSL，在Dockerfile中添加开放443端口
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.FROMmcr.microsoft.com/dotnet/aspnet:6.0 AS baseWORKDIR/appEXPOSE80EXPOSE443FROMmcr.microsoft.com/dotnet/sdk:6.0 AS buildWORKDIR/srcCOPY [&amp;#34;pgoplusconnectorportal/pgoplusconnectorportal.csproj&amp;#34;, &amp;#34;pgoplusconnectorportal/&amp;#34;]COPY [&amp;#34;service/service.csproj&amp;#34;, &amp;#34;service/&amp;#34;]COPY [&amp;#34;repository/repository.csproj&amp;#34;, &amp;#34;repository/&amp;#34;]COPY [&amp;#34;modal/modal.csproj&amp;#34;, &amp;#34;modal/&amp;#34;]COPY [&amp;#34;eventlib/eventlib.csproj&amp;#34;, &amp;#34;eventlib/&amp;#34;]RUN dotnet restore &amp;#34;pgoplusconnectorportal/pgoplusconnectorportal.csproj&amp;#34;COPY . .WORKDIR&amp;#34;/src/pgoplusconnectorportal&amp;#34;RUN dotnet build &amp;#34;pgoplusconnectorportal.csproj&amp;#34; -c Release -o /app/buildFROMbuild AS publishRUN dotnet publish &amp;#34;pgoplusconnectorportal.</description>
+    </item>
+    
     <item>
       <title>使用Blazor Server构建企业级应用(八) -- 画面的本地化</title>
       <link>http://www.nintens.com/posts/blazorserver8/</link>
